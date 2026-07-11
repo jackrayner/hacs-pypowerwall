@@ -42,6 +42,8 @@ The three file-based modes (Cloud, FleetAPI, TEDAPI v1r) authenticate via an art
 | Battery level (Tesla app) | sensor | `%`, app-scaled value |
 | Battery reserve | number | `%`, 0-100, writable — sets the backup reserve |
 | Battery mode | select | `self_consumption` / `backup` / `autonomous`, writable — sets the operation mode |
+| Grid charging | switch | writable — allow/disallow charging the battery from the grid. **Cloud/FleetAPI mode only.** |
+| Grid export | select | `battery_ok` / `pv_only` / `never`, writable — sets the grid export policy. **Cloud/FleetAPI mode only.** |
 | Backup time remaining | sensor | hours |
 | Grid power | sensor | W |
 | Solar power | sensor | W |
@@ -53,6 +55,17 @@ The three file-based modes (Cloud, FleetAPI, TEDAPI v1r) authenticate via an art
 | Firmware version | sensor | diagnostic |
 | Uptime | sensor | diagnostic, seconds |
 | `<device>` temperature | sensor | one per battery pack reported by `vitals()`, added dynamically |
+| Reconnect to grid | button | physically closes the grid contactor, reconnecting the home to the utility grid |
+| Disconnect from grid | button | **⚠️ Disabled by default.** See callout below before enabling. |
+
+**⚠️ "Disconnect from grid" physically opens the Powerwall's grid contactor.** Pressing it islands the home from the utility grid: solar keeps producing and the battery serves home load, but there's a real-world ~30 second solar production dropout while the contactor switches over, and the home stays off-grid until "Reconnect to grid" is pressed (or the gateway is otherwise commanded to reconnect). Because a button press is irreversible-in-the-moment and affects the physical grid connection, this entity ships **disabled** — it will not appear as an active entity until you explicitly enable it via its entity settings (Settings → Devices & Services → Entities → find it → enable). Note that as of pypowerwall 0.16.1 this method isn't yet implemented by any backend (local/TEDAPI/hybrid/cloud/FleetAPI) and currently no-ops with a logged error regardless of connection mode; the entity is included as forward-compatible surface for whenever a backend adds support, and is intentionally not gated by connection type since none is currently known to work.
+
+Two more write actions are exposed as [Home Assistant actions/services](https://www.home-assistant.io/docs/scripts/service-calls/) rather than entities, since they're momentary rather than persistent state, and only available in **TEDAPI v1r LAN mode**:
+
+| Service | Fields | Notes |
+| --- | --- | --- |
+| `pypowerwall.schedule_max_backup` | `duration_seconds` (optional, default `7200`) | Starts a manual backup event (storm watch / max backup mode) for the given duration. |
+| `pypowerwall.cancel_max_backup` | none | Cancels the current manual backup event. |
 
 ## Development
 
@@ -84,7 +97,10 @@ custom_components/pypowerwall/
 ├── sensor.py
 ├── binary_sensor.py
 ├── number.py               # battery reserve control
-├── select.py                # battery mode control
+├── select.py                # battery mode control, grid export control (Cloud/FleetAPI only)
+├── switch.py                # grid charging control (Cloud/FleetAPI only)
+├── button.py                # go off-grid / reconnect to grid (disconnect button disabled by default)
+├── services.yaml            # schema for schedule_max_backup / cancel_max_backup (v1r LAN mode only)
 ├── brand/                 # icon.png / icon@2x.png (HA 2026.3+ reads this directly, no brands-repo PR needed)
 ├── strings.json / translations/en.json
 hacs.json
@@ -92,5 +108,6 @@ tests/
 ├── conftest.py            # make_fake_pw() stub + enable_custom_integrations fixture
 ├── test_coordinator.py    # pure unit tests: pypowerwall -> PowerwallData mapping, per-mode kwargs building
 ├── test_config_flow.py    # menu navigation + one success test per connection type
+├── test_controls.py       # write-action entities/services driven through real HA service calls
 └── test_setup.py          # full entry setup/unload against a stubbed Powerwall client
 ```

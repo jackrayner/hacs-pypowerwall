@@ -1,0 +1,13 @@
+schedule_max_backup:
+  fields:
+    duration_seconds:
+      example: 7200
+      default: 7200
+      selector:
+        number:
+          min: 1
+          max: 86400
+          unit_of_measurement: seconds
+          mode: box
+
+cancel_max_backup: {}

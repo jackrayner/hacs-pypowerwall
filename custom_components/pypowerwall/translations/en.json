@@ -135,7 +135,38 @@
           "backup": "Backup-only",
           "autonomous": "Time-based control"
         }
+      },
+      "grid_export": {
+        "name": "Grid export",
+        "state": {
+          "battery_ok": "Solar and battery",
+          "pv_only": "Solar only",
+          "never": "Never"
+        }
       }
+    },
+    "switch": {
+      "grid_charging": { "name": "Grid charging" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Disconnect from grid" },
+      "reconnect_grid": { "name": "Reconnect to grid" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Schedule max backup",
+      "description": "Starts a manual backup event (storm watch / max backup mode), maximizing the battery reserve for a fixed duration. Requires TEDAPI v1r LAN mode.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Duration",
+          "description": "How long the max backup event should run, in seconds. Defaults to 7200 (2 hours)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Cancel max backup",
+      "description": "Cancels the current manual backup event (storm watch / max backup mode) started by schedule_max_backup. Requires TEDAPI v1r LAN mode."
     }
   }
 }
