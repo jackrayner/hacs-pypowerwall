@@ -56,6 +56,8 @@ The three file-based modes (Cloud, FleetAPI, TEDAPI v1r) authenticate via an art
 
 ## Development
 
+See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for a fuller walkthrough of the dev setup, test architecture, and commit/PR conventions.
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
