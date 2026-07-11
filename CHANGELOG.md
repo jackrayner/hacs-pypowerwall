@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.4.0](https://github.com/jackrayner/hacs-pypowerwall/compare/0.3.0...0.4.0) (2026-07-11)
+
+
+### Features
+
+* add battery energy charged/discharged sensors for the Energy dashboard ([2a67898](https://github.com/jackrayner/hacs-pypowerwall/commit/2a67898d59e3cccf24b6601b38a120d7f1f52ce5))
+
+
+### Bug Fixes
+
+* Update logos and icons ([027540e](https://github.com/jackrayner/hacs-pypowerwall/commit/027540ee4716deb424978718cf3952538f86407f))
+* Update logos and icons ([9536e88](https://github.com/jackrayner/hacs-pypowerwall/commit/9536e889dce37b1dbf67cf42fb30ca5dc4a13fdf))
+
 ## [0.3.0](https://github.com/jackrayner/hacs-pypowerwall/compare/0.2.0...0.3.0) (2026-07-11)
 
 
