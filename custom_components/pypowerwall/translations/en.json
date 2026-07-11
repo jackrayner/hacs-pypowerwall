@@ -1,0 +1,54 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "description": "Connect to a Tesla Powerwall gateway using TEDAPI (local mode).",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Gateway password"
+        },
+        "data_description": {
+          "host": "Hostname or IP address of the Powerwall gateway (e.g. 192.168.91.1)",
+          "gw_pwd": "Full gateway Wi-Fi password printed on the QR label"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect. Check the host and gateway password.",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "This Powerwall gateway is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Scan interval (seconds)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Battery level" },
+      "battery_level_app": { "name": "Battery level (Tesla app)" },
+      "battery_reserve": { "name": "Battery reserve" },
+      "battery_mode": { "name": "Battery mode" },
+      "backup_time_remaining": { "name": "Backup time remaining" },
+      "grid_power": { "name": "Grid power" },
+      "solar_power": { "name": "Solar power" },
+      "battery_power": { "name": "Battery power" },
+      "home_power": { "name": "Home power" },
+      "grid_status": { "name": "Grid status" },
+      "alert_count": { "name": "Active alerts" },
+      "firmware_version": { "name": "Firmware version" },
+      "uptime": { "name": "Uptime" },
+      "battery_temp": { "name": "{device} temperature" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Grid connected" }
+    }
+  }
+}
