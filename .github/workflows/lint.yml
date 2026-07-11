@@ -19,4 +19,6 @@ jobs:
       - uses: DavidAnson/markdownlint-cli2-action@v24
         with:
           config: .markdownlint.jsonc
-          globs: "**/*.md"
+          globs: |
+            **/*.md
+            !CHANGELOG.md

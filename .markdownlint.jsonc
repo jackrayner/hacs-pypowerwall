@@ -5,9 +5,5 @@
   "MD013": false,
   // README floats the brand icon next to the title via <img align="right">,
   // which plain Markdown image syntax can't express.
-  "MD033": false,
-  // CHANGELOG.md (release-please-generated) repeats "### Features"/"### Bug
-  // Fixes" under every version heading -- only flag duplicates within the
-  // same parent section, not across different releases.
-  "MD024": { "siblings_only": true }
+  "MD033": false
 }
