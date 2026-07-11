@@ -75,6 +75,7 @@ custom_components/pypowerwall/
 ├── entity.py               # shared device_info base entity
 ├── sensor.py
 ├── binary_sensor.py
+├── brand/                 # icon.png / icon@2x.png (HA 2026.3+ reads this directly, no brands-repo PR needed)
 ├── strings.json / translations/en.json
 hacs.json
 tests/

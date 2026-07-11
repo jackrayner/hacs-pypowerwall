@@ -35,6 +35,7 @@ There is no way to run this integration standalone outside Home Assistant — it
   - `entity.py` — `PowerwallEntity` base class; builds shared `device_info` (one HA device per gateway, keyed by DIN) so every entity below groups under it.
   - `sensor.py` — static sensors declared as `PowerwallSensorDescription` (a `SensorEntityDescription` + `value_fn`), plus per-battery-pack temperature sensors added dynamically as new devices show up in `coordinator.data.temps` (tracked via a `known_temp_devices` set and a coordinator listener, since the gateway doesn't report how many battery packs exist up front).
   - `binary_sensor.py` — one `connectivity` binary sensor derived from grid status (`UP` → on).
+  - `brand/` — `icon.png` (256×256) / `icon@2x.png` (512×512), an original placeholder graphic (not Tesla's logo — custom integrations can't use manufacturer trademarks). HA 2026.3+ reads a custom integration's local `brand/` directory directly and it takes precedence over the [home-assistant/brands](https://github.com/home-assistant/brands) repo, so no external PR is required for this to show up. Swap in real artwork by overwriting these two files at the same names/sizes (square, transparent PNG).
   - `strings.json` / `translations/en.json` — config flow + entity name text; kept identical, `en.json` is a plain copy of `strings.json` (HACS/HA convention — `strings.json` is the source of truth, `translations/en.json` is what ships).
 - `hacs.json` — HACS repository metadata (minimum HA version, etc.).
 - `tests/`
