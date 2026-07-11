@@ -25,7 +25,20 @@ CONN_TYPE_FLEETAPI = "fleetapi"
 # path rather than inline credentials.
 FILE_BASED_CONN_TYPES = (CONN_TYPE_CLOUD, CONN_TYPE_FLEETAPI, CONN_TYPE_TEDAPI_V1R)
 
+# set_grid_charging()/get_grid_charging() and set_grid_export()/get_grid_export() require
+# Cloud or FleetAPI mode per pypowerwall's own docstrings -- its local/TEDAPI/hybrid
+# backends don't implement grid charging/export control at all. Used to gate the
+# switch.py and select.py entities that expose them, and the coordinator's polling.
+GRID_CONTROL_CONN_TYPES = (CONN_TYPE_CLOUD, CONN_TYPE_FLEETAPI)
+
 DEFAULT_SCAN_INTERVAL = 5
 MIN_SCAN_INTERVAL = 2
 
 MANUFACTURER = "Tesla"
+
+# Max backup (storm watch) actions -- momentary, not persistent state, so they're
+# exposed as services (registered in __init__.py, v1r LAN mode only) rather than
+# entities. See pypowerwall.Powerwall.schedule_max_backup()/cancel_max_backup().
+SERVICE_SCHEDULE_MAX_BACKUP = "schedule_max_backup"
+SERVICE_CANCEL_MAX_BACKUP = "cancel_max_backup"
+ATTR_DURATION_SECONDS = "duration_seconds"

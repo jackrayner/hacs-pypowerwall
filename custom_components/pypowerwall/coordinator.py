@@ -18,6 +18,7 @@ import pypowerwall
 
 from .const import (
     CONF_AUTHPATH,
+    CONF_CONN_TYPE,
     CONF_GW_PWD,
     CONF_RSA_KEY_PATH,
     CONF_SITEID,
@@ -29,6 +30,7 @@ from .const import (
     CONN_TYPE_TEDAPI,
     CONN_TYPE_TEDAPI_V1R,
     DOMAIN,
+    GRID_CONTROL_CONN_TYPES,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -48,6 +50,8 @@ class PowerwallData:
     battery_level_app: float | None = None
     battery_reserve: float | None = None
     battery_mode: str | None = None
+    grid_charging: bool | None = None
+    grid_export: str | None = None
     backup_time_remaining: float | None = None
     grid_power: float | None = None
     solar_power: float | None = None
@@ -61,9 +65,9 @@ def _safe_round(value: float | None, digits: int) -> float | None:
     return round(value, digits) if value is not None else None
 
 
-def _fetch_data(pw: pypowerwall.Powerwall) -> PowerwallData:
+def _fetch_data(pw: pypowerwall.Powerwall, conn_type: str | None = None) -> PowerwallData:
     grid_status = pw.grid_status()
-    return PowerwallData(
+    data = PowerwallData(
         site_name=pw.site_name(),
         version=pw.version(),
         din=pw.din(),
@@ -82,6 +86,13 @@ def _fetch_data(pw: pypowerwall.Powerwall) -> PowerwallData:
         temps=pw.temps() or {},
         alerts=sorted(pw.alerts() or []),
     )
+    # get_grid_charging()/get_grid_export() require Cloud or FleetAPI mode; other
+    # backends log an error and return None on every poll, so only call them when
+    # the entry is actually in one of those modes (see GRID_CONTROL_CONN_TYPES).
+    if conn_type in GRID_CONTROL_CONN_TYPES:
+        data.grid_charging = pw.get_grid_charging()
+        data.grid_export = pw.get_grid_export()
+    return data
 
 
 class PowerwallDataUpdateCoordinator(DataUpdateCoordinator[PowerwallData]):
@@ -102,10 +113,11 @@ class PowerwallDataUpdateCoordinator(DataUpdateCoordinator[PowerwallData]):
             update_interval=timedelta(seconds=scan_interval),
         )
         self.pw = pw
+        self.conn_type = entry.data[CONF_CONN_TYPE]
 
     async def _async_update_data(self) -> PowerwallData:
         try:
-            data = await self.hass.async_add_executor_job(_fetch_data, self.pw)
+            data = await self.hass.async_add_executor_job(_fetch_data, self.pw, self.conn_type)
         except Exception as exc:  # noqa: BLE001 - pypowerwall raises plain Exception on failures
             raise UpdateFailed(f"Error communicating with Powerwall: {exc}") from exc
         if data.din is None:

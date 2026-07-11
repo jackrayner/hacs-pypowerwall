@@ -98,6 +98,38 @@ class TestFetchData:
         assert data.temps == {}
         assert data.alerts == []
 
+    def test_grid_charging_and_export_not_polled_without_conn_type(self):
+        pw = _make_pw()
+        data = _fetch_data(pw)
+        assert data.grid_charging is None
+        assert data.grid_export is None
+        pw.get_grid_charging.assert_not_called()
+        pw.get_grid_export.assert_not_called()
+
+    def test_grid_charging_and_export_not_polled_for_tedapi(self):
+        pw = _make_pw()
+        data = _fetch_data(pw, CONN_TYPE_TEDAPI)
+        assert data.grid_charging is None
+        assert data.grid_export is None
+        pw.get_grid_charging.assert_not_called()
+        pw.get_grid_export.assert_not_called()
+
+    def test_grid_charging_and_export_polled_for_cloud(self):
+        pw = _make_pw()
+        pw.get_grid_charging.return_value = True
+        pw.get_grid_export.return_value = "pv_only"
+        data = _fetch_data(pw, CONN_TYPE_CLOUD)
+        assert data.grid_charging is True
+        assert data.grid_export == "pv_only"
+
+    def test_grid_charging_and_export_polled_for_fleetapi(self):
+        pw = _make_pw()
+        pw.get_grid_charging.return_value = False
+        pw.get_grid_export.return_value = "never"
+        data = _fetch_data(pw, CONN_TYPE_FLEETAPI)
+        assert data.grid_charging is False
+        assert data.grid_export == "never"
+
 
 class TestBuildPowerwallKwargs:
     def test_local(self):
