@@ -49,7 +49,9 @@ The three file-based modes (Cloud, FleetAPI, TEDAPI v1r) authenticate via an art
 | Backup time remaining | sensor | hours |
 | Grid power | sensor | W |
 | Solar power | sensor | W |
-| Battery power | sensor | W |
+| Battery power | sensor | W, signed — negative while charging, positive while discharging |
+| Battery import power | sensor | W, the charging portion of battery power as a positive value (0 when discharging or idle) |
+| Battery export power | sensor | W, the discharging portion of battery power as a positive value (0 when charging or idle) |
 | Battery energy charged | sensor | kWh, cumulative, `total_increasing` — the gateway's own lifetime battery-meter counter, not a client-side estimate. Use for the Energy dashboard's "energy going into the battery." |
 | Battery energy discharged | sensor | kWh, cumulative, `total_increasing`, same source. Use for the Energy dashboard's "energy coming out of the battery." |
 | Home power | sensor | W |

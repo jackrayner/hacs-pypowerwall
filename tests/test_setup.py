@@ -45,6 +45,13 @@ async def test_setup_creates_entities_and_unload_removes_them(hass: HomeAssistan
     grid_power = _entity_state(hass, "sensor", "grid_power")
     assert float(grid_power.state) == 100.0
 
+    # conftest's default battery_power is -50.0 (charging), so import > 0, export == 0.
+    battery_import_power = _entity_state(hass, "sensor", "battery_import_power")
+    assert float(battery_import_power.state) == 50.0
+
+    battery_export_power = _entity_state(hass, "sensor", "battery_export_power")
+    assert float(battery_export_power.state) == 0.0
+
     battery_energy_imported = _entity_state(hass, "sensor", "battery_energy_imported")
     assert float(battery_energy_imported.state) == 5.0
     assert battery_energy_imported.attributes["state_class"] == "total_increasing"
