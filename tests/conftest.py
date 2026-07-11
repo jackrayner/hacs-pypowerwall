@@ -34,7 +34,18 @@ def make_fake_pw(**overrides) -> MagicMock:
     pw.get_time_remaining.return_value = overrides.get("backup_time_remaining", 10.0)
     pw.grid.return_value = overrides.get("grid_power", 100.0)
     pw.solar.return_value = overrides.get("solar_power", 500.0)
-    pw.battery.return_value = overrides.get("battery_power", -50.0)
+    battery_power = overrides.get("battery_power", -50.0)
+    battery_energy_imported_wh = overrides.get("battery_energy_imported_wh", 5000.0)
+    battery_energy_exported_wh = overrides.get("battery_energy_exported_wh", 3000.0)
+    pw.battery.side_effect = lambda verbose=False: (
+        {
+            "instant_power": battery_power,
+            "energy_imported": battery_energy_imported_wh,
+            "energy_exported": battery_energy_exported_wh,
+        }
+        if verbose
+        else battery_power
+    )
     pw.home.return_value = overrides.get("home_power", 550.0)
     pw.temps.return_value = overrides.get("temps", {"TETHC--1": 25.0})
     pw.alerts.return_value = overrides.get("alerts", [])

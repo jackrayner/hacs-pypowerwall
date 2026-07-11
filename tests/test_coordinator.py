@@ -36,7 +36,18 @@ def _make_pw(**overrides):
     pw.get_time_remaining.return_value = overrides.get("backup_time_remaining", 12.345)
     pw.grid.return_value = overrides.get("grid_power", 123.456)
     pw.solar.return_value = overrides.get("solar_power", 2345.6)
-    pw.battery.return_value = overrides.get("battery_power", -500.0)
+    battery_power = overrides.get("battery_power", -500.0)
+    battery_energy_imported_wh = overrides.get("battery_energy_imported_wh", 5000.0)
+    battery_energy_exported_wh = overrides.get("battery_energy_exported_wh", 3000.0)
+    pw.battery.side_effect = lambda verbose=False: (
+        {
+            "instant_power": battery_power,
+            "energy_imported": battery_energy_imported_wh,
+            "energy_exported": battery_energy_exported_wh,
+        }
+        if verbose
+        else battery_power
+    )
     pw.home.return_value = overrides.get("home_power", 1968.0)
     pw.temps.return_value = overrides.get("temps", {"TETHC--abc123": 24.5})
     pw.alerts.return_value = overrides.get("alerts", ["SystemConnectedToGrid"])
@@ -61,6 +72,8 @@ class TestFetchData:
         assert data.grid_power == 123
         assert data.solar_power == 2346
         assert data.battery_power == -500
+        assert data.battery_energy_imported == 5.0
+        assert data.battery_energy_exported == 3.0
         assert data.home_power == 1968
         assert data.temps == {"TETHC--abc123": 24.5}
         assert data.alerts == ["SystemConnectedToGrid"]
@@ -89,6 +102,14 @@ class TestFetchData:
     def test_alerts_sorted(self):
         data = _fetch_data(_make_pw(alerts=["Zeta", "Alpha"]))
         assert data.alerts == ["Alpha", "Zeta"]
+
+    def test_battery_meter_missing_leaves_power_and_energy_none(self):
+        pw = _make_pw()
+        pw.battery.side_effect = lambda verbose=False: None
+        data = _fetch_data(pw)
+        assert data.battery_power is None
+        assert data.battery_energy_imported is None
+        assert data.battery_energy_exported is None
 
     def test_missing_temps_and_alerts_default_empty(self):
         pw = _make_pw()
