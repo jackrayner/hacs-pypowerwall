@@ -93,7 +93,7 @@ Versions are cut automatically by [release-please](https://github.com/googleapis
 
 ## Project structure
 
-```
+```text
 custom_components/pypowerwall/
 ├── manifest.json         # HA integration metadata, pypowerwall dependency
 ├── const.py
