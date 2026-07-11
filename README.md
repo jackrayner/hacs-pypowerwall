@@ -1,5 +1,7 @@
 # hacs-pypowerwall
 
+<img src="custom_components/pypowerwall/brand/icon.png" alt="pypowerwall icon" width="120" align="right" />
+
 [![GitHub release](https://img.shields.io/github/v/release/jackrayner/hacs-pypowerwall)](https://github.com/jackrayner/hacs-pypowerwall/releases)
 
 A [HACS](https://hacs.xyz/) custom integration for Home Assistant that connects to a Tesla Powerwall gateway using [pypowerwall](https://github.com/jasonacox/pypowerwall). No MQTT broker required — Home Assistant polls the gateway (or Tesla's cloud) directly and exposes battery, grid, solar, and home power as native entities. Supports every connection mode pypowerwall offers: local TEDAPI, customer login, hybrid, cloud, FleetAPI, and TEDAPI v1r LAN.
