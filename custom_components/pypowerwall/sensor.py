@@ -51,19 +51,6 @@ SENSOR_DESCRIPTIONS: tuple[PowerwallSensorDescription, ...] = (
         value_fn=lambda data: data.battery_level_app,
     ),
     PowerwallSensorDescription(
-        key="battery_reserve",
-        translation_key="battery_reserve",
-        native_unit_of_measurement=PERCENTAGE,
-        state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data.battery_reserve,
-    ),
-    PowerwallSensorDescription(
-        key="battery_mode",
-        translation_key="battery_mode",
-        entity_category=EntityCategory.DIAGNOSTIC,
-        value_fn=lambda data: data.battery_mode,
-    ),
-    PowerwallSensorDescription(
         key="backup_time_remaining",
         translation_key="backup_time_remaining",
         native_unit_of_measurement=UnitOfTime.HOURS,
