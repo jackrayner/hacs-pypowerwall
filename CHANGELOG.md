@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/jackrayner/hacs-pypowerwall/compare/0.4.0...0.4.1) (2026-07-11)
+
+
+### Bug Fixes
+
+* exclude CHANGELOG.md from markdownlint ([adddc64](https://github.com/jackrayner/hacs-pypowerwall/commit/adddc64f2e39ddf5072dac11670d1d642a12c8b8))
+
 ## [0.4.0](https://github.com/jackrayner/hacs-pypowerwall/compare/0.3.0...0.4.0) (2026-07-11)
 
 
