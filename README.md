@@ -48,6 +48,8 @@ The three file-based modes (Cloud, FleetAPI, TEDAPI v1r) authenticate via an art
 | Grid power | sensor | W |
 | Solar power | sensor | W |
 | Battery power | sensor | W |
+| Battery energy charged | sensor | kWh, cumulative, `total_increasing` — the gateway's own lifetime battery-meter counter, not a client-side estimate. Use for the Energy dashboard's "energy going into the battery." |
+| Battery energy discharged | sensor | kWh, cumulative, `total_increasing`, same source. Use for the Energy dashboard's "energy coming out of the battery." |
 | Home power | sensor | W |
 | Grid status | sensor | `UP` / `DOWN` / `SYNCING` |
 | Grid connected | binary_sensor | connectivity, derived from grid status |
@@ -57,6 +59,10 @@ The three file-based modes (Cloud, FleetAPI, TEDAPI v1r) authenticate via an art
 | `<device>` temperature | sensor | one per battery pack reported by `vitals()`, added dynamically |
 | Reconnect to grid | button | physically closes the grid contactor, reconnecting the home to the utility grid |
 | Disconnect from grid | button | **⚠️ Disabled by default.** See callout below before enabling. |
+
+### Energy dashboard
+
+To add the battery to Home Assistant's Energy dashboard, go to Settings → Dashboards → Energy → Battery → Add battery, and pick "Battery energy charged" for "Energy going into the battery" and "Battery energy discharged" for "Energy coming out of the battery".
 
 **⚠️ "Disconnect from grid" physically opens the Powerwall's grid contactor.** Pressing it islands the home from the utility grid: solar keeps producing and the battery serves home load, but there's a real-world ~30 second solar production dropout while the contactor switches over, and the home stays off-grid until "Reconnect to grid" is pressed (or the gateway is otherwise commanded to reconnect). Because a button press is irreversible-in-the-moment and affects the physical grid connection, this entity ships **disabled** — it will not appear as an active entity until you explicitly enable it via its entity settings (Settings → Devices & Services → Entities → find it → enable). Note that as of pypowerwall 0.16.1 this method isn't yet implemented by any backend (local/TEDAPI/hybrid/cloud/FleetAPI) and currently no-ops with a logged error regardless of connection mode; the entity is included as forward-compatible surface for whenever a backend adds support, and is intentionally not gated by connection type since none is currently known to work.
 

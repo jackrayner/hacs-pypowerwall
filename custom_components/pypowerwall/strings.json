@@ -114,6 +114,8 @@
       "grid_power": { "name": "Grid power" },
       "solar_power": { "name": "Solar power" },
       "battery_power": { "name": "Battery power" },
+      "battery_energy_imported": { "name": "Battery energy charged" },
+      "battery_energy_exported": { "name": "Battery energy discharged" },
       "home_power": { "name": "Home power" },
       "grid_status": { "name": "Grid status" },
       "alert_count": { "name": "Active alerts" },

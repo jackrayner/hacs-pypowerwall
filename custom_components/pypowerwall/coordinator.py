@@ -56,6 +56,8 @@ class PowerwallData:
     grid_power: float | None = None
     solar_power: float | None = None
     battery_power: float | None = None
+    battery_energy_imported: float | None = None
+    battery_energy_exported: float | None = None
     home_power: float | None = None
     temps: dict[str, float] = field(default_factory=dict)
     alerts: list[str] = field(default_factory=list)
@@ -65,8 +67,20 @@ def _safe_round(value: float | None, digits: int) -> float | None:
     return round(value, digits) if value is not None else None
 
 
+def _wh_to_kwh(value: float | None) -> float | None:
+    return value / 1000 if value is not None else None
+
+
 def _fetch_data(pw: pypowerwall.Powerwall, conn_type: str | None = None) -> PowerwallData:
     grid_status = pw.grid_status()
+    # verbose=True returns the full /api/meters/aggregates entry for the battery meter
+    # (instant_power plus the gateway's own lifetime energy_imported/energy_exported
+    # counters in Wh) instead of just the instant_power float -- the same endpoint
+    # already backing battery_power, so this is the actual hardware meter reading
+    # rather than a client-side power integration, and it's available uniformly
+    # across every connection mode (local/TEDAPI/hybrid/cloud/FleetAPI/v1r all
+    # synthesize this same aggregates payload).
+    battery_meter = pw.battery(verbose=True) or {}
     data = PowerwallData(
         site_name=pw.site_name(),
         version=pw.version(),
@@ -81,7 +95,9 @@ def _fetch_data(pw: pypowerwall.Powerwall, conn_type: str | None = None) -> Powe
         backup_time_remaining=_safe_round(pw.get_time_remaining(), 1),
         grid_power=_safe_round(pw.grid(), 0),
         solar_power=_safe_round(pw.solar(), 0),
-        battery_power=_safe_round(pw.battery(), 0),
+        battery_power=_safe_round(battery_meter.get("instant_power"), 0),
+        battery_energy_imported=_safe_round(_wh_to_kwh(battery_meter.get("energy_imported")), 3),
+        battery_energy_exported=_safe_round(_wh_to_kwh(battery_meter.get("energy_exported")), 3),
         home_power=_safe_round(pw.home(), 0),
         temps=pw.temps() or {},
         alerts=sorted(pw.alerts() or []),

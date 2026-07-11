@@ -14,6 +14,7 @@ from homeassistant.components.sensor import (
 from homeassistant.const import (
     PERCENTAGE,
     EntityCategory,
+    UnitOfEnergy,
     UnitOfPower,
     UnitOfTemperature,
     UnitOfTime,
@@ -80,6 +81,22 @@ SENSOR_DESCRIPTIONS: tuple[PowerwallSensorDescription, ...] = (
         native_unit_of_measurement=UnitOfPower.WATT,
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda data: data.battery_power,
+    ),
+    PowerwallSensorDescription(
+        key="battery_energy_imported",
+        translation_key="battery_energy_imported",
+        device_class=SensorDeviceClass.ENERGY,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        value_fn=lambda data: data.battery_energy_imported,
+    ),
+    PowerwallSensorDescription(
+        key="battery_energy_exported",
+        translation_key="battery_energy_exported",
+        device_class=SensorDeviceClass.ENERGY,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        value_fn=lambda data: data.battery_energy_exported,
     ),
     PowerwallSensorDescription(
         key="home_power",
