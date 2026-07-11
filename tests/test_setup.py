@@ -3,6 +3,7 @@ from unittest.mock import patch
 from conftest import DIN, make_fake_pw
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
@@ -49,6 +50,10 @@ async def test_setup_creates_entities_and_unload_removes_them(hass: HomeAssistan
 
     temp = _entity_state(hass, "sensor", "temp_TETHC--1")
     assert float(temp.state) == 25.0
+
+    device = dr.async_get(hass).async_get_device(identifiers={(DOMAIN, DIN)})
+    assert device is not None
+    assert device.serial_number == DIN
 
     assert await hass.config_entries.async_unload(entry.entry_id)
     await hass.async_block_till_done()

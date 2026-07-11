@@ -23,4 +23,5 @@ class PowerwallEntity(CoordinatorEntity[PowerwallDataUpdateCoordinator]):
             name=coordinator.data.site_name or "Powerwall",
             model="Powerwall Gateway",
             sw_version=coordinator.data.version,
+            serial_number=din,
         )
