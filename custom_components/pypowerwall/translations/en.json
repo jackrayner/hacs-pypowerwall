@@ -2,7 +2,18 @@
   "config": {
     "step": {
       "user": {
-        "description": "Connect to a Tesla Powerwall gateway using TEDAPI (local mode).",
+        "title": "Choose a connection type",
+        "menu_options": {
+          "tedapi": "TEDAPI (gateway password)",
+          "hybrid": "Hybrid (local login + gateway password)",
+          "local": "Local login (customer email/password)",
+          "cloud": "Cloud mode (existing auth cache)",
+          "fleetapi": "FleetAPI (existing config cache)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA key)"
+        }
+      },
+      "tedapi": {
+        "description": "Connect using the gateway's own Wi-Fi password (mode 4). Works on Powerwall 2, Powerwall+, and Powerwall 3 without enabling Customer Login.",
         "data": {
           "host": "Host",
           "gw_pwd": "Gateway password"
@@ -11,10 +22,75 @@
           "host": "Hostname or IP address of the Powerwall gateway (e.g. 192.168.91.1)",
           "gw_pwd": "Full gateway Wi-Fi password printed on the QR label"
         }
+      },
+      "hybrid": {
+        "description": "Combines a customer login with the gateway password to add supplemental vitals data. Requires Customer Login to be enabled on the gateway.",
+        "data": {
+          "host": "Host",
+          "email": "Email",
+          "password": "Customer password",
+          "gw_pwd": "Gateway password"
+        },
+        "data_description": {
+          "host": "Hostname or IP address of the Powerwall gateway",
+          "email": "Customer account email",
+          "password": "Customer password set up on the gateway",
+          "gw_pwd": "Full gateway Wi-Fi password printed on the QR label"
+        }
+      },
+      "local": {
+        "description": "Connect using the gateway's Customer Login. Requires Customer Login to be enabled on the gateway first (via the Tesla app or gateway web UI).",
+        "data": {
+          "host": "Host",
+          "email": "Email",
+          "password": "Customer password"
+        },
+        "data_description": {
+          "host": "Hostname or IP address of the Powerwall gateway",
+          "email": "Customer account email",
+          "password": "Customer password set up on the gateway"
+        }
+      },
+      "cloud": {
+        "description": "Uses Tesla's cloud API instead of a local connection. Requires a one-time login performed outside Home Assistant first: run `python -m pypowerwall setup` (or `setup -headless`) to create a `.pypowerwall.auth` file, then point this at the directory containing it.",
+        "data": {
+          "authpath": "Auth cache directory",
+          "siteid": "Site ID (optional)"
+        },
+        "data_description": {
+          "authpath": "Directory containing the .pypowerwall.auth file created by `python -m pypowerwall setup`",
+          "siteid": "Tesla site ID to use if the account has more than one site"
+        }
+      },
+      "fleetapi": {
+        "description": "Uses Tesla's FleetAPI instead of a local connection. Requires a one-time setup performed outside Home Assistant first: register an app at developer.tesla.com, then run `python -m pypowerwall.fleetapi setup` to create a `.pypowerwall.fleetapi` file, and point this at the directory containing it.",
+        "data": {
+          "authpath": "Config cache directory",
+          "siteid": "Site ID (optional)"
+        },
+        "data_description": {
+          "authpath": "Directory containing the .pypowerwall.fleetapi file created by `python -m pypowerwall.fleetapi setup`",
+          "siteid": "Tesla site ID to use if the account has more than one site"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Full-protobuf LAN access for Powerwall 3, using a pre-registered RSA key. Requires a one-time setup performed outside Home Assistant first: run `python -m pypowerwall register` to generate and register an RSA-4096 key pair with the gateway (this may require briefly power-cycling the gateway to confirm), then point this at the resulting private key file.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Gateway password",
+          "rsa_key_path": "RSA private key path",
+          "wifi_host": "WiFi fallback host (optional)"
+        },
+        "data_description": {
+          "host": "Hostname or IP address of the Powerwall gateway",
+          "gw_pwd": "Full gateway Wi-Fi password printed on the QR label",
+          "rsa_key_path": "Path to the RSA-4096 private key PEM file produced by `python -m pypowerwall register`",
+          "wifi_host": "Alternate WiFi TEDAPI host to fall back to"
+        }
       }
     },
     "error": {
-      "cannot_connect": "Failed to connect. Check the host and gateway password.",
+      "cannot_connect": "Failed to connect. Check the connection details and try again.",
       "unknown": "Unexpected error"
     },
     "abort": {

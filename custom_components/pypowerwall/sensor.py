@@ -11,7 +11,13 @@ from homeassistant.components.sensor import (
     SensorEntityDescription,
     SensorStateClass,
 )
-from homeassistant.const import PERCENTAGE, EntityCategory, UnitOfPower, UnitOfTemperature, UnitOfTime
+from homeassistant.const import (
+    PERCENTAGE,
+    EntityCategory,
+    UnitOfPower,
+    UnitOfTemperature,
+    UnitOfTime,
+)
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
@@ -145,9 +151,7 @@ async def async_setup_entry(
         if not new_devices:
             return
         known_temp_devices.update(new_devices)
-        async_add_entities(
-            PowerwallTempSensor(coordinator, device) for device in new_devices
-        )
+        async_add_entities(PowerwallTempSensor(coordinator, device) for device in new_devices)
 
     _add_new_temp_sensors()
     entry.async_on_unload(coordinator.async_add_listener(_add_new_temp_sensors))

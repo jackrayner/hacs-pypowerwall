@@ -3,16 +3,33 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from datetime import timedelta
+from typing import Any
 
-import pypowerwall
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import CONF_EMAIL, CONF_HOST, CONF_PASSWORD
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import DOMAIN
+import pypowerwall
+
+from .const import (
+    CONF_AUTHPATH,
+    CONF_GW_PWD,
+    CONF_RSA_KEY_PATH,
+    CONF_SITEID,
+    CONF_WIFI_HOST,
+    CONN_TYPE_CLOUD,
+    CONN_TYPE_FLEETAPI,
+    CONN_TYPE_HYBRID,
+    CONN_TYPE_LOCAL,
+    CONN_TYPE_TEDAPI,
+    CONN_TYPE_TEDAPI_V1R,
+    DOMAIN,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -96,15 +113,59 @@ class PowerwallDataUpdateCoordinator(DataUpdateCoordinator[PowerwallData]):
         return data
 
 
+def build_powerwall_kwargs(conn_type: str, data: Mapping[str, Any]) -> dict[str, Any]:
+    """Translate config entry data into pypowerwall.Powerwall() constructor kwargs.
+
+    Each connection type maps to a distinct subset of pypowerwall's constructor
+    args; see pypowerwall.Powerwall.__init__ and its module docstring for what
+    each of local/TEDAPI/hybrid/v1r/cloud/fleetapi mode actually needs.
+    """
+    if conn_type == CONN_TYPE_LOCAL:
+        return {
+            "host": data[CONF_HOST],
+            "email": data[CONF_EMAIL],
+            "password": data[CONF_PASSWORD],
+        }
+    if conn_type == CONN_TYPE_TEDAPI:
+        return {"host": data[CONF_HOST], "gw_pwd": data[CONF_GW_PWD]}
+    if conn_type == CONN_TYPE_HYBRID:
+        return {
+            "host": data[CONF_HOST],
+            "email": data[CONF_EMAIL],
+            "password": data[CONF_PASSWORD],
+            "gw_pwd": data[CONF_GW_PWD],
+        }
+    if conn_type == CONN_TYPE_TEDAPI_V1R:
+        kwargs: dict[str, Any] = {
+            "host": data[CONF_HOST],
+            "gw_pwd": data[CONF_GW_PWD],
+            "rsa_key_path": data[CONF_RSA_KEY_PATH],
+        }
+        if data.get(CONF_WIFI_HOST):
+            kwargs["wifi_host"] = data[CONF_WIFI_HOST]
+        return kwargs
+    if conn_type == CONN_TYPE_CLOUD:
+        kwargs = {"cloudmode": True, "authpath": data[CONF_AUTHPATH]}
+        if data.get(CONF_SITEID):
+            kwargs["siteid"] = data[CONF_SITEID]
+        return kwargs
+    if conn_type == CONN_TYPE_FLEETAPI:
+        kwargs = {"fleetapi": True, "cloudmode": True, "authpath": data[CONF_AUTHPATH]}
+        if data.get(CONF_SITEID):
+            kwargs["siteid"] = data[CONF_SITEID]
+        return kwargs
+    raise ValueError(f"Unknown pypowerwall connection type: {conn_type}")
+
+
 async def async_connect_powerwall(
-    hass: HomeAssistant, host: str, gw_pwd: str
+    hass: HomeAssistant, conn_type: str, data: Mapping[str, Any]
 ) -> pypowerwall.Powerwall:
     """Create and connect a Powerwall client in the executor, raising on failure."""
 
     def _connect() -> pypowerwall.Powerwall:
-        pw = pypowerwall.Powerwall(host, gw_pwd=gw_pwd)
+        pw = pypowerwall.Powerwall(**build_powerwall_kwargs(conn_type, data))
         if not pw.is_connected():
-            raise ConfigEntryNotReady(f"Unable to connect to Powerwall at {host}")
+            raise ConfigEntryNotReady(f"Unable to connect to Powerwall ({conn_type} mode)")
         return pw
 
     return await hass.async_add_executor_job(_connect)

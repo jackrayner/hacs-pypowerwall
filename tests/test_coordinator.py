@@ -1,6 +1,26 @@
 from unittest.mock import MagicMock
 
-from custom_components.pypowerwall.coordinator import PowerwallData, _fetch_data
+import pytest
+from homeassistant.const import CONF_EMAIL, CONF_HOST, CONF_PASSWORD
+
+from custom_components.pypowerwall.const import (
+    CONF_AUTHPATH,
+    CONF_GW_PWD,
+    CONF_RSA_KEY_PATH,
+    CONF_SITEID,
+    CONF_WIFI_HOST,
+    CONN_TYPE_CLOUD,
+    CONN_TYPE_FLEETAPI,
+    CONN_TYPE_HYBRID,
+    CONN_TYPE_LOCAL,
+    CONN_TYPE_TEDAPI,
+    CONN_TYPE_TEDAPI_V1R,
+)
+from custom_components.pypowerwall.coordinator import (
+    PowerwallData,
+    _fetch_data,
+    build_powerwall_kwargs,
+)
 
 
 def _make_pw(**overrides):
@@ -77,3 +97,78 @@ class TestFetchData:
         data = _fetch_data(pw)
         assert data.temps == {}
         assert data.alerts == []
+
+
+class TestBuildPowerwallKwargs:
+    def test_local(self):
+        kwargs = build_powerwall_kwargs(
+            CONN_TYPE_LOCAL,
+            {CONF_HOST: "10.0.0.1", CONF_EMAIL: "owner@example.com", CONF_PASSWORD: "pw"},
+        )
+        assert kwargs == {"host": "10.0.0.1", "email": "owner@example.com", "password": "pw"}
+
+    def test_tedapi(self):
+        kwargs = build_powerwall_kwargs(
+            CONN_TYPE_TEDAPI, {CONF_HOST: "192.168.91.1", CONF_GW_PWD: "gw"}
+        )
+        assert kwargs == {"host": "192.168.91.1", "gw_pwd": "gw"}
+
+    def test_hybrid(self):
+        kwargs = build_powerwall_kwargs(
+            CONN_TYPE_HYBRID,
+            {
+                CONF_HOST: "h",
+                CONF_EMAIL: "e@example.com",
+                CONF_PASSWORD: "p",
+                CONF_GW_PWD: "g",
+            },
+        )
+        assert kwargs == {"host": "h", "email": "e@example.com", "password": "p", "gw_pwd": "g"}
+
+    def test_tedapi_v1r_minimal(self):
+        kwargs = build_powerwall_kwargs(
+            CONN_TYPE_TEDAPI_V1R,
+            {CONF_HOST: "h", CONF_GW_PWD: "g", CONF_RSA_KEY_PATH: "/key.pem"},
+        )
+        assert kwargs == {"host": "h", "gw_pwd": "g", "rsa_key_path": "/key.pem"}
+
+    def test_tedapi_v1r_with_wifi_host(self):
+        kwargs = build_powerwall_kwargs(
+            CONN_TYPE_TEDAPI_V1R,
+            {
+                CONF_HOST: "h",
+                CONF_GW_PWD: "g",
+                CONF_RSA_KEY_PATH: "/key.pem",
+                CONF_WIFI_HOST: "10.0.0.5",
+            },
+        )
+        assert kwargs["wifi_host"] == "10.0.0.5"
+
+    def test_cloud_minimal(self):
+        kwargs = build_powerwall_kwargs(CONN_TYPE_CLOUD, {CONF_AUTHPATH: "/auth"})
+        assert kwargs == {"cloudmode": True, "authpath": "/auth"}
+
+    def test_cloud_with_siteid(self):
+        kwargs = build_powerwall_kwargs(
+            CONN_TYPE_CLOUD, {CONF_AUTHPATH: "/auth", CONF_SITEID: "123"}
+        )
+        assert kwargs == {"cloudmode": True, "authpath": "/auth", "siteid": "123"}
+
+    def test_fleetapi_minimal(self):
+        kwargs = build_powerwall_kwargs(CONN_TYPE_FLEETAPI, {CONF_AUTHPATH: "/auth"})
+        assert kwargs == {"fleetapi": True, "cloudmode": True, "authpath": "/auth"}
+
+    def test_fleetapi_with_siteid(self):
+        kwargs = build_powerwall_kwargs(
+            CONN_TYPE_FLEETAPI, {CONF_AUTHPATH: "/auth", CONF_SITEID: "456"}
+        )
+        assert kwargs == {
+            "fleetapi": True,
+            "cloudmode": True,
+            "authpath": "/auth",
+            "siteid": "456",
+        }
+
+    def test_unknown_conn_type_raises(self):
+        with pytest.raises(ValueError):
+            build_powerwall_kwargs("bogus", {})

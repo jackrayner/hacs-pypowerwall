@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_HOST, Platform
+from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
-from .const import CONF_GW_PWD, DEFAULT_SCAN_INTERVAL
+from .const import CONF_CONN_TYPE, DEFAULT_SCAN_INTERVAL
 from .coordinator import PowerwallDataUpdateCoordinator, async_connect_powerwall
 
 PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.BINARY_SENSOR]
@@ -16,7 +16,7 @@ type PypowerwallConfigEntry = ConfigEntry[PowerwallDataUpdateCoordinator]
 
 async def async_setup_entry(hass: HomeAssistant, entry: PypowerwallConfigEntry) -> bool:
     """Set up pypowerwall from a config entry."""
-    pw = await async_connect_powerwall(hass, entry.data[CONF_HOST], entry.data[CONF_GW_PWD])
+    pw = await async_connect_powerwall(hass, entry.data[CONF_CONN_TYPE], entry.data)
 
     scan_interval = entry.options.get("scan_interval", DEFAULT_SCAN_INTERVAL)
     coordinator = PowerwallDataUpdateCoordinator(hass, entry, pw, scan_interval)

@@ -1,15 +1,20 @@
 from unittest.mock import patch
 
+from conftest import DIN, make_fake_pw
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from custom_components.pypowerwall.const import CONF_GW_PWD, DOMAIN
-
-from conftest import DIN, make_fake_pw
+from custom_components.pypowerwall.const import (
+    CONF_CONN_TYPE,
+    CONF_GW_PWD,
+    CONN_TYPE_TEDAPI,
+    DOMAIN,
+)
 
 CONNECT_TARGET = "custom_components.pypowerwall.coordinator.pypowerwall.Powerwall"
+ENTRY_DATA = {CONF_CONN_TYPE: CONN_TYPE_TEDAPI, "host": "192.168.91.1", CONF_GW_PWD: "secret"}
 
 
 def _entity_state(hass: HomeAssistant, platform: str, unique_id: str):
@@ -23,7 +28,7 @@ async def test_setup_creates_entities_and_unload_removes_them(hass: HomeAssistan
     entry = MockConfigEntry(
         domain=DOMAIN,
         unique_id=DIN,
-        data={"host": "192.168.91.1", CONF_GW_PWD: "secret"},
+        data=ENTRY_DATA,
     )
     entry.add_to_hass(hass)
 
@@ -54,7 +59,7 @@ async def test_grid_down_marks_binary_sensor_off(hass: HomeAssistant) -> None:
     entry = MockConfigEntry(
         domain=DOMAIN,
         unique_id=DIN,
-        data={"host": "192.168.91.1", CONF_GW_PWD: "secret"},
+        data=ENTRY_DATA,
     )
     entry.add_to_hass(hass)
 
@@ -73,7 +78,7 @@ async def test_setup_fails_when_not_connected(hass: HomeAssistant) -> None:
     entry = MockConfigEntry(
         domain=DOMAIN,
         unique_id=DIN,
-        data={"host": "192.168.91.1", CONF_GW_PWD: "secret"},
+        data=ENTRY_DATA,
     )
     entry.add_to_hass(hass)
 
