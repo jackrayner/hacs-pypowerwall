@@ -64,6 +64,10 @@ python3 -m pytest
 
 `requirements-dev.txt` adds `pytest` and `pytest-homeassistant-custom-component` (a full Home Assistant core install used only for testing) on top of `requirements.txt`.
 
+### Releases
+
+Versions are cut automatically by [release-please](https://github.com/googleapis/release-please) from [Conventional Commits](https://www.conventionalcommits.org/) on `main` (`feat:` → minor, `fix:` → patch, `feat!:`/`BREAKING CHANGE:` → major). It keeps a running release PR up to date with the changelog and version bump; merging that PR tags the release and updates `manifest.json` automatically. Commits that don't follow the convention don't trigger a release.
+
 ## Project structure
 
 ```
