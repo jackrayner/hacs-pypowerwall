@@ -110,8 +110,6 @@
     "sensor": {
       "battery_level": { "name": "Battery level" },
       "battery_level_app": { "name": "Battery level (Tesla app)" },
-      "battery_reserve": { "name": "Battery reserve" },
-      "battery_mode": { "name": "Battery mode" },
       "backup_time_remaining": { "name": "Backup time remaining" },
       "grid_power": { "name": "Grid power" },
       "solar_power": { "name": "Solar power" },
@@ -125,6 +123,19 @@
     },
     "binary_sensor": {
       "grid_connected": { "name": "Grid connected" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Battery reserve" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Battery mode",
+        "state": {
+          "self_consumption": "Self-powered",
+          "backup": "Backup-only",
+          "autonomous": "Time-based control"
+        }
+      }
     }
   }
 }

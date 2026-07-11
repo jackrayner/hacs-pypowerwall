@@ -38,8 +38,8 @@ The three file-based modes (Cloud, FleetAPI, TEDAPI v1r) authenticate via an art
 | --- | --- | --- |
 | Battery level | sensor | `%`, from customer API scale |
 | Battery level (Tesla app) | sensor | `%`, app-scaled value |
-| Battery reserve | sensor | `%` |
-| Battery mode | sensor | |
+| Battery reserve | number | `%`, 0-100, writable — sets the backup reserve |
+| Battery mode | select | `self_consumption` / `backup` / `autonomous`, writable — sets the operation mode |
 | Backup time remaining | sensor | hours |
 | Grid power | sensor | W |
 | Solar power | sensor | W |
@@ -79,6 +79,8 @@ custom_components/pypowerwall/
 ├── entity.py               # shared device_info base entity
 ├── sensor.py
 ├── binary_sensor.py
+├── number.py               # battery reserve control
+├── select.py                # battery mode control
 ├── brand/                 # icon.png / icon@2x.png (HA 2026.3+ reads this directly, no brands-repo PR needed)
 ├── strings.json / translations/en.json
 hacs.json

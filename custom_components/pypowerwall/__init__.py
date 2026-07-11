@@ -9,7 +9,12 @@ from homeassistant.core import HomeAssistant
 from .const import CONF_CONN_TYPE, DEFAULT_SCAN_INTERVAL
 from .coordinator import PowerwallDataUpdateCoordinator, async_connect_powerwall
 
-PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.BINARY_SENSOR]
+PLATFORMS: list[Platform] = [
+    Platform.SENSOR,
+    Platform.BINARY_SENSOR,
+    Platform.NUMBER,
+    Platform.SELECT,
+]
 
 type PypowerwallConfigEntry = ConfigEntry[PowerwallDataUpdateCoordinator]
 
