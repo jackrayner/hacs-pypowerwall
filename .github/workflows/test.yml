@@ -3,7 +3,19 @@ name: Test
 on:
   push:
     branches: [main]
+    paths:
+      - "**.py"
+      - "requirements*.txt"
+      - "pytest.ini"
+      - "pyproject.toml"
+      - ".github/workflows/test.yml"
   pull_request:
+    paths:
+      - "**.py"
+      - "requirements*.txt"
+      - "pytest.ini"
+      - "pyproject.toml"
+      - ".github/workflows/test.yml"
 
 jobs:
   pytest:
