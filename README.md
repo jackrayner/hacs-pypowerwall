@@ -123,7 +123,7 @@ custom_components/pypowerwall/
 ├── button.py                # go off-grid / reconnect to grid (disconnect button disabled by default)
 ├── services.yaml            # schema for schedule_max_backup / cancel_max_backup (v1r LAN mode only)
 ├── brand/                 # icon.png / icon@2x.png (HA 2026.3+ reads this directly, no brands-repo PR needed)
-├── strings.json / translations/en.json
+├── translations/en.json  # no strings.json — that's a Home Assistant Core-only build artifact, not used by custom integrations
 hacs.json
 tests/
 ├── conftest.py            # make_fake_pw() stub + enable_custom_integrations fixture
