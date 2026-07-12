@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0](https://github.com/jackrayner/hacs-pypowerwall/compare/0.4.1...0.5.0) (2026-07-12)
+
+
+### Features
+
+* add grid import/export power sensors and estimated energy integration sensors ([d6a0797](https://github.com/jackrayner/hacs-pypowerwall/commit/d6a07977c8df86cec3ac2b84f5b91ebf7bb48ede))
+* split battery power into import/export sensors ([7a720a5](https://github.com/jackrayner/hacs-pypowerwall/commit/7a720a5fabd98fd3a5699cf1782bf517c77aac9d))
+
 ## [0.4.1](https://github.com/jackrayner/hacs-pypowerwall/compare/0.4.0...0.4.1) (2026-07-11)
 
 
