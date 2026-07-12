@@ -34,6 +34,20 @@ class PowerwallSensorDescription(SensorEntityDescription):
     value_fn: Callable[[PowerwallData], object]
 
 
+def _battery_import_power(data: PowerwallData) -> float | None:
+    """Power flowing into the battery (charging) as a positive value, else 0."""
+    if data.battery_power is None:
+        return None
+    return max(-data.battery_power, 0)
+
+
+def _battery_export_power(data: PowerwallData) -> float | None:
+    """Power flowing out of the battery (discharging) as a positive value, else 0."""
+    if data.battery_power is None:
+        return None
+    return max(data.battery_power, 0)
+
+
 SENSOR_DESCRIPTIONS: tuple[PowerwallSensorDescription, ...] = (
     PowerwallSensorDescription(
         key="battery_level",
@@ -81,6 +95,22 @@ SENSOR_DESCRIPTIONS: tuple[PowerwallSensorDescription, ...] = (
         native_unit_of_measurement=UnitOfPower.WATT,
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda data: data.battery_power,
+    ),
+    PowerwallSensorDescription(
+        key="battery_import_power",
+        translation_key="battery_import_power",
+        device_class=SensorDeviceClass.POWER,
+        native_unit_of_measurement=UnitOfPower.WATT,
+        state_class=SensorStateClass.MEASUREMENT,
+        value_fn=_battery_import_power,
+    ),
+    PowerwallSensorDescription(
+        key="battery_export_power",
+        translation_key="battery_export_power",
+        device_class=SensorDeviceClass.POWER,
+        native_unit_of_measurement=UnitOfPower.WATT,
+        state_class=SensorStateClass.MEASUREMENT,
+        value_fn=_battery_export_power,
     ),
     PowerwallSensorDescription(
         key="battery_energy_imported",
