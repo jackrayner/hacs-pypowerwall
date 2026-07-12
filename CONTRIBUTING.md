@@ -2,7 +2,7 @@
 
 Thanks for taking an interest in `hacs-pypowerwall`. This is a small, solo-maintained project, so there's no formal process to wade through — just clone it, make your change, and open a PR. This document covers the practical bits: how to get a dev environment running, how tests and linting work, the shape of the code, and the one convention (commit message prefixes) that actually matters for the automation behind the scenes.
 
-If you want the deep-dive version of any of this — file-by-file rationale, the reasoning behind specific design decisions — see [`AGENTS.md`](./AGENTS.md). It was written for an AI coding agent so it's terser and more exhaustive than this doc, but it's equally valid reading for a human who wants the full picture.
+If you want the deep-dive version of any of this — file-by-file rationale, the reasoning behind specific design decisions — see [`AGENTS.md`](./AGENTS.md) and its per-directory companions ([`custom_components/pypowerwall/AGENTS.md`](./custom_components/pypowerwall/AGENTS.md), [`tests/AGENTS.md`](./tests/AGENTS.md)). They were written for an AI coding agent so they're terser and more exhaustive than this doc, but equally valid reading for a human who wants the full picture.
 
 ## Getting started
 
@@ -65,7 +65,7 @@ Rough file layout, if you're getting oriented:
 - `entity.py` — shared `PowerwallEntity` base class, builds the common `device_info`.
 - `sensor.py`, `binary_sensor.py`, `number.py`, `select.py` — the entity platforms themselves.
 
-For the full rationale behind each file's design (why certain write methods aren't wired up yet, why the brand icon works the way it does, exactly how the test mocking is layered), see the `## Structure` section of `AGENTS.md`.
+For the full rationale behind each file's design (why certain write methods aren't wired up yet, why the brand icon works the way it does, exactly how the test mocking is layered), see [`custom_components/pypowerwall/AGENTS.md`](./custom_components/pypowerwall/AGENTS.md) and [`tests/AGENTS.md`](./tests/AGENTS.md).
 
 ## Adding a new entity
 
