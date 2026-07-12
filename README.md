@@ -47,13 +47,20 @@ The three file-based modes (Cloud, FleetAPI, TEDAPI v1r) authenticate via an art
 | Grid charging | switch | writable — allow/disallow charging the battery from the grid. **Cloud/FleetAPI mode only.** |
 | Grid export | select | `battery_ok` / `pv_only` / `never`, writable — sets the grid export policy. **Cloud/FleetAPI mode only.** |
 | Backup time remaining | sensor | hours |
-| Grid power | sensor | W |
+| Grid power | sensor | W, signed — negative while exporting, positive while importing |
+| Grid import power | sensor | W, the importing portion of grid power as a positive value (0 when exporting or idle) |
+| Grid export power | sensor | W, the exporting portion of grid power as a positive value (0 when importing or idle) |
 | Solar power | sensor | W |
 | Battery power | sensor | W, signed — negative while charging, positive while discharging |
 | Battery import power | sensor | W, the charging portion of battery power as a positive value (0 when discharging or idle) |
 | Battery export power | sensor | W, the discharging portion of battery power as a positive value (0 when charging or idle) |
 | Battery energy charged | sensor | kWh, cumulative, `total_increasing` — the gateway's own lifetime battery-meter counter, not a client-side estimate. Use for the Energy dashboard's "energy going into the battery." |
 | Battery energy discharged | sensor | kWh, cumulative, `total_increasing`, same source. Use for the Energy dashboard's "energy coming out of the battery." |
+| Battery import energy (estimated) | sensor | kWh, cumulative, `total_increasing`. **⚠️ Disabled by default.** A client-side trapezoidal (Riemann sum) integration of battery import power, updated once per poll. See callout below. |
+| Battery export energy (estimated) | sensor | kWh, cumulative, `total_increasing`. **⚠️ Disabled by default.** Same as above, integrating battery export power. |
+| Grid import energy (estimated) | sensor | kWh, cumulative, `total_increasing`. **⚠️ Disabled by default.** Same as above, integrating grid import power. |
+| Grid export energy (estimated) | sensor | kWh, cumulative, `total_increasing`. **⚠️ Disabled by default.** Same as above, integrating grid export power. |
+| Home energy (estimated) | sensor | kWh, cumulative, `total_increasing`. **⚠️ Disabled by default.** Same as above, integrating home power directly (load is always consumption, no import/export split). |
 | Home power | sensor | W |
 | Grid status | sensor | `UP` / `DOWN` / `SYNCING` |
 | Grid connected | binary_sensor | connectivity, derived from grid status |
@@ -63,6 +70,10 @@ The three file-based modes (Cloud, FleetAPI, TEDAPI v1r) authenticate via an art
 | `<device>` temperature | sensor | one per battery pack reported by `vitals()`, added dynamically |
 | Reconnect to grid | button | physically closes the grid contactor, reconnecting the home to the utility grid |
 | Disconnect from grid | button | **⚠️ Disabled by default.** See callout below before enabling. |
+
+### Estimated energy sensors
+
+The five "(estimated)" energy sensors above are a **fallback** for `battery_energy_imported`/`battery_energy_exported`: on some hardware, the gateway's own lifetime meter counters (`energy_imported`/`energy_exported` in `/api/meters/aggregates`) don't populate reliably, so these sensors client-side integrate the corresponding power sensor (trapezoidal/Riemann-sum: average of two consecutive power readings × elapsed time between them) as an approximation instead. They're a strictly less accurate substitute — missed samples between polls and no sub-interval resolution, versus the gateway's own hardware meter — so they ship **disabled by default**; enable the ones you need via Settings → Devices & Services → Entities → find it → enable, only if the real-meter sensors aren't working for you. Their running totals persist across Home Assistant restarts (`RestoreEntity`), same as any other `total_increasing` energy sensor.
 
 ### Energy dashboard
 
