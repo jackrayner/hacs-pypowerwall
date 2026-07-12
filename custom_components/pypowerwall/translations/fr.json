@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Choisir un type de connexion",
+        "menu_options": {
+          "tedapi": "TEDAPI (mot de passe de la passerelle)",
+          "hybrid": "Hybride (connexion locale + mot de passe de la passerelle)",
+          "local": "Connexion locale (e-mail/mot de passe client)",
+          "cloud": "Mode cloud (cache d'authentification existant)",
+          "fleetapi": "FleetAPI (cache de configuration existant)",
+          "tedapi_v1r": "TEDAPI v1r LAN (clé RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "Se connecter à l'aide du mot de passe Wi-Fi propre à la passerelle (mode 4). Fonctionne sur Powerwall 2, Powerwall+ et Powerwall 3 sans activer la connexion client (Customer Login).",
+        "data": {
+          "host": "Hôte",
+          "gw_pwd": "Mot de passe de la passerelle"
+        },
+        "data_description": {
+          "host": "Nom d'hôte ou adresse IP de la passerelle Powerwall (ex. 192.168.91.1)",
+          "gw_pwd": "Mot de passe Wi-Fi complet de la passerelle, imprimé sur l'étiquette QR"
+        }
+      },
+      "hybrid": {
+        "description": "Combine une connexion client avec le mot de passe de la passerelle pour ajouter des données de diagnostic supplémentaires. Nécessite que la connexion client (Customer Login) soit activée sur la passerelle.",
+        "data": {
+          "host": "Hôte",
+          "email": "E-mail",
+          "password": "Mot de passe client",
+          "gw_pwd": "Mot de passe de la passerelle"
+        },
+        "data_description": {
+          "host": "Nom d'hôte ou adresse IP de la passerelle Powerwall",
+          "email": "E-mail du compte client",
+          "password": "Mot de passe client configuré sur la passerelle",
+          "gw_pwd": "Mot de passe Wi-Fi complet de la passerelle, imprimé sur l'étiquette QR"
+        }
+      },
+      "local": {
+        "description": "Se connecter à l'aide de la connexion client de la passerelle. Nécessite que la connexion client (Customer Login) soit préalablement activée sur la passerelle (via l'application Tesla ou l'interface web de la passerelle).",
+        "data": {
+          "host": "Hôte",
+          "email": "E-mail",
+          "password": "Mot de passe client"
+        },
+        "data_description": {
+          "host": "Nom d'hôte ou adresse IP de la passerelle Powerwall",
+          "email": "E-mail du compte client",
+          "password": "Mot de passe client configuré sur la passerelle"
+        }
+      },
+      "cloud": {
+        "description": "Utilise l'API cloud de Tesla plutôt qu'une connexion locale. Nécessite une connexion unique effectuée au préalable en dehors de Home Assistant : exécutez `python -m pypowerwall setup` (ou `setup -headless`) pour créer un fichier `.pypowerwall.auth`, puis indiquez ici le répertoire qui le contient.",
+        "data": {
+          "authpath": "Répertoire du cache d'authentification",
+          "siteid": "ID du site (facultatif)"
+        },
+        "data_description": {
+          "authpath": "Répertoire contenant le fichier .pypowerwall.auth créé par `python -m pypowerwall setup`",
+          "siteid": "ID du site Tesla à utiliser si le compte possède plusieurs sites"
+        }
+      },
+      "fleetapi": {
+        "description": "Utilise la FleetAPI de Tesla plutôt qu'une connexion locale. Nécessite une configuration unique effectuée au préalable en dehors de Home Assistant : enregistrez une application sur developer.tesla.com, puis exécutez `python -m pypowerwall.fleetapi setup` pour créer un fichier `.pypowerwall.fleetapi`, et indiquez ici le répertoire qui le contient.",
+        "data": {
+          "authpath": "Répertoire du cache de configuration",
+          "siteid": "ID du site (facultatif)"
+        },
+        "data_description": {
+          "authpath": "Répertoire contenant le fichier .pypowerwall.fleetapi créé par `python -m pypowerwall.fleetapi setup`",
+          "siteid": "ID du site Tesla à utiliser si le compte possède plusieurs sites"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Accès LAN complet (protobuf) pour Powerwall 3, à l'aide d'une clé RSA préalablement enregistrée. Nécessite une configuration unique effectuée au préalable en dehors de Home Assistant : exécutez `python -m pypowerwall register` pour générer et enregistrer une paire de clés RSA-4096 auprès de la passerelle (cela peut nécessiter de redémarrer brièvement la passerelle pour confirmer), puis indiquez ici le fichier de clé privée obtenu.",
+        "data": {
+          "host": "Hôte",
+          "gw_pwd": "Mot de passe de la passerelle",
+          "rsa_key_path": "Chemin de la clé privée RSA",
+          "wifi_host": "Hôte Wi-Fi de secours (facultatif)"
+        },
+        "data_description": {
+          "host": "Nom d'hôte ou adresse IP de la passerelle Powerwall",
+          "gw_pwd": "Mot de passe Wi-Fi complet de la passerelle, imprimé sur l'étiquette QR",
+          "rsa_key_path": "Chemin vers le fichier PEM de la clé privée RSA-4096 généré par `python -m pypowerwall register`",
+          "wifi_host": "Hôte TEDAPI Wi-Fi alternatif utilisé en secours"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Échec de la connexion. Vérifiez les informations de connexion et réessayez.",
+      "unknown": "Erreur inattendue"
+    },
+    "abort": {
+      "already_configured": "Cette passerelle Powerwall est déjà configurée"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Intervalle d'interrogation (secondes)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Niveau de la batterie" },
+      "battery_level_app": { "name": "Niveau de la batterie (application Tesla)" },
+      "backup_time_remaining": { "name": "Autonomie de secours restante" },
+      "grid_power": { "name": "Puissance réseau" },
+      "grid_import_power": { "name": "Puissance importée du réseau" },
+      "grid_export_power": { "name": "Puissance exportée vers le réseau" },
+      "solar_power": { "name": "Puissance solaire" },
+      "battery_power": { "name": "Puissance de la batterie" },
+      "battery_import_power": { "name": "Puissance de charge de la batterie" },
+      "battery_export_power": { "name": "Puissance de décharge de la batterie" },
+      "battery_energy_imported": { "name": "Énergie chargée dans la batterie" },
+      "battery_energy_exported": { "name": "Énergie déchargée de la batterie" },
+      "battery_import_energy": { "name": "Énergie de charge de la batterie (estimée)" },
+      "battery_export_energy": { "name": "Énergie de décharge de la batterie (estimée)" },
+      "grid_import_energy": { "name": "Énergie importée du réseau (estimée)" },
+      "grid_export_energy": { "name": "Énergie exportée vers le réseau (estimée)" },
+      "home_energy": { "name": "Énergie du foyer (estimée)" },
+      "home_power": { "name": "Puissance du foyer" },
+      "grid_status": { "name": "État du réseau" },
+      "alert_count": { "name": "Alertes actives" },
+      "firmware_version": { "name": "Version du micrologiciel" },
+      "uptime": { "name": "Temps de fonctionnement" },
+      "battery_temp": { "name": "Température {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Connecté au réseau" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Réserve de batterie" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Mode de la batterie",
+        "state": {
+          "self_consumption": "Autoconsommation",
+          "backup": "Secours uniquement",
+          "autonomous": "Contrôle basé sur l'horaire"
+        }
+      },
+      "grid_export": {
+        "name": "Exportation réseau",
+        "state": {
+          "battery_ok": "Solaire et batterie",
+          "pv_only": "Solaire uniquement",
+          "never": "Jamais"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Charge depuis le réseau" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Se déconnecter du réseau" },
+      "reconnect_grid": { "name": "Se reconnecter au réseau" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Planifier une sauvegarde maximale",
+      "description": "Démarre un événement de sauvegarde manuel (mode veille tempête / sauvegarde maximale), en maximisant la réserve de batterie pendant une durée fixe. Nécessite le mode TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Durée",
+          "description": "Durée d'exécution de l'événement de sauvegarde maximale, en secondes. Par défaut 7200 (2 heures)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Annuler la sauvegarde maximale",
+      "description": "Annule l'événement de sauvegarde manuel en cours (mode veille tempête / sauvegarde maximale) démarré par schedule_max_backup. Nécessite le mode TEDAPI v1r LAN."
+    }
+  }
+}
