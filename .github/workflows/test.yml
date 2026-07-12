@@ -31,8 +31,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ["3.13", "3.14"]
+        # pytest-homeassistant-custom-component==0.13.346 requires Python >=3.14,
+        # so 3.13 (the ruff target-version baseline) can't be added here until
+        # that pin moves.
+        python-version: ["3.14"]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
