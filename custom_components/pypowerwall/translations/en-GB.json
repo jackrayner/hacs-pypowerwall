@@ -1,0 +1,7 @@
+{
+  "services": {
+    "schedule_max_backup": {
+      "description": "Starts a manual backup event (storm watch / max backup mode), maximising the battery reserve for a fixed duration. Requires TEDAPI v1r LAN mode."
+    }
+  }
+}
