@@ -2,7 +2,7 @@
 
 Thanks for taking an interest in `hacs-pypowerwall`. This is a small, solo-maintained project, so there's no formal process to wade through — just clone it, make your change, and open a PR. This document covers the practical bits: how to get a dev environment running, how tests and linting work, the shape of the code, and the one convention (commit message prefixes) that actually matters for the automation behind the scenes.
 
-If you want the deep-dive version of any of this — file-by-file rationale, the reasoning behind specific design decisions — see [`CLAUDE.md`](./CLAUDE.md). It was written for an AI coding agent so it's terser and more exhaustive than this doc, but it's equally valid reading for a human who wants the full picture.
+If you want the deep-dive version of any of this — file-by-file rationale, the reasoning behind specific design decisions — see [`AGENTS.md`](./AGENTS.md). It was written for an AI coding agent so it's terser and more exhaustive than this doc, but it's equally valid reading for a human who wants the full picture.
 
 ## Getting started
 
@@ -65,7 +65,7 @@ Rough file layout, if you're getting oriented:
 - `entity.py` — shared `PowerwallEntity` base class, builds the common `device_info`.
 - `sensor.py`, `binary_sensor.py`, `number.py`, `select.py` — the entity platforms themselves.
 
-For the full rationale behind each file's design (why certain write methods aren't wired up yet, why the brand icon works the way it does, exactly how the test mocking is layered), see the `## Structure` section of `CLAUDE.md`.
+For the full rationale behind each file's design (why certain write methods aren't wired up yet, why the brand icon works the way it does, exactly how the test mocking is layered), see the `## Structure` section of `AGENTS.md`.
 
 ## Adding a new entity
 
@@ -107,4 +107,4 @@ A few practical guidelines, gathered from how this repo has actually been worked
 
 ## Releases
 
-Once your PR is merged, you don't need to do anything else — release-please picks it up automatically. It keeps a single running "chore(main): release X.Y.Z" PR open with the version bump and changelog computed from commits since the last release; merging that PR is what actually cuts the tag and GitHub Release. See the `## Releases` section of `CLAUDE.md` for the mechanics of how the version gets written into `manifest.json` and why tags don't carry a `v` prefix.
+Once your PR is merged, you don't need to do anything else — release-please picks it up automatically. It keeps a single running "chore(main): release X.Y.Z" PR open with the version bump and changelog computed from commits since the last release; merging that PR is what actually cuts the tag and GitHub Release. See the `## Releases` section of `AGENTS.md` for the mechanics of how the version gets written into `manifest.json` and why tags don't carry a `v` prefix.
