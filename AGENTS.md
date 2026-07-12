@@ -2,6 +2,17 @@
 
 This file provides guidance to AI coding agents when working with code in this repository.
 
+## Token Hygiene
+
+Language: Python
+
+- Never say 'continue where you left off' after a rate limit (P2).
+  Instead: start fresh with a one-paragraph summary of last completed file.
+- Run /clear between unrelated tasks and at turn 30 (P3/P6).
+- Run /compact before resuming sessions longer than 20 turns.
+- Keep .claudeignore updated — node_modules/, dist/, .git/, build/ must be excluded (P7).
+- Only connect MCP servers you need for this task. Disconnect others (P8).
+
 ## What this is
 
 A [HACS](https://hacs.xyz/) custom integration for Home Assistant. It wraps [pypowerwall](https://github.com/jasonacox/pypowerwall) so Home Assistant polls a Tesla Powerwall directly — no MQTT broker in the loop. Domain: `pypowerwall`. Supports all six of pypowerwall's connection modes (local TEDAPI, customer login, hybrid, cloud, FleetAPI, TEDAPI v1r LAN), selected via a config-flow menu.
