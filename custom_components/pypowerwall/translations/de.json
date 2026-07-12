@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Verbindungsart auswählen",
+        "menu_options": {
+          "tedapi": "TEDAPI (Gateway-Passwort)",
+          "hybrid": "Hybrid (lokaler Login + Gateway-Passwort)",
+          "local": "Lokaler Login (E-Mail/Passwort des Kunden)",
+          "cloud": "Cloud-Modus (vorhandener Auth-Cache)",
+          "fleetapi": "FleetAPI (vorhandener Konfigurations-Cache)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA-Schlüssel)"
+        }
+      },
+      "tedapi": {
+        "description": "Verbindung über das eigene Wi-Fi-Passwort des Gateways (Modus 4). Funktioniert bei Powerwall 2, Powerwall+ und Powerwall 3, ohne dass der Kunden-Login aktiviert werden muss.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Gateway-Passwort"
+        },
+        "data_description": {
+          "host": "Hostname oder IP-Adresse des Powerwall-Gateways (z. B. 192.168.91.1)",
+          "gw_pwd": "Vollständiges Wi-Fi-Passwort des Gateways, aufgedruckt auf dem QR-Etikett"
+        }
+      },
+      "hybrid": {
+        "description": "Kombiniert einen Kunden-Login mit dem Gateway-Passwort, um zusätzliche Vitaldaten abzurufen. Erfordert einen aktivierten Kunden-Login auf dem Gateway.",
+        "data": {
+          "host": "Host",
+          "email": "E-Mail",
+          "password": "Kundenpasswort",
+          "gw_pwd": "Gateway-Passwort"
+        },
+        "data_description": {
+          "host": "Hostname oder IP-Adresse des Powerwall-Gateways",
+          "email": "E-Mail-Adresse des Kundenkontos",
+          "password": "Auf dem Gateway eingerichtetes Kundenpasswort",
+          "gw_pwd": "Vollständiges Wi-Fi-Passwort des Gateways, aufgedruckt auf dem QR-Etikett"
+        }
+      },
+      "local": {
+        "description": "Verbindung über den Kunden-Login des Gateways. Der Kunden-Login muss zuvor auf dem Gateway aktiviert werden (über die Tesla-App oder die Web-Oberfläche des Gateways).",
+        "data": {
+          "host": "Host",
+          "email": "E-Mail",
+          "password": "Kundenpasswort"
+        },
+        "data_description": {
+          "host": "Hostname oder IP-Adresse des Powerwall-Gateways",
+          "email": "E-Mail-Adresse des Kundenkontos",
+          "password": "Auf dem Gateway eingerichtetes Kundenpasswort"
+        }
+      },
+      "cloud": {
+        "description": "Verwendet die Cloud-API von Tesla anstelle einer lokalen Verbindung. Erfordert zuvor einen einmaligen Login außerhalb von Home Assistant: Führe `python -m pypowerwall setup` (oder `setup -headless`) aus, um eine Datei `.pypowerwall.auth` zu erstellen, und gib anschließend das Verzeichnis an, in dem sie liegt.",
+        "data": {
+          "authpath": "Auth-Cache-Verzeichnis",
+          "siteid": "Standort-ID (optional)"
+        },
+        "data_description": {
+          "authpath": "Verzeichnis mit der von `python -m pypowerwall setup` erstellten Datei .pypowerwall.auth",
+          "siteid": "Zu verwendende Tesla-Standort-ID, falls das Konto mehr als einen Standort besitzt"
+        }
+      },
+      "fleetapi": {
+        "description": "Verwendet die FleetAPI von Tesla anstelle einer lokalen Verbindung. Erfordert zuvor eine einmalige Einrichtung außerhalb von Home Assistant: Registriere eine App auf developer.tesla.com, führe dann `python -m pypowerwall.fleetapi setup` aus, um eine Datei `.pypowerwall.fleetapi` zu erstellen, und gib anschließend das Verzeichnis an, in dem sie liegt.",
+        "data": {
+          "authpath": "Konfigurations-Cache-Verzeichnis",
+          "siteid": "Standort-ID (optional)"
+        },
+        "data_description": {
+          "authpath": "Verzeichnis mit der von `python -m pypowerwall.fleetapi setup` erstellten Datei .pypowerwall.fleetapi",
+          "siteid": "Zu verwendende Tesla-Standort-ID, falls das Konto mehr als einen Standort besitzt"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Vollständiger Protobuf-LAN-Zugriff für Powerwall 3 mit einem vorab registrierten RSA-Schlüssel. Erfordert zuvor eine einmalige Einrichtung außerhalb von Home Assistant: Führe `python -m pypowerwall register` aus, um ein RSA-4096-Schlüsselpaar zu erzeugen und beim Gateway zu registrieren (dazu kann ein kurzes Aus- und Wiedereinschalten des Gateways zur Bestätigung nötig sein), und gib anschließend die resultierende Datei mit dem privaten Schlüssel an.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Gateway-Passwort",
+          "rsa_key_path": "Pfad zum privaten RSA-Schlüssel",
+          "wifi_host": "WLAN-Ausweichhost (optional)"
+        },
+        "data_description": {
+          "host": "Hostname oder IP-Adresse des Powerwall-Gateways",
+          "gw_pwd": "Vollständiges Wi-Fi-Passwort des Gateways, aufgedruckt auf dem QR-Etikett",
+          "rsa_key_path": "Pfad zur PEM-Datei des privaten RSA-4096-Schlüssels, erzeugt von `python -m pypowerwall register`",
+          "wifi_host": "Alternativer WLAN-TEDAPI-Host als Ausweichoption"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung fehlgeschlagen. Verbindungsdaten überprüfen und erneut versuchen.",
+      "unknown": "Unerwarteter Fehler"
+    },
+    "abort": {
+      "already_configured": "Dieses Powerwall-Gateway ist bereits konfiguriert"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Abfrageintervall (Sekunden)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Akkustand" },
+      "battery_level_app": { "name": "Akkustand (Tesla-App)" },
+      "backup_time_remaining": { "name": "Verbleibende Notstromzeit" },
+      "grid_power": { "name": "Netzleistung" },
+      "grid_import_power": { "name": "Netzbezugsleistung" },
+      "grid_export_power": { "name": "Netzeinspeiseleistung" },
+      "solar_power": { "name": "Solarleistung" },
+      "battery_power": { "name": "Akkuleistung" },
+      "battery_import_power": { "name": "Akku-Ladeleistung" },
+      "battery_export_power": { "name": "Akku-Entladeleistung" },
+      "battery_energy_imported": { "name": "Geladene Akkuenergie" },
+      "battery_energy_exported": { "name": "Entladene Akkuenergie" },
+      "battery_import_energy": { "name": "Akku-Ladeenergie (geschätzt)" },
+      "battery_export_energy": { "name": "Akku-Entladeenergie (geschätzt)" },
+      "grid_import_energy": { "name": "Netzbezugsenergie (geschätzt)" },
+      "grid_export_energy": { "name": "Netzeinspeiseenergie (geschätzt)" },
+      "home_energy": { "name": "Hausverbrauchsenergie (geschätzt)" },
+      "home_power": { "name": "Hausverbrauchsleistung" },
+      "grid_status": { "name": "Netzstatus" },
+      "alert_count": { "name": "Aktive Warnungen" },
+      "firmware_version": { "name": "Firmware-Version" },
+      "uptime": { "name": "Betriebszeit" },
+      "battery_temp": { "name": "{device} Temperatur" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Mit Netz verbunden" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Akkureserve" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Akkumodus",
+        "state": {
+          "self_consumption": "Eigenverbrauch",
+          "backup": "Nur Notstrom",
+          "autonomous": "Zeitbasierte Steuerung"
+        }
+      },
+      "grid_export": {
+        "name": "Netzeinspeisung",
+        "state": {
+          "battery_ok": "Solar und Akku",
+          "pv_only": "Nur Solar",
+          "never": "Nie"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Netzladung" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Vom Netz trennen" },
+      "reconnect_grid": { "name": "Wieder mit Netz verbinden" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Maximale Notstromreserve planen",
+      "description": "Startet ein manuelles Notstromladen (Sturmmodus / maximale Notstromreserve) und maximiert die Akkureserve für eine festgelegte Dauer. Erfordert den TEDAPI v1r LAN-Modus.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Dauer",
+          "description": "Wie lange das maximale Notstromladen laufen soll, in Sekunden. Standardmäßig 7200 (2 Stunden)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Maximale Notstromreserve abbrechen",
+      "description": "Bricht das aktuelle manuelle Notstromladen (Sturmmodus / maximale Notstromreserve) ab, das durch schedule_max_backup gestartet wurde. Erfordert den TEDAPI v1r LAN-Modus."
+    }
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Chọn loại kết nối",
+        "menu_options": {
+          "tedapi": "TEDAPI (mật khẩu gateway)",
+          "hybrid": "Kết hợp (đăng nhập cục bộ + mật khẩu gateway)",
+          "local": "Đăng nhập cục bộ (email/mật khẩu khách hàng)",
+          "cloud": "Chế độ đám mây (dùng bộ nhớ xác thực có sẵn)",
+          "fleetapi": "FleetAPI (dùng bộ nhớ cấu hình có sẵn)",
+          "tedapi_v1r": "TEDAPI v1r LAN (khóa RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "Kết nối bằng chính mật khẩu Wi-Fi của gateway (chế độ 4). Hoạt động trên Powerwall 2, Powerwall+ và Powerwall 3 mà không cần bật Đăng nhập khách hàng.",
+        "data": {
+          "host": "Máy chủ",
+          "gw_pwd": "Mật khẩu gateway"
+        },
+        "data_description": {
+          "host": "Tên máy chủ hoặc địa chỉ IP của gateway Powerwall (ví dụ: 192.168.91.1)",
+          "gw_pwd": "Mật khẩu Wi-Fi đầy đủ của gateway được in trên nhãn mã QR"
+        }
+      },
+      "hybrid": {
+        "description": "Kết hợp đăng nhập khách hàng với mật khẩu gateway để bổ sung dữ liệu thông số chi tiết. Yêu cầu bật Đăng nhập khách hàng trên gateway.",
+        "data": {
+          "host": "Máy chủ",
+          "email": "Email",
+          "password": "Mật khẩu khách hàng",
+          "gw_pwd": "Mật khẩu gateway"
+        },
+        "data_description": {
+          "host": "Tên máy chủ hoặc địa chỉ IP của gateway Powerwall",
+          "email": "Email tài khoản khách hàng",
+          "password": "Mật khẩu khách hàng đã thiết lập trên gateway",
+          "gw_pwd": "Mật khẩu Wi-Fi đầy đủ của gateway được in trên nhãn mã QR"
+        }
+      },
+      "local": {
+        "description": "Kết nối bằng Đăng nhập khách hàng của gateway. Yêu cầu bật Đăng nhập khách hàng trên gateway trước (thông qua ứng dụng Tesla hoặc giao diện web của gateway).",
+        "data": {
+          "host": "Máy chủ",
+          "email": "Email",
+          "password": "Mật khẩu khách hàng"
+        },
+        "data_description": {
+          "host": "Tên máy chủ hoặc địa chỉ IP của gateway Powerwall",
+          "email": "Email tài khoản khách hàng",
+          "password": "Mật khẩu khách hàng đã thiết lập trên gateway"
+        }
+      },
+      "cloud": {
+        "description": "Sử dụng API đám mây của Tesla thay vì kết nối cục bộ. Yêu cầu đăng nhập một lần thực hiện bên ngoài Home Assistant trước: chạy `python -m pypowerwall setup` (hoặc `setup -headless`) để tạo tệp `.pypowerwall.auth`, sau đó trỏ đến thư mục chứa tệp đó.",
+        "data": {
+          "authpath": "Thư mục bộ nhớ xác thực",
+          "siteid": "Mã site (tùy chọn)"
+        },
+        "data_description": {
+          "authpath": "Thư mục chứa tệp .pypowerwall.auth được tạo bởi `python -m pypowerwall setup`",
+          "siteid": "Mã site Tesla cần dùng nếu tài khoản có nhiều hơn một site"
+        }
+      },
+      "fleetapi": {
+        "description": "Sử dụng FleetAPI của Tesla thay vì kết nối cục bộ. Yêu cầu thiết lập một lần thực hiện bên ngoài Home Assistant trước: đăng ký một ứng dụng tại developer.tesla.com, sau đó chạy `python -m pypowerwall.fleetapi setup` để tạo tệp `.pypowerwall.fleetapi`, và trỏ đến thư mục chứa tệp đó.",
+        "data": {
+          "authpath": "Thư mục bộ nhớ cấu hình",
+          "siteid": "Mã site (tùy chọn)"
+        },
+        "data_description": {
+          "authpath": "Thư mục chứa tệp .pypowerwall.fleetapi được tạo bởi `python -m pypowerwall.fleetapi setup`",
+          "siteid": "Mã site Tesla cần dùng nếu tài khoản có nhiều hơn một site"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Truy cập LAN bằng full-protobuf cho Powerwall 3, sử dụng khóa RSA đã đăng ký trước. Yêu cầu thiết lập một lần thực hiện bên ngoài Home Assistant trước: chạy `python -m pypowerwall register` để tạo và đăng ký một cặp khóa RSA-4096 với gateway (có thể cần khởi động lại nguồn gateway trong giây lát để xác nhận), sau đó trỏ đến tệp khóa riêng tư kết quả.",
+        "data": {
+          "host": "Máy chủ",
+          "gw_pwd": "Mật khẩu gateway",
+          "rsa_key_path": "Đường dẫn khóa riêng tư RSA",
+          "wifi_host": "Máy chủ dự phòng WiFi (tùy chọn)"
+        },
+        "data_description": {
+          "host": "Tên máy chủ hoặc địa chỉ IP của gateway Powerwall",
+          "gw_pwd": "Mật khẩu Wi-Fi đầy đủ của gateway được in trên nhãn mã QR",
+          "rsa_key_path": "Đường dẫn đến tệp PEM khóa riêng tư RSA-4096 được tạo bởi `python -m pypowerwall register`",
+          "wifi_host": "Máy chủ TEDAPI WiFi thay thế để dự phòng"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Kết nối không thành công. Vui lòng kiểm tra thông tin kết nối và thử lại.",
+      "unknown": "Lỗi không xác định"
+    },
+    "abort": {
+      "already_configured": "Gateway Powerwall này đã được cấu hình"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Khoảng thời gian quét (giây)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Mức pin" },
+      "battery_level_app": { "name": "Mức pin (ứng dụng Tesla)" },
+      "backup_time_remaining": { "name": "Thời gian dự phòng còn lại" },
+      "grid_power": { "name": "Công suất lưới điện" },
+      "grid_import_power": { "name": "Công suất nhập lưới điện" },
+      "grid_export_power": { "name": "Công suất xuất lưới điện" },
+      "solar_power": { "name": "Công suất năng lượng mặt trời" },
+      "battery_power": { "name": "Công suất pin" },
+      "battery_import_power": { "name": "Công suất nạp pin" },
+      "battery_export_power": { "name": "Công suất xả pin" },
+      "battery_energy_imported": { "name": "Năng lượng pin đã nạp" },
+      "battery_energy_exported": { "name": "Năng lượng pin đã xả" },
+      "battery_import_energy": { "name": "Năng lượng nạp pin (ước tính)" },
+      "battery_export_energy": { "name": "Năng lượng xả pin (ước tính)" },
+      "grid_import_energy": { "name": "Năng lượng nhập lưới điện (ước tính)" },
+      "grid_export_energy": { "name": "Năng lượng xuất lưới điện (ước tính)" },
+      "home_energy": { "name": "Năng lượng tiêu thụ nhà (ước tính)" },
+      "home_power": { "name": "Công suất tiêu thụ nhà" },
+      "grid_status": { "name": "Trạng thái lưới điện" },
+      "alert_count": { "name": "Cảnh báo đang hoạt động" },
+      "firmware_version": { "name": "Phiên bản firmware" },
+      "uptime": { "name": "Thời gian hoạt động" },
+      "battery_temp": { "name": "Nhiệt độ {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Đã kết nối lưới điện" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Dự trữ pin" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Chế độ pin",
+        "state": {
+          "self_consumption": "Tự cấp năng lượng",
+          "backup": "Chỉ dự phòng",
+          "autonomous": "Điều khiển theo thời gian"
+        }
+      },
+      "grid_export": {
+        "name": "Xuất lưới điện",
+        "state": {
+          "battery_ok": "Năng lượng mặt trời và pin",
+          "pv_only": "Chỉ năng lượng mặt trời",
+          "never": "Không bao giờ"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Sạc từ lưới điện" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Ngắt kết nối khỏi lưới điện" },
+      "reconnect_grid": { "name": "Kết nối lại lưới điện" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Lên lịch dự phòng tối đa",
+      "description": "Bắt đầu một sự kiện dự phòng thủ công (chế độ theo dõi bão / dự phòng tối đa), tối đa hóa dự trữ pin trong một khoảng thời gian cố định. Yêu cầu chế độ TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Thời lượng",
+          "description": "Thời gian sự kiện dự phòng tối đa nên chạy, tính bằng giây. Mặc định là 7200 (2 giờ)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Hủy dự phòng tối đa",
+      "description": "Hủy sự kiện dự phòng thủ công hiện tại (chế độ theo dõi bão / dự phòng tối đa) đã được bắt đầu bởi schedule_max_backup. Yêu cầu chế độ TEDAPI v1r LAN."
+    }
+  }
+}

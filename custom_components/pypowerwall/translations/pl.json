@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Wybierz typ połączenia",
+        "menu_options": {
+          "tedapi": "TEDAPI (hasło bramy)",
+          "hybrid": "Hybrydowy (logowanie lokalne + hasło bramy)",
+          "local": "Logowanie lokalne (e-mail/hasło klienta)",
+          "cloud": "Tryb chmury (istniejąca pamięć podręczna uwierzytelniania)",
+          "fleetapi": "FleetAPI (istniejąca pamięć podręczna konfiguracji)",
+          "tedapi_v1r": "TEDAPI v1r LAN (klucz RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "Połączenie z użyciem własnego hasła Wi-Fi bramy (tryb 4). Działa na Powerwall 2, Powerwall+ i Powerwall 3 bez konieczności włączania logowania klienta.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Hasło bramy"
+        },
+        "data_description": {
+          "host": "Nazwa hosta lub adres IP bramy Powerwall (np. 192.168.91.1)",
+          "gw_pwd": "Pełne hasło Wi-Fi bramy wydrukowane na etykiecie z kodem QR"
+        }
+      },
+      "hybrid": {
+        "description": "Łączy logowanie klienta z hasłem bramy, aby dodać dodatkowe dane parametrów pracy. Wymaga włączenia logowania klienta na bramie.",
+        "data": {
+          "host": "Host",
+          "email": "E-mail",
+          "password": "Hasło klienta",
+          "gw_pwd": "Hasło bramy"
+        },
+        "data_description": {
+          "host": "Nazwa hosta lub adres IP bramy Powerwall",
+          "email": "Adres e-mail konta klienta",
+          "password": "Hasło klienta ustawione na bramie",
+          "gw_pwd": "Pełne hasło Wi-Fi bramy wydrukowane na etykiecie z kodem QR"
+        }
+      },
+      "local": {
+        "description": "Połączenie z użyciem logowania klienta bramy. Wymaga wcześniejszego włączenia logowania klienta na bramie (za pomocą aplikacji Tesla lub interfejsu WWW bramy).",
+        "data": {
+          "host": "Host",
+          "email": "E-mail",
+          "password": "Hasło klienta"
+        },
+        "data_description": {
+          "host": "Nazwa hosta lub adres IP bramy Powerwall",
+          "email": "Adres e-mail konta klienta",
+          "password": "Hasło klienta ustawione na bramie"
+        }
+      },
+      "cloud": {
+        "description": "Wykorzystuje interfejs API chmury Tesla zamiast połączenia lokalnego. Wymaga jednorazowego logowania wykonanego poza Home Assistant: uruchom `python -m pypowerwall setup` (lub `setup -headless`), aby utworzyć plik `.pypowerwall.auth`, a następnie wskaż katalog, w którym się znajduje.",
+        "data": {
+          "authpath": "Katalog pamięci podręcznej uwierzytelniania",
+          "siteid": "ID lokalizacji (opcjonalnie)"
+        },
+        "data_description": {
+          "authpath": "Katalog zawierający plik .pypowerwall.auth utworzony przez `python -m pypowerwall setup`",
+          "siteid": "ID lokalizacji Tesla do użycia, jeśli konto ma więcej niż jedną lokalizację"
+        }
+      },
+      "fleetapi": {
+        "description": "Wykorzystuje FleetAPI Tesla zamiast połączenia lokalnego. Wymaga jednorazowej konfiguracji wykonanej poza Home Assistant: zarejestruj aplikację na developer.tesla.com, a następnie uruchom `python -m pypowerwall.fleetapi setup`, aby utworzyć plik `.pypowerwall.fleetapi`, i wskaż katalog, w którym się znajduje.",
+        "data": {
+          "authpath": "Katalog pamięci podręcznej konfiguracji",
+          "siteid": "ID lokalizacji (opcjonalnie)"
+        },
+        "data_description": {
+          "authpath": "Katalog zawierający plik .pypowerwall.fleetapi utworzony przez `python -m pypowerwall.fleetapi setup`",
+          "siteid": "ID lokalizacji Tesla do użycia, jeśli konto ma więcej niż jedną lokalizację"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Pełny dostęp LAN oparty na protobuf dla Powerwall 3, z użyciem wcześniej zarejestrowanego klucza RSA. Wymaga jednorazowej konfiguracji wykonanej poza Home Assistant: uruchom `python -m pypowerwall register`, aby wygenerować i zarejestrować parę kluczy RSA-4096 w bramie (może to wymagać krótkiego zresetowania zasilania bramy w celu potwierdzenia), a następnie wskaż plik z uzyskanym kluczem prywatnym.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Hasło bramy",
+          "rsa_key_path": "Ścieżka do klucza prywatnego RSA",
+          "wifi_host": "Zapasowy host WiFi (opcjonalnie)"
+        },
+        "data_description": {
+          "host": "Nazwa hosta lub adres IP bramy Powerwall",
+          "gw_pwd": "Pełne hasło Wi-Fi bramy wydrukowane na etykiecie z kodem QR",
+          "rsa_key_path": "Ścieżka do pliku PEM klucza prywatnego RSA-4096 wygenerowanego przez `python -m pypowerwall register`",
+          "wifi_host": "Alternatywny host WiFi TEDAPI, używany jako opcja zapasowa"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nie udało się połączyć. Sprawdź dane połączenia i spróbuj ponownie.",
+      "unknown": "Nieoczekiwany błąd"
+    },
+    "abort": {
+      "already_configured": "Ta brama Powerwall jest już skonfigurowana"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Interwał odpytywania (sekundy)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Poziom naładowania baterii" },
+      "battery_level_app": { "name": "Poziom naładowania baterii (aplikacja Tesla)" },
+      "backup_time_remaining": { "name": "Pozostały czas rezerwy zasilania" },
+      "grid_power": { "name": "Moc sieci" },
+      "grid_import_power": { "name": "Moc pobierana z sieci" },
+      "grid_export_power": { "name": "Moc oddawana do sieci" },
+      "solar_power": { "name": "Moc solarna" },
+      "battery_power": { "name": "Moc baterii" },
+      "battery_import_power": { "name": "Moc ładowania baterii" },
+      "battery_export_power": { "name": "Moc rozładowania baterii" },
+      "battery_energy_imported": { "name": "Energia naładowana do baterii" },
+      "battery_energy_exported": { "name": "Energia rozładowana z baterii" },
+      "battery_import_energy": { "name": "Energia ładowania baterii (szacunkowa)" },
+      "battery_export_energy": { "name": "Energia rozładowania baterii (szacunkowa)" },
+      "grid_import_energy": { "name": "Energia pobrana z sieci (szacunkowa)" },
+      "grid_export_energy": { "name": "Energia oddana do sieci (szacunkowa)" },
+      "home_energy": { "name": "Energia zużyta w domu (szacunkowa)" },
+      "home_power": { "name": "Moc zużywana w domu" },
+      "grid_status": { "name": "Stan sieci" },
+      "alert_count": { "name": "Aktywne alerty" },
+      "firmware_version": { "name": "Wersja oprogramowania" },
+      "uptime": { "name": "Czas pracy" },
+      "battery_temp": { "name": "Temperatura {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Połączenie z siecią" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Rezerwa baterii" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Tryb baterii",
+        "state": {
+          "self_consumption": "Zasilanie własne",
+          "backup": "Tylko rezerwa",
+          "autonomous": "Sterowanie czasowe"
+        }
+      },
+      "grid_export": {
+        "name": "Eksport do sieci",
+        "state": {
+          "battery_ok": "Solar i bateria",
+          "pv_only": "Tylko solar",
+          "never": "Nigdy"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Ładowanie z sieci" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Odłącz od sieci" },
+      "reconnect_grid": { "name": "Podłącz ponownie do sieci" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Zaplanuj maksymalną rezerwę",
+      "description": "Uruchamia ręczne zdarzenie rezerwy zasilania (tryb ostrzeżenia burzowego / maksymalnej rezerwy), maksymalizując rezerwę baterii na określony czas. Wymaga trybu TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Czas trwania",
+          "description": "Jak długo ma trwać zdarzenie maksymalnej rezerwy, w sekundach. Wartość domyślna to 7200 (2 godziny)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Anuluj maksymalną rezerwę",
+      "description": "Anuluje bieżące ręczne zdarzenie rezerwy zasilania (tryb ostrzeżenia burzowego / maksymalnej rezerwy) uruchomione przez schedule_max_backup. Wymaga trybu TEDAPI v1r LAN."
+    }
+  }
+}

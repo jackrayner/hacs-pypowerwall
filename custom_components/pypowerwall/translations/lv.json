@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Izvēlieties savienojuma veidu",
+        "menu_options": {
+          "tedapi": "TEDAPI (vārtejas parole)",
+          "hybrid": "Hibrīds (lokālā pieteikšanās + vārtejas parole)",
+          "local": "Lokālā pieteikšanās (klienta e-pasts/parole)",
+          "cloud": "Mākoņa režīms (esošs autentifikācijas kešatmiņas fails)",
+          "fleetapi": "FleetAPI (esošs konfigurācijas kešatmiņas fails)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA atslēga)"
+        }
+      },
+      "tedapi": {
+        "description": "Izveidojiet savienojumu, izmantojot vārtejas pašas Wi-Fi paroli (4. režīms). Darbojas ar Powerwall 2, Powerwall+ un Powerwall 3, neieslēdzot klienta pieteikšanos.",
+        "data": {
+          "host": "Resursdators",
+          "gw_pwd": "Vārtejas parole"
+        },
+        "data_description": {
+          "host": "Powerwall vārtejas resursdatora nosaukums vai IP adrese (piem., 192.168.91.1)",
+          "gw_pwd": "Pilnā vārtejas Wi-Fi parole, kas norādīta uz QR koda uzlīmes"
+        }
+      },
+      "hybrid": {
+        "description": "Apvieno klienta pieteikšanos ar vārtejas paroli, lai pievienotu papildu dzīvības rādītāju datus. Vārtejā jābūt ieslēgtai klienta pieteikšanās funkcijai.",
+        "data": {
+          "host": "Resursdators",
+          "email": "E-pasts",
+          "password": "Klienta parole",
+          "gw_pwd": "Vārtejas parole"
+        },
+        "data_description": {
+          "host": "Powerwall vārtejas resursdatora nosaukums vai IP adrese",
+          "email": "Klienta konta e-pasts",
+          "password": "Vārtejā iestatītā klienta parole",
+          "gw_pwd": "Pilnā vārtejas Wi-Fi parole, kas norādīta uz QR koda uzlīmes"
+        }
+      },
+      "local": {
+        "description": "Izveidojiet savienojumu, izmantojot vārtejas klienta pieteikšanos. Vispirms vārtejā jāieslēdz klienta pieteikšanās funkcija (izmantojot Tesla lietotni vai vārtejas tīmekļa saskarni).",
+        "data": {
+          "host": "Resursdators",
+          "email": "E-pasts",
+          "password": "Klienta parole"
+        },
+        "data_description": {
+          "host": "Powerwall vārtejas resursdatora nosaukums vai IP adrese",
+          "email": "Klienta konta e-pasts",
+          "password": "Vārtejā iestatītā klienta parole"
+        }
+      },
+      "cloud": {
+        "description": "Izmanto Tesla mākoņa API tā vietā, lai izveidotu lokālu savienojumu. Vispirms nepieciešama vienreizēja pieteikšanās ārpus Home Assistant: palaidiet `python -m pypowerwall setup` (vai `setup -headless`), lai izveidotu `.pypowerwall.auth` failu, un pēc tam norādiet direktoriju, kurā tas atrodas.",
+        "data": {
+          "authpath": "Autentifikācijas kešatmiņas direktorija",
+          "siteid": "Objekta ID (neobligāts)"
+        },
+        "data_description": {
+          "authpath": "Direktorija, kurā atrodas `.pypowerwall.auth` fails, ko izveidoja `python -m pypowerwall setup`",
+          "siteid": "Tesla objekta ID, ko izmantot, ja kontam ir vairāk nekā viens objekts"
+        }
+      },
+      "fleetapi": {
+        "description": "Izmanto Tesla FleetAPI tā vietā, lai izveidotu lokālu savienojumu. Vispirms nepieciešama vienreizēja iestatīšana ārpus Home Assistant: reģistrējiet lietotni vietnē developer.tesla.com, pēc tam palaidiet `python -m pypowerwall.fleetapi setup`, lai izveidotu `.pypowerwall.fleetapi` failu, un norādiet direktoriju, kurā tas atrodas.",
+        "data": {
+          "authpath": "Konfigurācijas kešatmiņas direktorija",
+          "siteid": "Objekta ID (neobligāts)"
+        },
+        "data_description": {
+          "authpath": "Direktorija, kurā atrodas `.pypowerwall.fleetapi` fails, ko izveidoja `python -m pypowerwall.fleetapi setup`",
+          "siteid": "Tesla objekta ID, ko izmantot, ja kontam ir vairāk nekā viens objekts"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Pilnīga protobuf tipa LAN piekļuve Powerwall 3, izmantojot iepriekš reģistrētu RSA atslēgu. Vispirms nepieciešama vienreizēja iestatīšana ārpus Home Assistant: palaidiet `python -m pypowerwall register`, lai ģenerētu un reģistrētu vārtejā RSA-4096 atslēgu pāri (apstiprināšanai var būt nepieciešams īslaicīgi izslēgt un ieslēgt vārteju), pēc tam norādiet uz iegūto privātās atslēgas failu.",
+        "data": {
+          "host": "Resursdators",
+          "gw_pwd": "Vārtejas parole",
+          "rsa_key_path": "RSA privātās atslēgas ceļš",
+          "wifi_host": "WiFi rezerves resursdators (neobligāts)"
+        },
+        "data_description": {
+          "host": "Powerwall vārtejas resursdatora nosaukums vai IP adrese",
+          "gw_pwd": "Pilnā vārtejas Wi-Fi parole, kas norādīta uz QR koda uzlīmes",
+          "rsa_key_path": "Ceļš uz RSA-4096 privātās atslēgas PEM failu, ko izveidoja `python -m pypowerwall register`",
+          "wifi_host": "Alternatīvs WiFi TEDAPI resursdators, uz kuru pāriet rezerves gadījumā"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Neizdevās izveidot savienojumu. Pārbaudiet savienojuma datus un mēģiniet vēlreiz.",
+      "unknown": "Negaidīta kļūda"
+    },
+    "abort": {
+      "already_configured": "Šī Powerwall vārteja jau ir konfigurēta"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Skenēšanas intervāls (sekundēs)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Akumulatora uzlādes līmenis" },
+      "battery_level_app": { "name": "Akumulatora uzlādes līmenis (Tesla lietotne)" },
+      "backup_time_remaining": { "name": "Atlikušais rezerves darbības laiks" },
+      "grid_power": { "name": "Tīkla jauda" },
+      "grid_import_power": { "name": "No tīkla saņemtā jauda" },
+      "grid_export_power": { "name": "Tīklā nodotā jauda" },
+      "solar_power": { "name": "Saules enerģijas jauda" },
+      "battery_power": { "name": "Akumulatora jauda" },
+      "battery_import_power": { "name": "Akumulatora uzlādes jauda" },
+      "battery_export_power": { "name": "Akumulatora izlādes jauda" },
+      "battery_energy_imported": { "name": "Akumulatorā uzkrātā enerģija" },
+      "battery_energy_exported": { "name": "No akumulatora atdotā enerģija" },
+      "battery_import_energy": { "name": "Akumulatora uzlādes enerģija (aplēse)" },
+      "battery_export_energy": { "name": "Akumulatora izlādes enerģija (aplēse)" },
+      "grid_import_energy": { "name": "No tīkla saņemtā enerģija (aplēse)" },
+      "grid_export_energy": { "name": "Tīklā nodotā enerģija (aplēse)" },
+      "home_energy": { "name": "Mājas enerģijas patēriņš (aplēse)" },
+      "home_power": { "name": "Mājas jauda" },
+      "grid_status": { "name": "Tīkla statuss" },
+      "alert_count": { "name": "Aktīvie brīdinājumi" },
+      "firmware_version": { "name": "Aparātprogrammatūras versija" },
+      "uptime": { "name": "Darbības laiks" },
+      "battery_temp": { "name": "{device} temperatūra" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Pievienots tīklam" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Akumulatora rezerve" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Akumulatora režīms",
+        "state": {
+          "self_consumption": "Pašpatēriņš",
+          "backup": "Tikai rezerves",
+          "autonomous": "Laikā balstīta vadība"
+        }
+      },
+      "grid_export": {
+        "name": "Enerģijas nodošana tīklā",
+        "state": {
+          "battery_ok": "Saule un akumulators",
+          "pv_only": "Tikai saule",
+          "never": "Nekad"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Uzlāde no tīkla" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Atvienot no tīkla" },
+      "reconnect_grid": { "name": "Atkārtoti pievienot tīklam" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Ieplānot maksimālo rezervi",
+      "description": "Sāk manuālu rezerves notikumu (vētras gaidīšanas / maksimālās rezerves režīms), maksimāli palielinot akumulatora rezervi uz noteiktu laiku. Nepieciešams TEDAPI v1r LAN režīms.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Ilgums",
+          "description": "Cik ilgi jāturpinās maksimālās rezerves notikumam sekundēs. Noklusējuma vērtība ir 7200 (2 stundas)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Atcelt maksimālo rezervi",
+      "description": "Atceļ pašreizējo manuālo rezerves notikumu (vētras gaidīšanas / maksimālās rezerves režīms), kas sākts ar schedule_max_backup. Nepieciešams TEDAPI v1r LAN režīms."
+    }
+  }
+}

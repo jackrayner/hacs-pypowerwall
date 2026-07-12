@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Kies 'n verbindingstipe",
+        "menu_options": {
+          "tedapi": "TEDAPI (gateway-wagwoord)",
+          "hybrid": "Hibriede (plaaslike aanmelding + gateway-wagwoord)",
+          "local": "Plaaslike aanmelding (kliënt-e-pos/wagwoord)",
+          "cloud": "Wolkmodus (bestaande verifikasie-kas)",
+          "fleetapi": "FleetAPI (bestaande konfigurasie-kas)",
+          "tedapi_v1r": "TEDAPI v1r LAN ('n RSA-sleutel)"
+        }
+      },
+      "tedapi": {
+        "description": "Verbind met die gateway se eie Wi-Fi-wagwoord (modus 4). Werk op Powerwall 2, Powerwall+ en Powerwall 3 sonder om Kliëntaanmelding te aktiveer.",
+        "data": {
+          "host": "Gasheer",
+          "gw_pwd": "Gateway-wagwoord"
+        },
+        "data_description": {
+          "host": "Gasheernaam of IP-adres van die Powerwall-gateway (bv. 192.168.91.1)",
+          "gw_pwd": "Volledige gateway Wi-Fi-wagwoord soos gedruk op die QR-etiket"
+        }
+      },
+      "hybrid": {
+        "description": "Kombineer 'n kliëntaanmelding met die gateway-wagwoord om aanvullende lewenstekens-data by te voeg. Kliëntaanmelding moet op die gateway geaktiveer wees.",
+        "data": {
+          "host": "Gasheer",
+          "email": "E-pos",
+          "password": "Kliëntwagwoord",
+          "gw_pwd": "Gateway-wagwoord"
+        },
+        "data_description": {
+          "host": "Gasheernaam of IP-adres van die Powerwall-gateway",
+          "email": "Kliëntrekening-e-posadres",
+          "password": "Kliëntwagwoord wat op die gateway opgestel is",
+          "gw_pwd": "Volledige gateway Wi-Fi-wagwoord soos gedruk op die QR-etiket"
+        }
+      },
+      "local": {
+        "description": "Verbind met die gateway se Kliëntaanmelding. Kliëntaanmelding moet eers op die gateway geaktiveer word (via die Tesla-app of die gateway se webkoppelvlak).",
+        "data": {
+          "host": "Gasheer",
+          "email": "E-pos",
+          "password": "Kliëntwagwoord"
+        },
+        "data_description": {
+          "host": "Gasheernaam of IP-adres van die Powerwall-gateway",
+          "email": "Kliëntrekening-e-posadres",
+          "password": "Kliëntwagwoord wat op die gateway opgestel is"
+        }
+      },
+      "cloud": {
+        "description": "Gebruik Tesla se wolk-API in plaas van 'n plaaslike verbinding. Vereis 'n eenmalige aanmelding buite Home Assistant vooraf: voer `python -m pypowerwall setup` (of `setup -headless`) uit om 'n `.pypowerwall.auth`-lêer te skep, en verwys dan hierheen na die gids wat dit bevat.",
+        "data": {
+          "authpath": "Verifikasie-kasgids",
+          "siteid": "Terrein-ID (opsioneel)"
+        },
+        "data_description": {
+          "authpath": "Gids wat die .pypowerwall.auth-lêer bevat wat deur `python -m pypowerwall setup` geskep is",
+          "siteid": "Tesla-terrein-ID om te gebruik indien die rekening meer as een terrein het"
+        }
+      },
+      "fleetapi": {
+        "description": "Gebruik Tesla se FleetAPI in plaas van 'n plaaslike verbinding. Vereis 'n eenmalige opstelling buite Home Assistant vooraf: registreer 'n toepassing by developer.tesla.com, voer dan `python -m pypowerwall.fleetapi setup` uit om 'n `.pypowerwall.fleetapi`-lêer te skep, en verwys hierheen na die gids wat dit bevat.",
+        "data": {
+          "authpath": "Konfigurasie-kasgids",
+          "siteid": "Terrein-ID (opsioneel)"
+        },
+        "data_description": {
+          "authpath": "Gids wat die .pypowerwall.fleetapi-lêer bevat wat deur `python -m pypowerwall.fleetapi setup` geskep is",
+          "siteid": "Tesla-terrein-ID om te gebruik indien die rekening meer as een terrein het"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Volledige protobuf-LAN-toegang vir Powerwall 3, met 'n vooraf-geregistreerde RSA-sleutel. Vereis 'n eenmalige opstelling buite Home Assistant vooraf: voer `python -m pypowerwall register` uit om 'n RSA-4096-sleutelpaar te genereer en by die gateway te registreer (dit kan vereis dat die gateway kortstondig afgeskakel en weer aangeskakel word om te bevestig), en verwys dan hierheen na die resulterende private sleutellêer.",
+        "data": {
+          "host": "Gasheer",
+          "gw_pwd": "Gateway-wagwoord",
+          "rsa_key_path": "RSA-privaatsleutelpad",
+          "wifi_host": "Wi-Fi-terugvalgasheer (opsioneel)"
+        },
+        "data_description": {
+          "host": "Gasheernaam of IP-adres van die Powerwall-gateway",
+          "gw_pwd": "Volledige gateway Wi-Fi-wagwoord soos gedruk op die QR-etiket",
+          "rsa_key_path": "Pad na die RSA-4096 private-sleutel PEM-lêer wat deur `python -m pypowerwall register` geskep is",
+          "wifi_host": "Alternatiewe Wi-Fi TEDAPI-gasheer om na terug te val"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Kon nie verbind nie. Kontroleer die verbindingsbesonderhede en probeer weer.",
+      "unknown": "Onverwagte fout"
+    },
+    "abort": {
+      "already_configured": "Hierdie Powerwall-gateway is reeds opgestel"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Skanderingsinterval (sekondes)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Battery-vlak" },
+      "battery_level_app": { "name": "Battery-vlak (Tesla-app)" },
+      "backup_time_remaining": { "name": "Oorblywende rugsteuntyd" },
+      "grid_power": { "name": "Netvermoë" },
+      "grid_import_power": { "name": "Net-invoervermoë" },
+      "grid_export_power": { "name": "Net-uitvoervermoë" },
+      "solar_power": { "name": "Sonvermoë" },
+      "battery_power": { "name": "Battery-vermoë" },
+      "battery_import_power": { "name": "Battery-invoervermoë" },
+      "battery_export_power": { "name": "Battery-uitvoervermoë" },
+      "battery_energy_imported": { "name": "Battery-energie gelaai" },
+      "battery_energy_exported": { "name": "Battery-energie ontlaai" },
+      "battery_import_energy": { "name": "Battery-invoerenergie (geraam)" },
+      "battery_export_energy": { "name": "Battery-uitvoerenergie (geraam)" },
+      "grid_import_energy": { "name": "Net-invoerenergie (geraam)" },
+      "grid_export_energy": { "name": "Net-uitvoerenergie (geraam)" },
+      "home_energy": { "name": "Huisenergie (geraam)" },
+      "home_power": { "name": "Huisvermoë" },
+      "grid_status": { "name": "Netstatus" },
+      "alert_count": { "name": "Aktiewe waarskuwings" },
+      "firmware_version": { "name": "Firmware-weergawe" },
+      "uptime": { "name": "Bedryfstyd" },
+      "battery_temp": { "name": "{device} temperatuur" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Aan die net gekoppel" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Battery-reserwe" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Battery-modus",
+        "state": {
+          "self_consumption": "Selfvoorsiening",
+          "backup": "Slegs rugsteun",
+          "autonomous": "Tydgebaseerde beheer"
+        }
+      },
+      "grid_export": {
+        "name": "Net-uitvoer",
+        "state": {
+          "battery_ok": "Son en battery",
+          "pv_only": "Slegs son",
+          "never": "Nooit"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Netlading" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Ontkoppel van die net" },
+      "reconnect_grid": { "name": "Herkoppel aan die net" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Skeduleer maksimum rugsteun",
+      "description": "Begin 'n handmatige rugsteungebeurtenis (stormwag/maksimum-rugsteunmodus), wat die battery-reserwe vir 'n vaste tydperk maksimeer. Vereis TEDAPI v1r LAN-modus.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Duur",
+          "description": "Hoe lank die maksimum-rugsteungebeurtenis moet loop, in sekondes. Verstek is 7200 (2 uur)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Kanselleer maksimum rugsteun",
+      "description": "Kanselleer die huidige handmatige rugsteungebeurtenis (stormwag/maksimum-rugsteunmodus) wat deur schedule_max_backup begin is. Vereis TEDAPI v1r LAN-modus."
+    }
+  }
+}

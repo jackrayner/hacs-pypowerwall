@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Odaberite vrstu veze",
+        "menu_options": {
+          "tedapi": "TEDAPI (lozinka pristupnika)",
+          "hybrid": "Hibridno (lokalna prijava + lozinka pristupnika)",
+          "local": "Lokalna prijava (e-pošta/lozinka korisnika)",
+          "cloud": "Način rada u oblaku (postojeća predmemorija ovlaštenja)",
+          "fleetapi": "FleetAPI (postojeća predmemorija postavki)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA ključ)"
+        }
+      },
+      "tedapi": {
+        "description": "Povezivanje pomoću vlastite Wi-Fi lozinke pristupnika (način rada 4). Radi na uređajima Powerwall 2, Powerwall+ i Powerwall 3 bez potrebe za omogućavanjem korisničke prijave.",
+        "data": {
+          "host": "Poslužitelj",
+          "gw_pwd": "Lozinka pristupnika"
+        },
+        "data_description": {
+          "host": "Naziv poslužitelja ili IP adresa Powerwall pristupnika (npr. 192.168.91.1)",
+          "gw_pwd": "Puna Wi-Fi lozinka pristupnika ispisana na QR naljepnici"
+        }
+      },
+      "hybrid": {
+        "description": "Kombinira korisničku prijavu s lozinkom pristupnika radi dodavanja dodatnih podataka o stanju sustava. Zahtijeva omogućenu korisničku prijavu na pristupniku.",
+        "data": {
+          "host": "Poslužitelj",
+          "email": "E-pošta",
+          "password": "Korisnička lozinka",
+          "gw_pwd": "Lozinka pristupnika"
+        },
+        "data_description": {
+          "host": "Naziv poslužitelja ili IP adresa Powerwall pristupnika",
+          "email": "E-pošta korisničkog računa",
+          "password": "Korisnička lozinka postavljena na pristupniku",
+          "gw_pwd": "Puna Wi-Fi lozinka pristupnika ispisana na QR naljepnici"
+        }
+      },
+      "local": {
+        "description": "Povezivanje pomoću korisničke prijave na pristupniku. Prvo je potrebno omogućiti korisničku prijavu na pristupniku (putem Tesla aplikacije ili web sučelja pristupnika).",
+        "data": {
+          "host": "Poslužitelj",
+          "email": "E-pošta",
+          "password": "Korisnička lozinka"
+        },
+        "data_description": {
+          "host": "Naziv poslužitelja ili IP adresa Powerwall pristupnika",
+          "email": "E-pošta korisničkog računa",
+          "password": "Korisnička lozinka postavljena na pristupniku"
+        }
+      },
+      "cloud": {
+        "description": "Koristi Teslin API u oblaku umjesto lokalne veze. Prije toga je potrebna jednokratna prijava izvan Home Assistanta: pokrenite `python -m pypowerwall setup` (ili `setup -headless`) za izradu datoteke `.pypowerwall.auth`, a zatim ovdje unesite mapu koja je sadrži.",
+        "data": {
+          "authpath": "Mapa predmemorije ovlaštenja",
+          "siteid": "ID lokacije (neobavezno)"
+        },
+        "data_description": {
+          "authpath": "Mapa koja sadrži datoteku .pypowerwall.auth izrađenu naredbom `python -m pypowerwall setup`",
+          "siteid": "Teslin ID lokacije koji se koristi ako račun ima više lokacija"
+        }
+      },
+      "fleetapi": {
+        "description": "Koristi Teslin FleetAPI umjesto lokalne veze. Prije toga je potrebno jednokratno postavljanje izvan Home Assistanta: registrirajte aplikaciju na developer.tesla.com, zatim pokrenite `python -m pypowerwall.fleetapi setup` za izradu datoteke `.pypowerwall.fleetapi`, a potom ovdje unesite mapu koja je sadrži.",
+        "data": {
+          "authpath": "Mapa predmemorije postavki",
+          "siteid": "ID lokacije (neobavezno)"
+        },
+        "data_description": {
+          "authpath": "Mapa koja sadrži datoteku .pypowerwall.fleetapi izrađenu naredbom `python -m pypowerwall.fleetapi setup`",
+          "siteid": "Teslin ID lokacije koji se koristi ako račun ima više lokacija"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Potpuni protobuf LAN pristup za Powerwall 3, uz unaprijed registrirani RSA ključ. Prije toga je potrebno jednokratno postavljanje izvan Home Assistanta: pokrenite `python -m pypowerwall register` za generiranje i registraciju para RSA-4096 ključeva na pristupniku (za potvrdu će možda biti potrebno nakratko isključiti i ponovno uključiti napajanje pristupnika), a zatim ovdje unesite putanju do dobivene privatne ključne datoteke.",
+        "data": {
+          "host": "Poslužitelj",
+          "gw_pwd": "Lozinka pristupnika",
+          "rsa_key_path": "Putanja do privatnog RSA ključa",
+          "wifi_host": "Rezervni WiFi poslužitelj (neobavezno)"
+        },
+        "data_description": {
+          "host": "Naziv poslužitelja ili IP adresa Powerwall pristupnika",
+          "gw_pwd": "Puna Wi-Fi lozinka pristupnika ispisana na QR naljepnici",
+          "rsa_key_path": "Putanja do PEM datoteke privatnog RSA-4096 ključa koju izrađuje naredba `python -m pypowerwall register`",
+          "wifi_host": "Alternativni WiFi TEDAPI poslužitelj za rezervnu vezu"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Povezivanje nije uspjelo. Provjerite podatke o vezi i pokušajte ponovno.",
+      "unknown": "Neočekivana pogreška"
+    },
+    "abort": {
+      "already_configured": "Ovaj Powerwall pristupnik je već postavljen"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Interval očitavanja (sekunde)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Napunjenost baterije" },
+      "battery_level_app": { "name": "Napunjenost baterije (Tesla aplikacija)" },
+      "backup_time_remaining": { "name": "Preostalo vrijeme rezervnog napajanja" },
+      "grid_power": { "name": "Snaga mreže" },
+      "grid_import_power": { "name": "Snaga preuzeta iz mreže" },
+      "grid_export_power": { "name": "Snaga predana u mrežu" },
+      "solar_power": { "name": "Snaga solarnih panela" },
+      "battery_power": { "name": "Snaga baterije" },
+      "battery_import_power": { "name": "Snaga punjenja baterije" },
+      "battery_export_power": { "name": "Snaga pražnjenja baterije" },
+      "battery_energy_imported": { "name": "Energija punjenja baterije" },
+      "battery_energy_exported": { "name": "Energija pražnjenja baterije" },
+      "battery_import_energy": { "name": "Energija punjenja baterije (procijenjeno)" },
+      "battery_export_energy": { "name": "Energija pražnjenja baterije (procijenjeno)" },
+      "grid_import_energy": { "name": "Energija preuzeta iz mreže (procijenjeno)" },
+      "grid_export_energy": { "name": "Energija predana u mrežu (procijenjeno)" },
+      "home_energy": { "name": "Energija potrošnje kućanstva (procijenjeno)" },
+      "home_power": { "name": "Snaga potrošnje kućanstva" },
+      "grid_status": { "name": "Stanje mreže" },
+      "alert_count": { "name": "Aktivna upozorenja" },
+      "firmware_version": { "name": "Verzija firmvera" },
+      "uptime": { "name": "Vrijeme rada" },
+      "battery_temp": { "name": "Temperatura ({device})" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Povezano s mrežom" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Rezerva baterije" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Način rada baterije",
+        "state": {
+          "self_consumption": "Samoopskrba",
+          "backup": "Samo rezervno napajanje",
+          "autonomous": "Vremensko upravljanje"
+        }
+      },
+      "grid_export": {
+        "name": "Izvoz u mrežu",
+        "state": {
+          "battery_ok": "Solarna energija i baterija",
+          "pv_only": "Samo solarna energija",
+          "never": "Nikada"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Punjenje iz mreže" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Isključi se s mreže" },
+      "reconnect_grid": { "name": "Ponovno se poveži s mrežom" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Zakaži maksimalnu rezervu",
+      "description": "Pokreće ručni događaj rezervnog napajanja (praćenje nevremena / način maksimalne rezerve), maksimizirajući rezervu baterije na određeno vrijeme. Zahtijeva TEDAPI v1r LAN način rada.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Trajanje",
+          "description": "Koliko dugo treba trajati događaj maksimalne rezerve, u sekundama. Zadano je 7200 (2 sata)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Otkaži maksimalnu rezervu",
+      "description": "Otkazuje trenutni ručni događaj rezervnog napajanja (praćenje nevremena / način maksimalne rezerve) pokrenut naredbom schedule_max_backup. Zahtijeva TEDAPI v1r LAN način rada."
+    }
+  }
+}

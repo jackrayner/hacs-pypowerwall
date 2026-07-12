@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Wähl e Verbindigsart",
+        "menu_options": {
+          "tedapi": "TEDAPI (Gateway-Passwort)",
+          "hybrid": "Hybrid (lokali Aamäldig + Gateway-Passwort)",
+          "local": "Lokali Aamäldig (Kunde-E-Mail/Passwort)",
+          "cloud": "Cloud-Modus (vorhandener Auth-Cache)",
+          "fleetapi": "FleetAPI (vorhandener Konfig-Cache)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA-Schlüssel)"
+        }
+      },
+      "tedapi": {
+        "description": "Verbindet mit em eigene Wi-Fi-Passwort vom Gateway (Modus 4). Funktioniert bi Powerwall 2, Powerwall+ und Powerwall 3, ohni dass mer d Kunde-Aamäldig muess aktivierä.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Gateway-Passwort"
+        },
+        "data_description": {
+          "host": "Hostname oder IP-Adresse vom Powerwall-Gateway (z. B. 192.168.91.1)",
+          "gw_pwd": "Vollständigs Gateway-Wi-Fi-Passwort, wo uf em QR-Label druckt isch"
+        }
+      },
+      "hybrid": {
+        "description": "Kombiniert e Kunde-Aamäldig mit em Gateway-Passwort, für zuesätzlechi Vitals-Date z becho. Bruucht, dass d Kunde-Aamäldig uf em Gateway aktiviert isch.",
+        "data": {
+          "host": "Host",
+          "email": "E-Mail",
+          "password": "Kunde-Passwort",
+          "gw_pwd": "Gateway-Passwort"
+        },
+        "data_description": {
+          "host": "Hostname oder IP-Adresse vom Powerwall-Gateway",
+          "email": "E-Mail vom Kundekonto",
+          "password": "Kunde-Passwort, wo uf em Gateway igrichtet isch",
+          "gw_pwd": "Vollständigs Gateway-Wi-Fi-Passwort, wo uf em QR-Label druckt isch"
+        }
+      },
+      "local": {
+        "description": "Verbindet mit de Kunde-Aamäldig vom Gateway. Dazue muess zersch d Kunde-Aamäldig uf em Gateway aktiviert werdä (via d Tesla-App oder s Web-UI vom Gateway).",
+        "data": {
+          "host": "Host",
+          "email": "E-Mail",
+          "password": "Kunde-Passwort"
+        },
+        "data_description": {
+          "host": "Hostname oder IP-Adresse vom Powerwall-Gateway",
+          "email": "E-Mail vom Kundekonto",
+          "password": "Kunde-Passwort, wo uf em Gateway igrichtet isch"
+        }
+      },
+      "cloud": {
+        "description": "Bruucht d Cloud-API vo Tesla anstatt vo re lokale Verbindig. Dazue bruucht's zersch e einmaligi Aamäldig usserhalb vo Home Assistant: Führ `python -m pypowerwall setup` (oder `setup -headless`) us, für e `.pypowerwall.auth`-Datei z erstelle, und zeig denn uf s Verzeichnis, wo die Datei drin isch.",
+        "data": {
+          "authpath": "Auth-Cache-Verzeichnis",
+          "siteid": "Standort-ID (optional)"
+        },
+        "data_description": {
+          "authpath": "Verzeichnis mit de `.pypowerwall.auth`-Datei, wo vo `python -m pypowerwall setup` erstellt wordä isch",
+          "siteid": "Tesla-Standort-ID, falls s Konto mehreri Standort het"
+        }
+      },
+      "fleetapi": {
+        "description": "Bruucht d FleetAPI vo Tesla anstatt vo re lokale Verbindig. Dazue bruucht's zersch e einmaligi Ihrichtig usserhalb vo Home Assistant: Registrier e App uf developer.tesla.com, führ denn `python -m pypowerwall.fleetapi setup` us, für e `.pypowerwall.fleetapi`-Datei z erstelle, und zeig druf uf s Verzeichnis, wo die Datei drin isch.",
+        "data": {
+          "authpath": "Konfig-Cache-Verzeichnis",
+          "siteid": "Standort-ID (optional)"
+        },
+        "data_description": {
+          "authpath": "Verzeichnis mit de `.pypowerwall.fleetapi`-Datei, wo vo `python -m pypowerwall.fleetapi setup` erstellt wordä isch",
+          "siteid": "Tesla-Standort-ID, falls s Konto mehreri Standort het"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Vollständige Protobuf-LAN-Zuegriff für Powerwall 3, mit emene vorher registrierte RSA-Schlüssel. Dazue bruucht's zersch e einmaligi Ihrichtig usserhalb vo Home Assistant: Führ `python -m pypowerwall register` us, für es RSA-4096-Schlüsselpaar z erstellä und bim Gateway z registrierä (dafür muess mer allefalls s Gateway churz us- und wieder ischalte zum bestätige), und zeig denn uf die entstandeni privatä Schlüsseldatei.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Gateway-Passwort",
+          "rsa_key_path": "Pfad zum privatä RSA-Schlüssel",
+          "wifi_host": "Wi-Fi-Ersatz-Host (optional)"
+        },
+        "data_description": {
+          "host": "Hostname oder IP-Adresse vom Powerwall-Gateway",
+          "gw_pwd": "Vollständigs Gateway-Wi-Fi-Passwort, wo uf em QR-Label druckt isch",
+          "rsa_key_path": "Pfad zur PEM-Datei vom privatä RSA-4096-Schlüssel, wo vo `python -m pypowerwall register` erstellt wordä isch",
+          "wifi_host": "Alternative Wi-Fi-TEDAPI-Host als Ersatz"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "D Verbindig het nid klappt. Kontrollier d Verbindigsdetails und probiers nomol.",
+      "unknown": "Unerwarteter Fehler"
+    },
+    "abort": {
+      "already_configured": "Dää Powerwall-Gateway isch scho konfiguriert"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Abfrag-Intervall (Sekundä)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Batteriestand" },
+      "battery_level_app": { "name": "Batteriestand (Tesla-App)" },
+      "backup_time_remaining": { "name": "Verbliebeni Backup-Zit" },
+      "grid_power": { "name": "Netzleistig" },
+      "grid_import_power": { "name": "Netzbezugsleistig" },
+      "grid_export_power": { "name": "Netzeispeiseleistig" },
+      "solar_power": { "name": "Solarleistig" },
+      "battery_power": { "name": "Batterieleistig" },
+      "battery_import_power": { "name": "Batterie-Ladeleistig" },
+      "battery_export_power": { "name": "Batterie-Entladeleistig" },
+      "battery_energy_imported": { "name": "Glade Batterie-Energie" },
+      "battery_energy_exported": { "name": "Entladeni Batterie-Energie" },
+      "battery_import_energy": { "name": "Batterie-Ladeenergie (gschätzt)" },
+      "battery_export_energy": { "name": "Batterie-Entladeenergie (gschätzt)" },
+      "grid_import_energy": { "name": "Netzbezugsenergie (gschätzt)" },
+      "grid_export_energy": { "name": "Netzeispeiseenergie (gschätzt)" },
+      "home_energy": { "name": "Huusenergie (gschätzt)" },
+      "home_power": { "name": "Huusleistig" },
+      "grid_status": { "name": "Netzstatus" },
+      "alert_count": { "name": "Aktivi Warnigä" },
+      "firmware_version": { "name": "Firmware-Version" },
+      "uptime": { "name": "Laufzit" },
+      "battery_temp": { "name": "{device} Temperatur" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Mit em Netz verbunde" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Batteriereserve" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Batteriemodus",
+        "state": {
+          "self_consumption": "Selbstversorgig",
+          "backup": "Nur Backup",
+          "autonomous": "Zitbasierti Steuerig"
+        }
+      },
+      "grid_export": {
+        "name": "Netzeispeisig",
+        "state": {
+          "battery_ok": "Solar und Batterie",
+          "pv_only": "Nur Solar",
+          "never": "Nie"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Netzladig" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Vom Netz trennä" },
+      "reconnect_grid": { "name": "Wieder mit em Netz verbindä" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Max-Backup planä",
+      "description": "Startet e manuelles Backup-Ereignis (Storm Watch / Max-Backup-Modus) und maximiert d Batteriereserve für e fixi Duur. Bruucht de TEDAPI v1r LAN-Modus.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Duur",
+          "description": "Wie lang s Max-Backup-Ereignis laufe soll, in Sekundä. Standard isch 7200 (2 Stund)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Max-Backup abbrächä",
+      "description": "Bricht s aktuelle manuelle Backup-Ereignis (Storm Watch / Max-Backup-Modus) ab, wo mit schedule_max_backup gstartet wordä isch. Bruucht de TEDAPI v1r LAN-Modus."
+    }
+  }
+}

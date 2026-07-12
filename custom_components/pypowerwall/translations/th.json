@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "เลือกประเภทการเชื่อมต่อ",
+        "menu_options": {
+          "tedapi": "TEDAPI (รหัสผ่านเกตเวย์)",
+          "hybrid": "ไฮบริด (เข้าสู่ระบบภายในเครื่อง + รหัสผ่านเกตเวย์)",
+          "local": "เข้าสู่ระบบภายในเครื่อง (อีเมล/รหัสผ่านลูกค้า)",
+          "cloud": "โหมดคลาวด์ (ใช้แคชการยืนยันตัวตนที่มีอยู่)",
+          "fleetapi": "FleetAPI (ใช้แคชการตั้งค่าที่มีอยู่)",
+          "tedapi_v1r": "TEDAPI v1r LAN (คีย์ RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "เชื่อมต่อโดยใช้รหัสผ่าน Wi-Fi ของเกตเวย์เอง (โหมด 4) ใช้งานได้กับ Powerwall 2, Powerwall+ และ Powerwall 3 โดยไม่ต้องเปิดใช้งาน Customer Login",
+        "data": {
+          "host": "โฮสต์",
+          "gw_pwd": "รหัสผ่านเกตเวย์"
+        },
+        "data_description": {
+          "host": "ชื่อโฮสต์หรือที่อยู่ IP ของเกตเวย์ Powerwall (เช่น 192.168.91.1)",
+          "gw_pwd": "รหัสผ่าน Wi-Fi เต็มของเกตเวย์ที่พิมพ์อยู่บนป้าย QR"
+        }
+      },
+      "hybrid": {
+        "description": "ผสานการเข้าสู่ระบบของลูกค้าเข้ากับรหัสผ่านเกตเวย์ เพื่อเพิ่มข้อมูล vitals เสริม ต้องเปิดใช้งาน Customer Login บนเกตเวย์ก่อน",
+        "data": {
+          "host": "โฮสต์",
+          "email": "อีเมล",
+          "password": "รหัสผ่านลูกค้า",
+          "gw_pwd": "รหัสผ่านเกตเวย์"
+        },
+        "data_description": {
+          "host": "ชื่อโฮสต์หรือที่อยู่ IP ของเกตเวย์ Powerwall",
+          "email": "อีเมลบัญชีลูกค้า",
+          "password": "รหัสผ่านลูกค้าที่ตั้งค่าไว้บนเกตเวย์",
+          "gw_pwd": "รหัสผ่าน Wi-Fi เต็มของเกตเวย์ที่พิมพ์อยู่บนป้าย QR"
+        }
+      },
+      "local": {
+        "description": "เชื่อมต่อโดยใช้ Customer Login ของเกตเวย์ ต้องเปิดใช้งาน Customer Login บนเกตเวย์ก่อน (ผ่านแอป Tesla หรือหน้าเว็บของเกตเวย์)",
+        "data": {
+          "host": "โฮสต์",
+          "email": "อีเมล",
+          "password": "รหัสผ่านลูกค้า"
+        },
+        "data_description": {
+          "host": "ชื่อโฮสต์หรือที่อยู่ IP ของเกตเวย์ Powerwall",
+          "email": "อีเมลบัญชีลูกค้า",
+          "password": "รหัสผ่านลูกค้าที่ตั้งค่าไว้บนเกตเวย์"
+        }
+      },
+      "cloud": {
+        "description": "ใช้ Cloud API ของ Tesla แทนการเชื่อมต่อภายในเครื่อง ต้องเข้าสู่ระบบครั้งแรกนอก Home Assistant ก่อน โดยรัน `python -m pypowerwall setup` (หรือ `setup -headless`) เพื่อสร้างไฟล์ `.pypowerwall.auth` จากนั้นชี้ไปยังไดเรกทอรีที่มีไฟล์นี้อยู่",
+        "data": {
+          "authpath": "ไดเรกทอรีแคชการยืนยันตัวตน",
+          "siteid": "รหัสไซต์ (ไม่บังคับ)"
+        },
+        "data_description": {
+          "authpath": "ไดเรกทอรีที่มีไฟล์ .pypowerwall.auth ซึ่งสร้างโดย `python -m pypowerwall setup`",
+          "siteid": "รหัสไซต์ของ Tesla ที่จะใช้หากบัญชีมีมากกว่าหนึ่งไซต์"
+        }
+      },
+      "fleetapi": {
+        "description": "ใช้ FleetAPI ของ Tesla แทนการเชื่อมต่อภายในเครื่อง ต้องตั้งค่าครั้งแรกนอก Home Assistant ก่อน โดยลงทะเบียนแอปที่ developer.tesla.com จากนั้นรัน `python -m pypowerwall.fleetapi setup` เพื่อสร้างไฟล์ `.pypowerwall.fleetapi` และชี้ไปยังไดเรกทอรีที่มีไฟล์นี้อยู่",
+        "data": {
+          "authpath": "ไดเรกทอรีแคชการตั้งค่า",
+          "siteid": "รหัสไซต์ (ไม่บังคับ)"
+        },
+        "data_description": {
+          "authpath": "ไดเรกทอรีที่มีไฟล์ .pypowerwall.fleetapi ซึ่งสร้างโดย `python -m pypowerwall.fleetapi setup`",
+          "siteid": "รหัสไซต์ของ Tesla ที่จะใช้หากบัญชีมีมากกว่าหนึ่งไซต์"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "การเข้าถึง LAN แบบ full-protobuf สำหรับ Powerwall 3 โดยใช้คีย์ RSA ที่ลงทะเบียนไว้ล่วงหน้า ต้องตั้งค่าครั้งแรกนอก Home Assistant ก่อน โดยรัน `python -m pypowerwall register` เพื่อสร้างและลงทะเบียนคู่คีย์ RSA-4096 กับเกตเวย์ (อาจต้องปิดเปิดไฟเกตเวย์ชั่วครู่เพื่อยืนยัน) จากนั้นชี้ไปยังไฟล์คีย์ส่วนตัวที่ได้",
+        "data": {
+          "host": "โฮสต์",
+          "gw_pwd": "รหัสผ่านเกตเวย์",
+          "rsa_key_path": "เส้นทางคีย์ส่วนตัว RSA",
+          "wifi_host": "โฮสต์ WiFi สำรอง (ไม่บังคับ)"
+        },
+        "data_description": {
+          "host": "ชื่อโฮสต์หรือที่อยู่ IP ของเกตเวย์ Powerwall",
+          "gw_pwd": "รหัสผ่าน Wi-Fi เต็มของเกตเวย์ที่พิมพ์อยู่บนป้าย QR",
+          "rsa_key_path": "เส้นทางไฟล์คีย์ส่วนตัว RSA-4096 รูปแบบ PEM ที่สร้างโดย `python -m pypowerwall register`",
+          "wifi_host": "โฮสต์ TEDAPI ผ่าน WiFi สำรองสำหรับใช้งานเมื่อโฮสต์หลักใช้งานไม่ได้"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "เชื่อมต่อไม่สำเร็จ กรุณาตรวจสอบรายละเอียดการเชื่อมต่อแล้วลองใหม่อีกครั้ง",
+      "unknown": "เกิดข้อผิดพลาดที่ไม่คาดคิด"
+    },
+    "abort": {
+      "already_configured": "เกตเวย์ Powerwall นี้ได้รับการกำหนดค่าไว้แล้ว"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "ช่วงเวลาสแกน (วินาที)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "ระดับแบตเตอรี่" },
+      "battery_level_app": { "name": "ระดับแบตเตอรี่ (แอป Tesla)" },
+      "backup_time_remaining": { "name": "เวลาสำรองไฟที่เหลือ" },
+      "grid_power": { "name": "กำลังไฟฟ้าจากกริด" },
+      "grid_import_power": { "name": "กำลังไฟฟ้านำเข้าจากกริด" },
+      "grid_export_power": { "name": "กำลังไฟฟ้าส่งออกไปยังกริด" },
+      "solar_power": { "name": "กำลังไฟฟ้าจากโซลาร์" },
+      "battery_power": { "name": "กำลังไฟฟ้าแบตเตอรี่" },
+      "battery_import_power": { "name": "กำลังไฟฟ้าประจุเข้าแบตเตอรี่" },
+      "battery_export_power": { "name": "กำลังไฟฟ้าจ่ายออกจากแบตเตอรี่" },
+      "battery_energy_imported": { "name": "พลังงานที่ชาร์จเข้าแบตเตอรี่" },
+      "battery_energy_exported": { "name": "พลังงานที่คายออกจากแบตเตอรี่" },
+      "battery_import_energy": { "name": "พลังงานนำเข้าแบตเตอรี่ (ประมาณการ)" },
+      "battery_export_energy": { "name": "พลังงานส่งออกแบตเตอรี่ (ประมาณการ)" },
+      "grid_import_energy": { "name": "พลังงานนำเข้าจากกริด (ประมาณการ)" },
+      "grid_export_energy": { "name": "พลังงานส่งออกไปยังกริด (ประมาณการ)" },
+      "home_energy": { "name": "พลังงานที่บ้านใช้ (ประมาณการ)" },
+      "home_power": { "name": "กำลังไฟฟ้าที่บ้านใช้" },
+      "grid_status": { "name": "สถานะกริด" },
+      "alert_count": { "name": "การแจ้งเตือนที่ทำงานอยู่" },
+      "firmware_version": { "name": "เวอร์ชันเฟิร์มแวร์" },
+      "uptime": { "name": "เวลาทำงานต่อเนื่อง" },
+      "battery_temp": { "name": "อุณหภูมิ {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "เชื่อมต่อกับกริด" }
+    },
+    "number": {
+      "battery_reserve": { "name": "สำรองแบตเตอรี่" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "โหมดแบตเตอรี่",
+        "state": {
+          "self_consumption": "ใช้เองในบ้าน",
+          "backup": "สำรองไฟเท่านั้น",
+          "autonomous": "ควบคุมตามช่วงเวลา"
+        }
+      },
+      "grid_export": {
+        "name": "การส่งออกไฟฟ้าเข้ากริด",
+        "state": {
+          "battery_ok": "โซลาร์และแบตเตอรี่",
+          "pv_only": "โซลาร์เท่านั้น",
+          "never": "ไม่ส่งออกเลย"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "การชาร์จจากกริด" }
+    },
+    "button": {
+      "go_off_grid": { "name": "ตัดการเชื่อมต่อจากกริด" },
+      "reconnect_grid": { "name": "เชื่อมต่อกริดใหม่" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "ตั้งเวลาสำรองไฟสูงสุด",
+      "description": "เริ่มเหตุการณ์สำรองไฟด้วยตนเอง (โหมดเฝ้าระวังพายุ / สำรองไฟสูงสุด) เพื่อเพิ่มปริมาณสำรองแบตเตอรี่ให้สูงสุดในระยะเวลาที่กำหนด ต้องใช้โหมด TEDAPI v1r LAN",
+      "fields": {
+        "duration_seconds": {
+          "name": "ระยะเวลา",
+          "description": "ระยะเวลาที่เหตุการณ์สำรองไฟสูงสุดจะทำงาน หน่วยเป็นวินาที ค่าเริ่มต้นคือ 7200 (2 ชั่วโมง)"
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "ยกเลิกสำรองไฟสูงสุด",
+      "description": "ยกเลิกเหตุการณ์สำรองไฟด้วยตนเองที่กำลังทำงานอยู่ (โหมดเฝ้าระวังพายุ / สำรองไฟสูงสุด) ที่เริ่มโดย schedule_max_backup ต้องใช้โหมด TEDAPI v1r LAN"
+    }
+  }
+}

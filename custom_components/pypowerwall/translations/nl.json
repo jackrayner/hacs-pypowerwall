@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Kies een verbindingstype",
+        "menu_options": {
+          "tedapi": "TEDAPI (gateway-wachtwoord)",
+          "hybrid": "Hybride (lokale login + gateway-wachtwoord)",
+          "local": "Lokale login (klant-e-mail/wachtwoord)",
+          "cloud": "Cloudmodus (bestaande auth-cache)",
+          "fleetapi": "FleetAPI (bestaande configuratiecache)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA-sleutel)"
+        }
+      },
+      "tedapi": {
+        "description": "Maak verbinding met het eigen Wi-Fi-wachtwoord van de gateway (modus 4). Werkt op Powerwall 2, Powerwall+ en Powerwall 3 zonder dat de klantlogin hoeft te worden ingeschakeld.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Gateway-wachtwoord"
+        },
+        "data_description": {
+          "host": "Hostnaam of IP-adres van de Powerwall-gateway (bijv. 192.168.91.1)",
+          "gw_pwd": "Volledig Wi-Fi-wachtwoord van de gateway, afgedrukt op het QR-label"
+        }
+      },
+      "hybrid": {
+        "description": "Combineert een klantlogin met het gateway-wachtwoord om aanvullende vitale gegevens toe te voegen. Vereist dat de klantlogin op de gateway is ingeschakeld.",
+        "data": {
+          "host": "Host",
+          "email": "E-mail",
+          "password": "Klantwachtwoord",
+          "gw_pwd": "Gateway-wachtwoord"
+        },
+        "data_description": {
+          "host": "Hostnaam of IP-adres van de Powerwall-gateway",
+          "email": "E-mailadres van het klantaccount",
+          "password": "Klantwachtwoord dat is ingesteld op de gateway",
+          "gw_pwd": "Volledig Wi-Fi-wachtwoord van de gateway, afgedrukt op het QR-label"
+        }
+      },
+      "local": {
+        "description": "Maak verbinding met de klantlogin van de gateway. Hiervoor moet de klantlogin eerst op de gateway zijn ingeschakeld (via de Tesla-app of de webinterface van de gateway).",
+        "data": {
+          "host": "Host",
+          "email": "E-mail",
+          "password": "Klantwachtwoord"
+        },
+        "data_description": {
+          "host": "Hostnaam of IP-adres van de Powerwall-gateway",
+          "email": "E-mailadres van het klantaccount",
+          "password": "Klantwachtwoord dat is ingesteld op de gateway"
+        }
+      },
+      "cloud": {
+        "description": "Gebruikt de cloud-API van Tesla in plaats van een lokale verbinding. Hiervoor is eenmalig een login buiten Home Assistant vereist: voer `python -m pypowerwall setup` uit (of `setup -headless`) om een bestand `.pypowerwall.auth` aan te maken, en wijs vervolgens naar de map waarin dit bestand staat.",
+        "data": {
+          "authpath": "Map met auth-cache",
+          "siteid": "Site-ID (optioneel)"
+        },
+        "data_description": {
+          "authpath": "Map met het bestand .pypowerwall.auth dat is aangemaakt door `python -m pypowerwall setup`",
+          "siteid": "Te gebruiken Tesla-site-ID als het account meer dan één site heeft"
+        }
+      },
+      "fleetapi": {
+        "description": "Gebruikt de FleetAPI van Tesla in plaats van een lokale verbinding. Hiervoor is eenmalig een installatie buiten Home Assistant vereist: registreer een app op developer.tesla.com, voer vervolgens `python -m pypowerwall.fleetapi setup` uit om een bestand `.pypowerwall.fleetapi` aan te maken, en wijs vervolgens naar de map waarin dit bestand staat.",
+        "data": {
+          "authpath": "Map met configuratiecache",
+          "siteid": "Site-ID (optioneel)"
+        },
+        "data_description": {
+          "authpath": "Map met het bestand .pypowerwall.fleetapi dat is aangemaakt door `python -m pypowerwall.fleetapi setup`",
+          "siteid": "Te gebruiken Tesla-site-ID als het account meer dan één site heeft"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Volledige protobuf-LAN-toegang voor Powerwall 3, met gebruik van een vooraf geregistreerde RSA-sleutel. Hiervoor is eenmalig een installatie buiten Home Assistant vereist: voer `python -m pypowerwall register` uit om een RSA-4096-sleutelpaar te genereren en te registreren bij de gateway (mogelijk moet de gateway hiervoor kort uit- en weer ingeschakeld worden ter bevestiging), en wijs vervolgens naar het resulterende privésleutelbestand.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Gateway-wachtwoord",
+          "rsa_key_path": "Pad naar RSA-privésleutel",
+          "wifi_host": "Wi-Fi-terugvalhost (optioneel)"
+        },
+        "data_description": {
+          "host": "Hostnaam of IP-adres van de Powerwall-gateway",
+          "gw_pwd": "Volledig Wi-Fi-wachtwoord van de gateway, afgedrukt op het QR-label",
+          "rsa_key_path": "Pad naar het PEM-bestand met de RSA-4096-privésleutel, gegenereerd door `python -m pypowerwall register`",
+          "wifi_host": "Alternatieve Wi-Fi TEDAPI-host om op terug te vallen"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbinden mislukt. Controleer de verbindingsgegevens en probeer het opnieuw.",
+      "unknown": "Onverwachte fout"
+    },
+    "abort": {
+      "already_configured": "Deze Powerwall-gateway is al geconfigureerd"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Scaninterval (seconden)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Batterijniveau" },
+      "battery_level_app": { "name": "Batterijniveau (Tesla-app)" },
+      "backup_time_remaining": { "name": "Resterende noodstroomtijd" },
+      "grid_power": { "name": "Netvermogen" },
+      "grid_import_power": { "name": "Netafnamevermogen" },
+      "grid_export_power": { "name": "Netterugleververmogen" },
+      "solar_power": { "name": "Zonne-energievermogen" },
+      "battery_power": { "name": "Batterijvermogen" },
+      "battery_import_power": { "name": "Batterijlaadvermogen" },
+      "battery_export_power": { "name": "Batterijontlaadvermogen" },
+      "battery_energy_imported": { "name": "Geladen batterij-energie" },
+      "battery_energy_exported": { "name": "Ontladen batterij-energie" },
+      "battery_import_energy": { "name": "Batterijlaadenergie (geschat)" },
+      "battery_export_energy": { "name": "Batterijontlaadenergie (geschat)" },
+      "grid_import_energy": { "name": "Netafnameenergie (geschat)" },
+      "grid_export_energy": { "name": "Netterugleverenergie (geschat)" },
+      "home_energy": { "name": "Huishoudelijke energie (geschat)" },
+      "home_power": { "name": "Huishoudelijk vermogen" },
+      "grid_status": { "name": "Netstatus" },
+      "alert_count": { "name": "Actieve meldingen" },
+      "firmware_version": { "name": "Firmwareversie" },
+      "uptime": { "name": "Bedrijfstijd" },
+      "battery_temp": { "name": "{device} temperatuur" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Verbonden met net" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Batterijreserve" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Batterijmodus",
+        "state": {
+          "self_consumption": "Zelfvoorzienend",
+          "backup": "Alleen noodstroom",
+          "autonomous": "Tijdgebaseerde besturing"
+        }
+      },
+      "grid_export": {
+        "name": "Netteruglevering",
+        "state": {
+          "battery_ok": "Zon en batterij",
+          "pv_only": "Alleen zon",
+          "never": "Nooit"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Opladen vanaf net" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Loskoppelen van net" },
+      "reconnect_grid": { "name": "Opnieuw verbinden met net" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Maximale noodstroom inplannen",
+      "description": "Start een handmatige noodstroomgebeurtenis (stormmodus / maximale noodstroom), waarbij de batterijreserve voor een vaste duur wordt gemaximaliseerd. Vereist TEDAPI v1r LAN-modus.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Duur",
+          "description": "Hoe lang de gebeurtenis voor maximale noodstroom moet duren, in seconden. Standaard 7200 (2 uur)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Maximale noodstroom annuleren",
+      "description": "Annuleert de huidige handmatige noodstroomgebeurtenis (stormmodus / maximale noodstroom) die is gestart met schedule_max_backup. Vereist TEDAPI v1r LAN-modus."
+    }
+  }
+}

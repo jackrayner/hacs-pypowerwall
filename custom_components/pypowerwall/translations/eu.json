@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Aukeratu konexio mota",
+        "menu_options": {
+          "tedapi": "TEDAPI (atebideko pasahitza)",
+          "hybrid": "Hibridoa (saio-hasiera lokala + atebideko pasahitza)",
+          "local": "Saio-hasiera lokala (bezeroaren emaila/pasahitza)",
+          "cloud": "Hodei modua (dagoeneko dagoen autentifikazio cachea)",
+          "fleetapi": "FleetAPI (dagoeneko dagoen konfigurazio cachea)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA gakoa)"
+        }
+      },
+      "tedapi": {
+        "description": "Konektatu atebidearen bere Wi-Fi pasahitza erabiliz (4 modua). Powerwall 2, Powerwall+ eta Powerwall 3 gailuetan funtzionatzen du, Bezero Saio-hasiera gaitu beharrik gabe.",
+        "data": {
+          "host": "Ostalaria",
+          "gw_pwd": "Atebideko pasahitza"
+        },
+        "data_description": {
+          "host": "Powerwall atebidearen ostalari-izena edo IP helbidea (adib. 192.168.91.1)",
+          "gw_pwd": "QR etiketan inprimatutako atebidearen Wi-Fi pasahitz osoa"
+        }
+      },
+      "hybrid": {
+        "description": "Bezero saio-hasiera atebideko pasahitzarekin konbinatzen du, bizitasun-datu osagarriak gehitzeko. Atebidean Bezero Saio-hasiera gaituta egon behar du.",
+        "data": {
+          "host": "Ostalaria",
+          "email": "Emaila",
+          "password": "Bezeroaren pasahitza",
+          "gw_pwd": "Atebideko pasahitza"
+        },
+        "data_description": {
+          "host": "Powerwall atebidearen ostalari-izena edo IP helbidea",
+          "email": "Bezero-kontuaren emaila",
+          "password": "Atebidean konfiguratutako bezeroaren pasahitza",
+          "gw_pwd": "QR etiketan inprimatutako atebidearen Wi-Fi pasahitz osoa"
+        }
+      },
+      "local": {
+        "description": "Konektatu atebidearen Bezero Saio-hasiera erabiliz. Lehenik atebidean Bezero Saio-hasiera gaitu behar da (Tesla aplikazioaren edo atebidearen web-interfazearen bidez).",
+        "data": {
+          "host": "Ostalaria",
+          "email": "Emaila",
+          "password": "Bezeroaren pasahitza"
+        },
+        "data_description": {
+          "host": "Powerwall atebidearen ostalari-izena edo IP helbidea",
+          "email": "Bezero-kontuaren emaila",
+          "password": "Atebidean konfiguratutako bezeroaren pasahitza"
+        }
+      },
+      "cloud": {
+        "description": "Konexio lokal baten ordez, Teslaren hodei-APIa erabiltzen du. Lehenik, Home Assistantetik kanpo, saio-hasiera bakarra egin behar da: exekutatu `python -m pypowerwall setup` (edo `setup -headless`) `.pypowerwall.auth` fitxategia sortzeko, eta gero adierazi hemen fitxategi hori duen direktorioa.",
+        "data": {
+          "authpath": "Autentifikazio cachearen direktorioa",
+          "siteid": "Gunearen IDa (aukerakoa)"
+        },
+        "data_description": {
+          "authpath": "`python -m pypowerwall setup` bidez sortutako .pypowerwall.auth fitxategia duen direktorioa",
+          "siteid": "Kontuak gune bat baino gehiago baditu, erabili beharreko Teslaren gunearen IDa"
+        }
+      },
+      "fleetapi": {
+        "description": "Konexio lokal baten ordez, Teslaren FleetAPIa erabiltzen du. Lehenik, Home Assistantetik kanpo, konfigurazio bakarra egin behar da: erregistratu aplikazio bat developer.tesla.com gunean, gero exekutatu `python -m pypowerwall.fleetapi setup` `.pypowerwall.fleetapi` fitxategia sortzeko, eta adierazi hemen fitxategi hori duen direktorioa.",
+        "data": {
+          "authpath": "Konfigurazio cachearen direktorioa",
+          "siteid": "Gunearen IDa (aukerakoa)"
+        },
+        "data_description": {
+          "authpath": "`python -m pypowerwall.fleetapi setup` bidez sortutako .pypowerwall.fleetapi fitxategia duen direktorioa",
+          "siteid": "Kontuak gune bat baino gehiago baditu, erabili beharreko Teslaren gunearen IDa"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Powerwall 3rako LAN bidezko protobuf sarbide osoa, aurrez erregistratutako RSA gako bat erabiliz. Lehenik, Home Assistantetik kanpo, konfigurazio bakarra egin behar da: exekutatu `python -m pypowerwall register` RSA-4096 gako-parea sortu eta atebidean erregistratzeko (baliteke atebidea labur itzali eta piztu behar izatea baieztatzeko), eta adierazi hemen sortutako gako pribatuaren fitxategia.",
+        "data": {
+          "host": "Ostalaria",
+          "gw_pwd": "Atebideko pasahitza",
+          "rsa_key_path": "RSA gako pribatuaren bide-izena",
+          "wifi_host": "WiFi ordezko ostalaria (aukerakoa)"
+        },
+        "data_description": {
+          "host": "Powerwall atebidearen ostalari-izena edo IP helbidea",
+          "gw_pwd": "QR etiketan inprimatutako atebidearen Wi-Fi pasahitz osoa",
+          "rsa_key_path": "`python -m pypowerwall register` bidez sortutako RSA-4096 gako pribatuaren PEM fitxategiaren bide-izena",
+          "wifi_host": "Ordezko WiFi TEDAPI ostalaria, hutsegitearen kasuan erabiltzeko"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Konexioak huts egin du. Egiaztatu konexio-xehetasunak eta saiatu berriro.",
+      "unknown": "Ustekabeko errorea"
+    },
+    "abort": {
+      "already_configured": "Powerwall atebide hau dagoeneko konfiguratuta dago"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Eskaneatze-tartea (segundoak)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Bateria maila" },
+      "battery_level_app": { "name": "Bateria maila (Tesla aplikazioa)" },
+      "backup_time_remaining": { "name": "Falta den babes-denbora" },
+      "grid_power": { "name": "Sareko potentzia" },
+      "grid_import_power": { "name": "Sarearen inportazio-potentzia" },
+      "grid_export_power": { "name": "Sarearen esportazio-potentzia" },
+      "solar_power": { "name": "Eguzki-potentzia" },
+      "battery_power": { "name": "Bateriaren potentzia" },
+      "battery_import_power": { "name": "Bateriaren inportazio-potentzia" },
+      "battery_export_power": { "name": "Bateriaren esportazio-potentzia" },
+      "battery_energy_imported": { "name": "Kargatutako bateria-energia" },
+      "battery_energy_exported": { "name": "Deskargatutako bateria-energia" },
+      "battery_import_energy": { "name": "Bateriaren inportazio-energia (kalkulatua)" },
+      "battery_export_energy": { "name": "Bateriaren esportazio-energia (kalkulatua)" },
+      "grid_import_energy": { "name": "Sarearen inportazio-energia (kalkulatua)" },
+      "grid_export_energy": { "name": "Sarearen esportazio-energia (kalkulatua)" },
+      "home_energy": { "name": "Etxeko energia (kalkulatua)" },
+      "home_power": { "name": "Etxeko potentzia" },
+      "grid_status": { "name": "Sarearen egoera" },
+      "alert_count": { "name": "Alerta aktiboak" },
+      "firmware_version": { "name": "Firmware bertsioa" },
+      "uptime": { "name": "Funtzionamendu-denbora" },
+      "battery_temp": { "name": "{device} tenperatura" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Sarera konektatuta" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Bateria-erreserba" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Bateria modua",
+        "state": {
+          "self_consumption": "Autokontsumoa",
+          "backup": "Babes hutsa",
+          "autonomous": "Denboran oinarritutako kontrola"
+        }
+      },
+      "grid_export": {
+        "name": "Sarera esportatzea",
+        "state": {
+          "battery_ok": "Eguzkia eta bateria",
+          "pv_only": "Eguzkia bakarrik",
+          "never": "Inoiz ez"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Sareko karga" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Deskonektatu saretik" },
+      "reconnect_grid": { "name": "Berrkonektatu saretara" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Programatu babes maximoa",
+      "description": "Eskuzko babes-ekitaldi bat abiarazten du (ekaitz-zaintza / babes maximoko modua), bateria-erreserba gehienezkora eramanez iraupen jakin baterako. TEDAPI v1r LAN modua behar da.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Iraupena",
+          "description": "Zenbat denbora iraun behar duen babes maximoko ekitaldiak, segundotan. Balio lehenetsia 7200 da (2 ordu)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Bertan behera utzi babes maximoa",
+      "description": "schedule_max_backup zerbitzuak abiarazitako uneko eskuzko babes-ekitaldia (ekaitz-zaintza / babes maximoko modua) bertan behera uzten du. TEDAPI v1r LAN modua behar da."
+    }
+  }
+}

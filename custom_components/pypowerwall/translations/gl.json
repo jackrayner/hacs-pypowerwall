@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Escolla un tipo de conexión",
+        "menu_options": {
+          "tedapi": "TEDAPI (contrasinal da pasarela)",
+          "hybrid": "Híbrido (inicio de sesión local + contrasinal da pasarela)",
+          "local": "Inicio de sesión local (correo electrónico/contrasinal do cliente)",
+          "cloud": "Modo na nube (caché de autenticación existente)",
+          "fleetapi": "FleetAPI (caché de configuración existente)",
+          "tedapi_v1r": "TEDAPI v1r LAN (chave RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "Conéctase usando o contrasinal Wi-Fi propio da pasarela (modo 4). Funciona en Powerwall 2, Powerwall+ e Powerwall 3 sen necesidade de activar o inicio de sesión do cliente.",
+        "data": {
+          "host": "Anfitrión",
+          "gw_pwd": "Contrasinal da pasarela"
+        },
+        "data_description": {
+          "host": "Nome de anfitrión ou enderezo IP da pasarela Powerwall (p. ex. 192.168.91.1)",
+          "gw_pwd": "Contrasinal Wi-Fi completo da pasarela impreso na etiqueta QR"
+        }
+      },
+      "hybrid": {
+        "description": "Combina un inicio de sesión de cliente co contrasinal da pasarela para engadir datos vitais adicionais. Require que o inicio de sesión do cliente estea activado na pasarela.",
+        "data": {
+          "host": "Anfitrión",
+          "email": "Correo electrónico",
+          "password": "Contrasinal do cliente",
+          "gw_pwd": "Contrasinal da pasarela"
+        },
+        "data_description": {
+          "host": "Nome de anfitrión ou enderezo IP da pasarela Powerwall",
+          "email": "Correo electrónico da conta do cliente",
+          "password": "Contrasinal do cliente configurado na pasarela",
+          "gw_pwd": "Contrasinal Wi-Fi completo da pasarela impreso na etiqueta QR"
+        }
+      },
+      "local": {
+        "description": "Conéctase usando o inicio de sesión do cliente da pasarela. Require ter activado previamente o inicio de sesión do cliente na pasarela (a través da aplicación Tesla ou da interface web da pasarela).",
+        "data": {
+          "host": "Anfitrión",
+          "email": "Correo electrónico",
+          "password": "Contrasinal do cliente"
+        },
+        "data_description": {
+          "host": "Nome de anfitrión ou enderezo IP da pasarela Powerwall",
+          "email": "Correo electrónico da conta do cliente",
+          "password": "Contrasinal do cliente configurado na pasarela"
+        }
+      },
+      "cloud": {
+        "description": "Usa a API na nube de Tesla en lugar dunha conexión local. Require un inicio de sesión único realizado previamente fóra de Home Assistant: execute `python -m pypowerwall setup` (ou `setup -headless`) para crear un ficheiro `.pypowerwall.auth` e, despois, indique o directorio que o contén.",
+        "data": {
+          "authpath": "Directorio da caché de autenticación",
+          "siteid": "ID do sitio (opcional)"
+        },
+        "data_description": {
+          "authpath": "Directorio que contén o ficheiro .pypowerwall.auth creado por `python -m pypowerwall setup`",
+          "siteid": "ID do sitio de Tesla que se debe usar se a conta ten máis dun sitio"
+        }
+      },
+      "fleetapi": {
+        "description": "Usa a FleetAPI de Tesla en lugar dunha conexión local. Require unha configuración única realizada previamente fóra de Home Assistant: rexistre unha aplicación en developer.tesla.com, despois execute `python -m pypowerwall.fleetapi setup` para crear un ficheiro `.pypowerwall.fleetapi`, e indique o directorio que o contén.",
+        "data": {
+          "authpath": "Directorio da caché de configuración",
+          "siteid": "ID do sitio (opcional)"
+        },
+        "data_description": {
+          "authpath": "Directorio que contén o ficheiro .pypowerwall.fleetapi creado por `python -m pypowerwall.fleetapi setup`",
+          "siteid": "ID do sitio de Tesla que se debe usar se a conta ten máis dun sitio"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Acceso LAN completo por protobuf para Powerwall 3, usando unha chave RSA rexistrada previamente. Require unha configuración única realizada previamente fóra de Home Assistant: execute `python -m pypowerwall register` para xerar e rexistrar un par de chaves RSA-4096 coa pasarela (isto pode requirir apagar e acender brevemente a pasarela para confirmalo), despois indique o ficheiro de chave privada resultante.",
+        "data": {
+          "host": "Anfitrión",
+          "gw_pwd": "Contrasinal da pasarela",
+          "rsa_key_path": "Ruta da chave privada RSA",
+          "wifi_host": "Anfitrión Wi-Fi de reserva (opcional)"
+        },
+        "data_description": {
+          "host": "Nome de anfitrión ou enderezo IP da pasarela Powerwall",
+          "gw_pwd": "Contrasinal Wi-Fi completo da pasarela impreso na etiqueta QR",
+          "rsa_key_path": "Ruta do ficheiro PEM da chave privada RSA-4096 producido por `python -m pypowerwall register`",
+          "wifi_host": "Anfitrión TEDAPI Wi-Fi alternativo para usar como reserva"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Non se puido conectar. Comprobe os detalles da conexión e ténteo de novo.",
+      "unknown": "Erro inesperado"
+    },
+    "abort": {
+      "already_configured": "Esta pasarela Powerwall xa está configurada"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Intervalo de escaneo (segundos)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Nivel da batería" },
+      "battery_level_app": { "name": "Nivel da batería (aplicación Tesla)" },
+      "backup_time_remaining": { "name": "Tempo de reserva restante" },
+      "grid_power": { "name": "Potencia da rede" },
+      "grid_import_power": { "name": "Potencia importada da rede" },
+      "grid_export_power": { "name": "Potencia exportada á rede" },
+      "solar_power": { "name": "Potencia solar" },
+      "battery_power": { "name": "Potencia da batería" },
+      "battery_import_power": { "name": "Potencia de importación da batería" },
+      "battery_export_power": { "name": "Potencia de exportación da batería" },
+      "battery_energy_imported": { "name": "Enerxía cargada na batería" },
+      "battery_energy_exported": { "name": "Enerxía descargada da batería" },
+      "battery_import_energy": { "name": "Enerxía de importación da batería (estimada)" },
+      "battery_export_energy": { "name": "Enerxía de exportación da batería (estimada)" },
+      "grid_import_energy": { "name": "Enerxía de importación da rede (estimada)" },
+      "grid_export_energy": { "name": "Enerxía de exportación á rede (estimada)" },
+      "home_energy": { "name": "Enerxía do fogar (estimada)" },
+      "home_power": { "name": "Potencia do fogar" },
+      "grid_status": { "name": "Estado da rede" },
+      "alert_count": { "name": "Alertas activas" },
+      "firmware_version": { "name": "Versión do firmware" },
+      "uptime": { "name": "Tempo de funcionamento" },
+      "battery_temp": { "name": "Temperatura de {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Conectado á rede" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Reserva da batería" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Modo da batería",
+        "state": {
+          "self_consumption": "Autoconsumo",
+          "backup": "Só reserva",
+          "autonomous": "Control baseado no tempo"
+        }
+      },
+      "grid_export": {
+        "name": "Exportación á rede",
+        "state": {
+          "battery_ok": "Solar e batería",
+          "pv_only": "Só solar",
+          "never": "Nunca"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Carga desde a rede" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Desconectar da rede" },
+      "reconnect_grid": { "name": "Reconectar á rede" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Programar reserva máxima",
+      "description": "Inicia un evento de reserva manual (vixilancia de tormenta / modo de reserva máxima), maximizando a reserva da batería durante unha duración fixa. Require o modo TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Duración",
+          "description": "Canto tempo debe durar o evento de reserva máxima, en segundos. Por defecto é 7200 (2 horas)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Cancelar reserva máxima",
+      "description": "Cancela o evento de reserva manual actual (vixilancia de tormenta / modo de reserva máxima) iniciado por schedule_max_backup. Require o modo TEDAPI v1r LAN."
+    }
+  }
+}

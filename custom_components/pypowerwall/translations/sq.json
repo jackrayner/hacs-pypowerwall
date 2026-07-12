@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Zgjidhni llojin e lidhjes",
+        "menu_options": {
+          "tedapi": "TEDAPI (fjalëkalimi i portës)",
+          "hybrid": "Hibrid (hyrje lokale + fjalëkalimi i portës)",
+          "local": "Hyrje lokale (email/fjalëkalim klienti)",
+          "cloud": "Modaliteti Cloud (cache ekzistuese e identifikimit)",
+          "fleetapi": "FleetAPI (cache ekzistuese e konfigurimit)",
+          "tedapi_v1r": "TEDAPI v1r LAN (çelës RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "Lidhuni duke përdorur fjalëkalimin Wi-Fi të vetë portës (modaliteti 4). Funksionon me Powerwall 2, Powerwall+ dhe Powerwall 3 pa aktivizuar Hyrjen e Klientit.",
+        "data": {
+          "host": "Hosti",
+          "gw_pwd": "Fjalëkalimi i portës"
+        },
+        "data_description": {
+          "host": "Emri i hostit ose adresa IP e portës Powerwall (p.sh. 192.168.91.1)",
+          "gw_pwd": "Fjalëkalimi i plotë Wi-Fi i portës, i shtypur në etiketën me kod QR"
+        }
+      },
+      "hybrid": {
+        "description": "Kombinon hyrjen e klientit me fjalëkalimin e portës për të shtuar të dhëna shtesë jetësore. Kërkon që Hyrja e Klientit të jetë e aktivizuar në portë.",
+        "data": {
+          "host": "Hosti",
+          "email": "Email",
+          "password": "Fjalëkalimi i klientit",
+          "gw_pwd": "Fjalëkalimi i portës"
+        },
+        "data_description": {
+          "host": "Emri i hostit ose adresa IP e portës Powerwall",
+          "email": "Email-i i llogarisë së klientit",
+          "password": "Fjalëkalimi i klientit i vendosur në portë",
+          "gw_pwd": "Fjalëkalimi i plotë Wi-Fi i portës, i shtypur në etiketën me kod QR"
+        }
+      },
+      "local": {
+        "description": "Lidhuni duke përdorur Hyrjen e Klientit të portës. Kërkon që Hyrja e Klientit të jetë aktivizuar më parë në portë (nëpërmjet aplikacionit Tesla ose ndërfaqes web të portës).",
+        "data": {
+          "host": "Hosti",
+          "email": "Email",
+          "password": "Fjalëkalimi i klientit"
+        },
+        "data_description": {
+          "host": "Emri i hostit ose adresa IP e portës Powerwall",
+          "email": "Email-i i llogarisë së klientit",
+          "password": "Fjalëkalimi i klientit i vendosur në portë"
+        }
+      },
+      "cloud": {
+        "description": "Përdor API-në cloud të Tesla-s në vend të një lidhjeje lokale. Kërkon një hyrje njëhershme të kryer jashtë Home Assistant fillimisht: ekzekutoni `python -m pypowerwall setup` (ose `setup -headless`) për të krijuar një skedar `.pypowerwall.auth`, më pas drejtojeni këtu te dosja që e përmban atë.",
+        "data": {
+          "authpath": "Dosja e cache-it të identifikimit",
+          "siteid": "ID e vendndodhjes (opsionale)"
+        },
+        "data_description": {
+          "authpath": "Dosja që përmban skedarin .pypowerwall.auth të krijuar nga `python -m pypowerwall setup`",
+          "siteid": "ID-ja e vendndodhjes Tesla që do të përdoret nëse llogaria ka më shumë se një vendndodhje"
+        }
+      },
+      "fleetapi": {
+        "description": "Përdor FleetAPI të Tesla-s në vend të një lidhjeje lokale. Kërkon një konfigurim njëhershëm të kryer jashtë Home Assistant fillimisht: regjistroni një aplikacion në developer.tesla.com, më pas ekzekutoni `python -m pypowerwall.fleetapi setup` për të krijuar një skedar `.pypowerwall.fleetapi`, dhe drejtojeni këtu te dosja që e përmban atë.",
+        "data": {
+          "authpath": "Dosja e cache-it të konfigurimit",
+          "siteid": "ID e vendndodhjes (opsionale)"
+        },
+        "data_description": {
+          "authpath": "Dosja që përmban skedarin .pypowerwall.fleetapi të krijuar nga `python -m pypowerwall.fleetapi setup`",
+          "siteid": "ID-ja e vendndodhjes Tesla që do të përdoret nëse llogaria ka më shumë se një vendndodhje"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Qasje e plotë LAN me protobuf për Powerwall 3, duke përdorur një çelës RSA të para-regjistruar. Kërkon një konfigurim njëhershëm të kryer jashtë Home Assistant fillimisht: ekzekutoni `python -m pypowerwall register` për të gjeneruar dhe regjistruar një çift çelësash RSA-4096 me portën (kjo mund të kërkojë fikjen dhe ndezjen e shkurtër të portës për konfirmim), më pas drejtojeni këtu te skedari i çelësit privat që rezulton.",
+        "data": {
+          "host": "Hosti",
+          "gw_pwd": "Fjalëkalimi i portës",
+          "rsa_key_path": "Shtegu i çelësit privat RSA",
+          "wifi_host": "Hosti rezervë WiFi (opsional)"
+        },
+        "data_description": {
+          "host": "Emri i hostit ose adresa IP e portës Powerwall",
+          "gw_pwd": "Fjalëkalimi i plotë Wi-Fi i portës, i shtypur në etiketën me kod QR",
+          "rsa_key_path": "Shtegu drejt skedarit PEM të çelësit privat RSA-4096 të prodhuar nga `python -m pypowerwall register`",
+          "wifi_host": "Host alternativ WiFi TEDAPI për rezervë"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Lidhja dështoi. Kontrolloni detajet e lidhjes dhe provoni përsëri.",
+      "unknown": "Gabim i papritur"
+    },
+    "abort": {
+      "already_configured": "Kjo portë Powerwall është konfiguruar tashmë"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Intervali i skanimit (sekonda)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Niveli i baterisë" },
+      "battery_level_app": { "name": "Niveli i baterisë (aplikacioni Tesla)" },
+      "backup_time_remaining": { "name": "Koha e mbetur e rezervës" },
+      "grid_power": { "name": "Fuqia e rrjetit" },
+      "grid_import_power": { "name": "Fuqia e importuar nga rrjeti" },
+      "grid_export_power": { "name": "Fuqia e eksportuar në rrjet" },
+      "solar_power": { "name": "Fuqia diellore" },
+      "battery_power": { "name": "Fuqia e baterisë" },
+      "battery_import_power": { "name": "Fuqia e ngarkimit të baterisë" },
+      "battery_export_power": { "name": "Fuqia e shkarkimit të baterisë" },
+      "battery_energy_imported": { "name": "Energjia e ngarkuar e baterisë" },
+      "battery_energy_exported": { "name": "Energjia e shkarkuar e baterisë" },
+      "battery_import_energy": { "name": "Energjia e importuar e baterisë (e vlerësuar)" },
+      "battery_export_energy": { "name": "Energjia e eksportuar e baterisë (e vlerësuar)" },
+      "grid_import_energy": { "name": "Energjia e importuar nga rrjeti (e vlerësuar)" },
+      "grid_export_energy": { "name": "Energjia e eksportuar në rrjet (e vlerësuar)" },
+      "home_energy": { "name": "Energjia e shtëpisë (e vlerësuar)" },
+      "home_power": { "name": "Fuqia e shtëpisë" },
+      "grid_status": { "name": "Statusi i rrjetit" },
+      "alert_count": { "name": "Alarme aktive" },
+      "firmware_version": { "name": "Versioni i firmware-it" },
+      "uptime": { "name": "Koha e funksionimit" },
+      "battery_temp": { "name": "Temperatura e {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Lidhur me rrjetin" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Rezerva e baterisë" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Modaliteti i baterisë",
+        "state": {
+          "self_consumption": "Vetë-furnizim",
+          "backup": "Vetëm rezervë",
+          "autonomous": "Kontroll i bazuar në kohë"
+        }
+      },
+      "grid_export": {
+        "name": "Eksporti në rrjet",
+        "state": {
+          "battery_ok": "Diell dhe bateri",
+          "pv_only": "Vetëm diell",
+          "never": "Kurrë"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Ngarkimi nga rrjeti" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Shkëputu nga rrjeti" },
+      "reconnect_grid": { "name": "Rilidhu me rrjetin" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Planifiko rezervën maksimale",
+      "description": "Fillon një ngjarje rezerve manuale (vëzhgimi i stuhisë / modaliteti i rezervës maksimale), duke maksimizuar rezervën e baterisë për një kohëzgjatje fikse. Kërkon modalitetin TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Kohëzgjatja",
+          "description": "Sa kohë duhet të zgjasë ngjarja e rezervës maksimale, në sekonda. Parazgjedhja është 7200 (2 orë)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Anulo rezervën maksimale",
+      "description": "Anulon ngjarjen aktuale të rezervës manuale (vëzhgimi i stuhisë / modaliteti i rezervës maksimale) të filluar nga schedule_max_backup. Kërkon modalitetin TEDAPI v1r LAN."
+    }
+  }
+}
