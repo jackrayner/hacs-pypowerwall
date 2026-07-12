@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Vyberte typ připojení",
+        "menu_options": {
+          "tedapi": "TEDAPI (heslo brány)",
+          "hybrid": "Hybridní (lokální přihlášení + heslo brány)",
+          "local": "Lokální přihlášení (e-mail/heslo zákazníka)",
+          "cloud": "Cloudový režim (existující mezipaměť ověření)",
+          "fleetapi": "FleetAPI (existující mezipaměť konfigurace)",
+          "tedapi_v1r": "TEDAPI v1r LAN (klíč RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "Připojení pomocí vlastního Wi-Fi hesla brány (režim 4). Funguje na Powerwall 2, Powerwall+ a Powerwall 3 bez nutnosti povolit přihlášení zákazníka.",
+        "data": {
+          "host": "Hostitel",
+          "gw_pwd": "Heslo brány"
+        },
+        "data_description": {
+          "host": "Název hostitele nebo IP adresa brány Powerwall (např. 192.168.91.1)",
+          "gw_pwd": "Celé Wi-Fi heslo brány vytištěné na štítku s QR kódem"
+        }
+      },
+      "hybrid": {
+        "description": "Kombinuje přihlášení zákazníka s heslem brány a doplňuje tak další provozní data. Vyžaduje povolené přihlášení zákazníka na bráně.",
+        "data": {
+          "host": "Hostitel",
+          "email": "E-mail",
+          "password": "Heslo zákazníka",
+          "gw_pwd": "Heslo brány"
+        },
+        "data_description": {
+          "host": "Název hostitele nebo IP adresa brány Powerwall",
+          "email": "E-mail zákaznického účtu",
+          "password": "Heslo zákazníka nastavené na bráně",
+          "gw_pwd": "Celé Wi-Fi heslo brány vytištěné na štítku s QR kódem"
+        }
+      },
+      "local": {
+        "description": "Připojení pomocí přihlášení zákazníka na bráně. Je nutné nejprve povolit přihlášení zákazníka na bráně (přes aplikaci Tesla nebo webové rozhraní brány).",
+        "data": {
+          "host": "Hostitel",
+          "email": "E-mail",
+          "password": "Heslo zákazníka"
+        },
+        "data_description": {
+          "host": "Název hostitele nebo IP adresa brány Powerwall",
+          "email": "E-mail zákaznického účtu",
+          "password": "Heslo zákazníka nastavené na bráně"
+        }
+      },
+      "cloud": {
+        "description": "Používá cloudové API společnosti Tesla místo lokálního připojení. Vyžaduje jednorázové přihlášení provedené předem mimo Home Assistant: spusťte `python -m pypowerwall setup` (nebo `setup -headless`) k vytvoření souboru `.pypowerwall.auth` a poté zadejte adresář, který jej obsahuje.",
+        "data": {
+          "authpath": "Adresář mezipaměti ověření",
+          "siteid": "ID lokality (volitelné)"
+        },
+        "data_description": {
+          "authpath": "Adresář obsahující soubor .pypowerwall.auth vytvořený příkazem `python -m pypowerwall setup`",
+          "siteid": "ID lokality Tesla, které se použije, pokud účet obsahuje více lokalit"
+        }
+      },
+      "fleetapi": {
+        "description": "Používá Tesla FleetAPI místo lokálního připojení. Vyžaduje jednorázové nastavení provedené předem mimo Home Assistant: zaregistrujte aplikaci na developer.tesla.com, poté spusťte `python -m pypowerwall.fleetapi setup` k vytvoření souboru `.pypowerwall.fleetapi` a zadejte adresář, který jej obsahuje.",
+        "data": {
+          "authpath": "Adresář mezipaměti konfigurace",
+          "siteid": "ID lokality (volitelné)"
+        },
+        "data_description": {
+          "authpath": "Adresář obsahující soubor .pypowerwall.fleetapi vytvořený příkazem `python -m pypowerwall.fleetapi setup`",
+          "siteid": "ID lokality Tesla, které se použije, pokud účet obsahuje více lokalit"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Plný přístup přes protobuf v lokální síti pro Powerwall 3 pomocí předem zaregistrovaného klíče RSA. Vyžaduje jednorázové nastavení provedené předem mimo Home Assistant: spusťte `python -m pypowerwall register` k vygenerování a zaregistrování páru klíčů RSA-4096 u brány (může být nutné bránu krátce restartovat pro potvrzení) a poté zadejte cestu k výslednému souboru soukromého klíče.",
+        "data": {
+          "host": "Hostitel",
+          "gw_pwd": "Heslo brány",
+          "rsa_key_path": "Cesta k soukromému klíči RSA",
+          "wifi_host": "Záložní Wi-Fi hostitel (volitelné)"
+        },
+        "data_description": {
+          "host": "Název hostitele nebo IP adresa brány Powerwall",
+          "gw_pwd": "Celé Wi-Fi heslo brány vytištěné na štítku s QR kódem",
+          "rsa_key_path": "Cesta k souboru soukromého klíče RSA-4096 ve formátu PEM vytvořenému příkazem `python -m pypowerwall register`",
+          "wifi_host": "Alternativní Wi-Fi hostitel TEDAPI pro záložní připojení"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Připojení se nezdařilo. Zkontrolujte údaje o připojení a zkuste to znovu.",
+      "unknown": "Neočekávaná chyba"
+    },
+    "abort": {
+      "already_configured": "Tato brána Powerwall je již nakonfigurována"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Interval kontroly (sekundy)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Stav nabití baterie" },
+      "battery_level_app": { "name": "Stav nabití baterie (aplikace Tesla)" },
+      "backup_time_remaining": { "name": "Zbývající doba zálohy" },
+      "grid_power": { "name": "Výkon sítě" },
+      "grid_import_power": { "name": "Výkon odebíraný ze sítě" },
+      "grid_export_power": { "name": "Výkon dodávaný do sítě" },
+      "solar_power": { "name": "Výkon solárních panelů" },
+      "battery_power": { "name": "Výkon baterie" },
+      "battery_import_power": { "name": "Výkon nabíjení baterie" },
+      "battery_export_power": { "name": "Výkon vybíjení baterie" },
+      "battery_energy_imported": { "name": "Energie nabitá do baterie" },
+      "battery_energy_exported": { "name": "Energie vybitá z baterie" },
+      "battery_import_energy": { "name": "Energie nabíjení baterie (odhad)" },
+      "battery_export_energy": { "name": "Energie vybíjení baterie (odhad)" },
+      "grid_import_energy": { "name": "Energie odebraná ze sítě (odhad)" },
+      "grid_export_energy": { "name": "Energie dodaná do sítě (odhad)" },
+      "home_energy": { "name": "Spotřeba domácnosti (odhad)" },
+      "home_power": { "name": "Výkon domácnosti" },
+      "grid_status": { "name": "Stav sítě" },
+      "alert_count": { "name": "Aktivní upozornění" },
+      "firmware_version": { "name": "Verze firmwaru" },
+      "uptime": { "name": "Doba provozu" },
+      "battery_temp": { "name": "Teplota {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Připojeno k síti" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Rezerva baterie" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Režim baterie",
+        "state": {
+          "self_consumption": "Vlastní spotřeba",
+          "backup": "Pouze záloha",
+          "autonomous": "Časově řízený režim"
+        }
+      },
+      "grid_export": {
+        "name": "Dodávka do sítě",
+        "state": {
+          "battery_ok": "Solár a baterie",
+          "pv_only": "Pouze solár",
+          "never": "Nikdy"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Nabíjení ze sítě" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Odpojit od sítě" },
+      "reconnect_grid": { "name": "Znovu připojit k síti" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Naplánovat maximální zálohu",
+      "description": "Spustí ruční záložní událost (režim sledování bouře / maximální záloha), která na pevně danou dobu maximalizuje rezervu baterie. Vyžaduje režim TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Doba trvání",
+          "description": "Jak dlouho má událost maximální zálohy trvat, v sekundách. Výchozí hodnota je 7200 (2 hodiny)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Zrušit maximální zálohu",
+      "description": "Zruší aktuální ruční záložní událost (režim sledování bouře / maximální záloha) spuštěnou pomocí schedule_max_backup. Vyžaduje režim TEDAPI v1r LAN."
+    }
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Valitse yhteystyyppi",
+        "menu_options": {
+          "tedapi": "TEDAPI (yhdyskäytävän salasana)",
+          "hybrid": "Hybridi (paikallinen kirjautuminen + yhdyskäytävän salasana)",
+          "local": "Paikallinen kirjautuminen (asiakkaan sähköposti/salasana)",
+          "cloud": "Pilvitila (olemassa oleva tunnistautumisvälimuisti)",
+          "fleetapi": "FleetAPI (olemassa oleva asetusvälimuisti)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA-avain)"
+        }
+      },
+      "tedapi": {
+        "description": "Yhdistä käyttämällä yhdyskäytävän omaa Wi-Fi-salasanaa (tila 4). Toimii Powerwall 2:ssa, Powerwall+:ssa ja Powerwall 3:ssa ilman asiakaskirjautumisen käyttöönottoa.",
+        "data": {
+          "host": "Isäntä",
+          "gw_pwd": "Yhdyskäytävän salasana"
+        },
+        "data_description": {
+          "host": "Powerwall-yhdyskäytävän isäntänimi tai IP-osoite (esim. 192.168.91.1)",
+          "gw_pwd": "QR-tarraan painettu yhdyskäytävän täydellinen Wi-Fi-salasana"
+        }
+      },
+      "hybrid": {
+        "description": "Yhdistää asiakaskirjautumisen yhdyskäytävän salasanaan lisätäkseen täydentäviä tilatietoja. Edellyttää, että asiakaskirjautuminen on otettu käyttöön yhdyskäytävässä.",
+        "data": {
+          "host": "Isäntä",
+          "email": "Sähköposti",
+          "password": "Asiakkaan salasana",
+          "gw_pwd": "Yhdyskäytävän salasana"
+        },
+        "data_description": {
+          "host": "Powerwall-yhdyskäytävän isäntänimi tai IP-osoite",
+          "email": "Asiakastilin sähköpostiosoite",
+          "password": "Yhdyskäytävään asetettu asiakkaan salasana",
+          "gw_pwd": "QR-tarraan painettu yhdyskäytävän täydellinen Wi-Fi-salasana"
+        }
+      },
+      "local": {
+        "description": "Yhdistä käyttämällä yhdyskäytävän asiakaskirjautumista. Edellyttää, että asiakaskirjautuminen on ensin otettu käyttöön yhdyskäytävässä (Tesla-sovelluksen tai yhdyskäytävän verkkokäyttöliittymän kautta).",
+        "data": {
+          "host": "Isäntä",
+          "email": "Sähköposti",
+          "password": "Asiakkaan salasana"
+        },
+        "data_description": {
+          "host": "Powerwall-yhdyskäytävän isäntänimi tai IP-osoite",
+          "email": "Asiakastilin sähköpostiosoite",
+          "password": "Yhdyskäytävään asetettu asiakkaan salasana"
+        }
+      },
+      "cloud": {
+        "description": "Käyttää Teslan pilvi-API:a paikallisen yhteyden sijaan. Edellyttää, että kertakirjautuminen tehdään ensin Home Assistantin ulkopuolella: suorita `python -m pypowerwall setup` (tai `setup -headless`) luodaksesi `.pypowerwall.auth`-tiedoston, ja osoita tämä sitten sen sisältävään hakemistoon.",
+        "data": {
+          "authpath": "Tunnistautumisvälimuistin hakemisto",
+          "siteid": "Sivuston tunnus (valinnainen)"
+        },
+        "data_description": {
+          "authpath": "Hakemisto, joka sisältää komennolla `python -m pypowerwall setup` luodun .pypowerwall.auth-tiedoston",
+          "siteid": "Käytettävä Tesla-sivuston tunnus, jos tilillä on useampi kuin yksi sivusto"
+        }
+      },
+      "fleetapi": {
+        "description": "Käyttää Teslan FleetAPI:a paikallisen yhteyden sijaan. Edellyttää, että kertaluonteinen asennus tehdään ensin Home Assistantin ulkopuolella: rekisteröi sovellus osoitteessa developer.tesla.com, suorita sitten `python -m pypowerwall.fleetapi setup` luodaksesi `.pypowerwall.fleetapi`-tiedoston, ja osoita tämä sen sisältävään hakemistoon.",
+        "data": {
+          "authpath": "Asetusvälimuistin hakemisto",
+          "siteid": "Sivuston tunnus (valinnainen)"
+        },
+        "data_description": {
+          "authpath": "Hakemisto, joka sisältää komennolla `python -m pypowerwall.fleetapi setup` luodun .pypowerwall.fleetapi-tiedoston",
+          "siteid": "Käytettävä Tesla-sivuston tunnus, jos tilillä on useampi kuin yksi sivusto"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Täysi protobuf-pohjainen lähiverkkoyhteys Powerwall 3:lle käyttäen ennalta rekisteröityä RSA-avainta. Edellyttää, että kertaluonteinen asennus tehdään ensin Home Assistantin ulkopuolella: suorita `python -m pypowerwall register` luodaksesi ja rekisteröidäksesi RSA-4096-avainparin yhdyskäytävään (tämä saattaa vaatia yhdyskäytävän virran lyhyttä katkaisemista vahvistusta varten), ja osoita tämä sitten syntyneeseen yksityisen avaimen tiedostoon.",
+        "data": {
+          "host": "Isäntä",
+          "gw_pwd": "Yhdyskäytävän salasana",
+          "rsa_key_path": "RSA-yksityisavaimen polku",
+          "wifi_host": "WiFi-varaisäntä (valinnainen)"
+        },
+        "data_description": {
+          "host": "Powerwall-yhdyskäytävän isäntänimi tai IP-osoite",
+          "gw_pwd": "QR-tarraan painettu yhdyskäytävän täydellinen Wi-Fi-salasana",
+          "rsa_key_path": "Polku komennolla `python -m pypowerwall register` luotuun RSA-4096-yksityisavaimen PEM-tiedostoon",
+          "wifi_host": "Vaihtoehtoinen WiFi-TEDAPI-isäntä varalle"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Yhteyden muodostaminen epäonnistui. Tarkista yhteystiedot ja yritä uudelleen.",
+      "unknown": "Odottamaton virhe"
+    },
+    "abort": {
+      "already_configured": "Tämä Powerwall-yhdyskäytävä on jo määritetty"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Kyselyväli (sekuntia)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Akun varaustaso" },
+      "battery_level_app": { "name": "Akun varaustaso (Tesla-sovellus)" },
+      "backup_time_remaining": { "name": "Jäljellä oleva varavirta-aika" },
+      "grid_power": { "name": "Sähköverkon teho" },
+      "grid_import_power": { "name": "Sähköverkosta otettu teho" },
+      "grid_export_power": { "name": "Sähköverkkoon syötetty teho" },
+      "solar_power": { "name": "Aurinkopaneelien teho" },
+      "battery_power": { "name": "Akun teho" },
+      "battery_import_power": { "name": "Akun latausteho" },
+      "battery_export_power": { "name": "Akun purkausteho" },
+      "battery_energy_imported": { "name": "Akkuun ladattu energia" },
+      "battery_energy_exported": { "name": "Akusta purettu energia" },
+      "battery_import_energy": { "name": "Akun latausenergia (arvioitu)" },
+      "battery_export_energy": { "name": "Akun purkausenergia (arvioitu)" },
+      "grid_import_energy": { "name": "Sähköverkosta otettu energia (arvioitu)" },
+      "grid_export_energy": { "name": "Sähköverkkoon syötetty energia (arvioitu)" },
+      "home_energy": { "name": "Kotitalouden energiankulutus (arvioitu)" },
+      "home_power": { "name": "Kotitalouden teho" },
+      "grid_status": { "name": "Sähköverkon tila" },
+      "alert_count": { "name": "Aktiiviset hälytykset" },
+      "firmware_version": { "name": "Laiteohjelmiston versio" },
+      "uptime": { "name": "Käyntiaika" },
+      "battery_temp": { "name": "{device} lämpötila" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Yhdistetty sähköverkkoon" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Akun varaus" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Akun tila",
+        "state": {
+          "self_consumption": "Omavarainen",
+          "backup": "Vain varavirta",
+          "autonomous": "Aikaperusteinen ohjaus"
+        }
+      },
+      "grid_export": {
+        "name": "Sähköverkkoon syöttö",
+        "state": {
+          "battery_ok": "Aurinko ja akku",
+          "pv_only": "Vain aurinko",
+          "never": "Ei koskaan"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Lataus sähköverkosta" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Irrota sähköverkosta" },
+      "reconnect_grid": { "name": "Yhdistä uudelleen sähköverkkoon" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Ajasta maksimivaravirta",
+      "description": "Käynnistää manuaalisen varavirtatapahtuman (myrskyvaroitustila / maksimivaravirtatila), joka maksimoi akun varauksen kiinteäksi ajaksi. Edellyttää TEDAPI v1r LAN -tilaa.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Kesto",
+          "description": "Kuinka kauan maksimivaravirtatapahtuman tulisi kestää, sekunteina. Oletusarvo on 7200 (2 tuntia)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Peruuta maksimivaravirta",
+      "description": "Peruuttaa schedule_max_backup-palvelun käynnistämän nykyisen manuaalisen varavirtatapahtuman (myrskyvaroitustila / maksimivaravirtatila). Edellyttää TEDAPI v1r LAN -tilaa."
+    }
+  }
+}

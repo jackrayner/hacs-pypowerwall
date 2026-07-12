@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Kies in ferbiningstype",
+        "menu_options": {
+          "tedapi": "TEDAPI (gateway-wachtwurd)",
+          "hybrid": "Hybride (lokale oanmelding + gateway-wachtwurd)",
+          "local": "Lokale oanmelding (e-mailadres/wachtwurd fan de klant)",
+          "cloud": "Wolkmodus (besteande autentikaasje-cache)",
+          "fleetapi": "FleetAPI (besteande konfiguraasje-cache)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA-kaai)"
+        }
+      },
+      "tedapi": {
+        "description": "Ferbyn mei it eigen Wi-Fi-wachtwurd fan de gateway (modus 4). Wurket op Powerwall 2, Powerwall+ en Powerwall 3 sûnder Customer Login yn te skeakeljen.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Gateway-wachtwurd"
+        },
+        "data_description": {
+          "host": "Hostnamme of IP-adres fan de Powerwall-gateway (bgl. 192.168.91.1)",
+          "gw_pwd": "Folsleine gateway Wi-Fi-wachtwurd dat op it QR-plakkerke printe is"
+        }
+      },
+      "hybrid": {
+        "description": "Kombinearret in klant-oanmelding mei it gateway-wachtwurd om oanfoljende funksjegegevens (vitals) ta te heakjen. Fereasket dat Customer Login op de gateway ynskeakele is.",
+        "data": {
+          "host": "Host",
+          "email": "E-mailadres",
+          "password": "Klantwachtwurd",
+          "gw_pwd": "Gateway-wachtwurd"
+        },
+        "data_description": {
+          "host": "Hostnamme of IP-adres fan de Powerwall-gateway",
+          "email": "E-mailadres fan it klantaccount",
+          "password": "Klantwachtwurd dat op de gateway ynsteld is",
+          "gw_pwd": "Folsleine gateway Wi-Fi-wachtwurd dat op it QR-plakkerke printe is"
+        }
+      },
+      "local": {
+        "description": "Ferbyn mei de Customer Login fan de gateway. Fereasket dat Customer Login earst op de gateway ynskeakele is (fia de Tesla-app of de webynterface fan de gateway).",
+        "data": {
+          "host": "Host",
+          "email": "E-mailadres",
+          "password": "Klantwachtwurd"
+        },
+        "data_description": {
+          "host": "Hostnamme of IP-adres fan de Powerwall-gateway",
+          "email": "E-mailadres fan it klantaccount",
+          "password": "Klantwachtwurd dat op de gateway ynsteld is"
+        }
+      },
+      "cloud": {
+        "description": "Brûkt Tesla syn wolk-API ynstee fan in lokale ferbining. Fereasket earst ien kear in oanmelding bûten Home Assistant: fier `python -m pypowerwall setup` (of `setup -headless`) út om in `.pypowerwall.auth`-bestân oan te meitsjen, en wiis dan nei de map dêr't dat bestân yn stiet.",
+        "data": {
+          "authpath": "Autentikaasje-cachemap",
+          "siteid": "Side-ID (opsjoneel)"
+        },
+        "data_description": {
+          "authpath": "Map dy't it .pypowerwall.auth-bestân befettet dat troch `python -m pypowerwall setup` oanmakke is",
+          "siteid": "Tesla-side-ID om te brûken as it account mear as ien side hat"
+        }
+      },
+      "fleetapi": {
+        "description": "Brûkt Tesla syn FleetAPI ynstee fan in lokale ferbining. Fereasket earst ien kear in ynstelling bûten Home Assistant: registrearje in app op developer.tesla.com, fier dêrnei `python -m pypowerwall.fleetapi setup` út om in `.pypowerwall.fleetapi`-bestân oan te meitsjen, en wiis dan nei de map dêr't dat bestân yn stiet.",
+        "data": {
+          "authpath": "Konfiguraasje-cachemap",
+          "siteid": "Side-ID (opsjoneel)"
+        },
+        "data_description": {
+          "authpath": "Map dy't it .pypowerwall.fleetapi-bestân befettet dat troch `python -m pypowerwall.fleetapi setup` oanmakke is",
+          "siteid": "Tesla-side-ID om te brûken as it account mear as ien side hat"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Folsleine protobuf-LAN-tagong foar Powerwall 3, mei in fan tefoaren registrearre RSA-kaai. Fereasket earst ien kear in ynstelling bûten Home Assistant: fier `python -m pypowerwall register` út om in RSA-4096-kaaipear te generearjen en by de gateway te registrearjen (dit kin fereaskje dat de gateway efkes út- en wer oanset wurdt om te befêstigjen), en wiis dan nei it privee-kaaibestân dat dêrút komt.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Gateway-wachtwurd",
+          "rsa_key_path": "Paad nei RSA-privee-kaai",
+          "wifi_host": "WiFi-reserve-host (opsjoneel)"
+        },
+        "data_description": {
+          "host": "Hostnamme of IP-adres fan de Powerwall-gateway",
+          "gw_pwd": "Folsleine gateway Wi-Fi-wachtwurd dat op it QR-plakkerke printe is",
+          "rsa_key_path": "Paad nei it RSA-4096 privee-kaai-PEM-bestân dat makke is troch `python -m pypowerwall register`",
+          "wifi_host": "Alternative WiFi TEDAPI-host om nei werom te fallen"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Ferbining mislearre. Kontrolearje de ferbiningsgegevens en probearje it opnij.",
+      "unknown": "Unferwachte flater"
+    },
+    "abort": {
+      "already_configured": "Dizze Powerwall-gateway is al konfigurearre"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Skanynterval (sekonden)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Batterijnivo" },
+      "battery_level_app": { "name": "Batterijnivo (Tesla-app)" },
+      "backup_time_remaining": { "name": "Oerbleaune reservetiid" },
+      "grid_power": { "name": "Netfermogen" },
+      "grid_import_power": { "name": "Netymportfermogen" },
+      "grid_export_power": { "name": "Netekseportfermogen" },
+      "solar_power": { "name": "Sinnefermogen" },
+      "battery_power": { "name": "Batterijfermogen" },
+      "battery_import_power": { "name": "Batterij-ymportfermogen" },
+      "battery_export_power": { "name": "Batterij-eksportfermogen" },
+      "battery_energy_imported": { "name": "Batterijenerzjy laden" },
+      "battery_energy_exported": { "name": "Batterijenerzjy ûntladen" },
+      "battery_import_energy": { "name": "Batterij-ymportenerzjy (rûsd)" },
+      "battery_export_energy": { "name": "Batterij-eksportenerzjy (rûsd)" },
+      "grid_import_energy": { "name": "Netymportenerzjy (rûsd)" },
+      "grid_export_energy": { "name": "Netekseportenerzjy (rûsd)" },
+      "home_energy": { "name": "Hûsenerzjy (rûsd)" },
+      "home_power": { "name": "Hûsfermogen" },
+      "grid_status": { "name": "Netstatus" },
+      "alert_count": { "name": "Aktive warskôgings" },
+      "firmware_version": { "name": "Firmwareferzje" },
+      "uptime": { "name": "Bedriuwstiid" },
+      "battery_temp": { "name": "{device} temperatuer" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Ferbûn mei it net" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Batterijreserve" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Batterijmodus",
+        "state": {
+          "self_consumption": "Eigen ferbrûk",
+          "backup": "Allinnich reserve",
+          "autonomous": "Tiidbasearre stjoering"
+        }
+      },
+      "grid_export": {
+        "name": "Neteksport",
+        "state": {
+          "battery_ok": "Sinne en batterij",
+          "pv_only": "Allinnich sinne",
+          "never": "Nea"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Opladen fan it net" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Loskeppelje fan it net" },
+      "reconnect_grid": { "name": "Opnij ferbine mei it net" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Maksimale reserve plenne",
+      "description": "Start in hânmjittige reservegebeurtenis (stoarmwacht / maksimale reservemodus), wêrby't de batterijreserve foar in fêste tiidsduer maksimalisearre wurdt. Fereasket TEDAPI v1r LAN-modus.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Duer",
+          "description": "Hoe lang de maksimale reservegebeurtenis duorje moat, yn sekonden. Standert 7200 (2 oeren)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Maksimale reserve annulearje",
+      "description": "Annulearret de aktuele hânmjittige reservegebeurtenis (stoarmwacht / maksimale reservemodus) dy't troch schedule_max_backup start is. Fereasket TEDAPI v1r LAN-modus."
+    }
+  }
+}

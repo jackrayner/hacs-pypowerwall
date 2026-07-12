@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Roghnaigh cineál an cheangail",
+        "menu_options": {
+          "tedapi": "TEDAPI (pasfhocal an gheata)",
+          "hybrid": "Hibrideach (logáil isteach áitiúil + pasfhocal an gheata)",
+          "local": "Logáil isteach áitiúil (ríomhphost/pasfhocal an chustaiméara)",
+          "cloud": "Mód néil (taisce fíordheimhnithe atá ann cheana)",
+          "fleetapi": "FleetAPI (taisce cumraíochta atá ann cheana)",
+          "tedapi_v1r": "TEDAPI v1r LAN (eochair RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "Ceangail ag baint úsáide as pasfhocal Wi-Fi an gheata féin (mód 4). Oibríonn sé ar Powerwall 2, Powerwall+, agus Powerwall 3 gan Logáil Isteach an Chustaiméara a chumasú.",
+        "data": {
+          "host": "Óstríomhaire",
+          "gw_pwd": "Pasfhocal an gheata"
+        },
+        "data_description": {
+          "host": "Óstainm nó seoladh IP gheata an Powerwall (m.sh. 192.168.91.1)",
+          "gw_pwd": "Pasfhocal iomlán Wi-Fi an gheata atá clóite ar an lipéad QR"
+        }
+      },
+      "hybrid": {
+        "description": "Cuireann sé logáil isteach an chustaiméara le pasfhocal an gheata chun sonraí ríthábhachtacha breise a chur leis. Éilíonn sé go mbeadh Logáil Isteach an Chustaiméara cumasaithe ar an ngeata.",
+        "data": {
+          "host": "Óstríomhaire",
+          "email": "Ríomhphost",
+          "password": "Pasfhocal an chustaiméara",
+          "gw_pwd": "Pasfhocal an gheata"
+        },
+        "data_description": {
+          "host": "Óstainm nó seoladh IP gheata an Powerwall",
+          "email": "Ríomhphost chuntas an chustaiméara",
+          "password": "Pasfhocal an chustaiméara atá socraithe ar an ngeata",
+          "gw_pwd": "Pasfhocal iomlán Wi-Fi an gheata atá clóite ar an lipéad QR"
+        }
+      },
+      "local": {
+        "description": "Ceangail ag baint úsáide as Logáil Isteach an Chustaiméara ar an ngeata. Éilíonn sé go mbeadh Logáil Isteach an Chustaiméara cumasaithe ar an ngeata ar dtús (tríd an aip Tesla nó comhéadan gréasáin an gheata).",
+        "data": {
+          "host": "Óstríomhaire",
+          "email": "Ríomhphost",
+          "password": "Pasfhocal an chustaiméara"
+        },
+        "data_description": {
+          "host": "Óstainm nó seoladh IP gheata an Powerwall",
+          "email": "Ríomhphost chuntas an chustaiméara",
+          "password": "Pasfhocal an chustaiméara atá socraithe ar an ngeata"
+        }
+      },
+      "cloud": {
+        "description": "Úsáideann sé API néil Tesla in ionad ceangal áitiúil. Éilíonn sé logáil isteach aon-uaire lasmuigh de Home Assistant ar dtús: rith `python -m pypowerwall setup` (nó `setup -headless`) chun comhad `.pypowerwall.auth` a chruthú, agus ansin dírigh é seo ar an gcomhadlann ina bhfuil sé.",
+        "data": {
+          "authpath": "Comhadlann taisce fíordheimhnithe",
+          "siteid": "Aitheantas suímh (roghnach)"
+        },
+        "data_description": {
+          "authpath": "Comhadlann ina bhfuil an comhad .pypowerwall.auth a cruthaíodh le `python -m pypowerwall setup`",
+          "siteid": "Aitheantas suímh Tesla le húsáid má tá níos mó ná suíomh amháin ag an gcuntas"
+        }
+      },
+      "fleetapi": {
+        "description": "Úsáideann sé FleetAPI Tesla in ionad ceangal áitiúil. Éilíonn sé socrú aon-uaire lasmuigh de Home Assistant ar dtús: cláraigh aip ag developer.tesla.com, ansin rith `python -m pypowerwall.fleetapi setup` chun comhad `.pypowerwall.fleetapi` a chruthú, agus dírigh é seo ar an gcomhadlann ina bhfuil sé.",
+        "data": {
+          "authpath": "Comhadlann taisce cumraíochta",
+          "siteid": "Aitheantas suímh (roghnach)"
+        },
+        "data_description": {
+          "authpath": "Comhadlann ina bhfuil an comhad .pypowerwall.fleetapi a cruthaíodh le `python -m pypowerwall.fleetapi setup`",
+          "siteid": "Aitheantas suímh Tesla le húsáid má tá níos mó ná suíomh amháin ag an gcuntas"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Rochtain iomlán protobuf LAN do Powerwall 3, ag baint úsáide as eochair RSA atá cláraithe roimh ré. Éilíonn sé socrú aon-uaire lasmuigh de Home Assistant ar dtús: rith `python -m pypowerwall register` chun péire eochracha RSA-4096 a ghiniúint agus a chlárú leis an ngeata (b'fhéidir go mbeadh gá cumhacht an gheata a mhúchadh agus a lasadh arís go gairid chun é a dhearbhú), ansin dírigh é seo ar an gcomhad eochrach príobháidí a bheidh mar thoradh air.",
+        "data": {
+          "host": "Óstríomhaire",
+          "gw_pwd": "Pasfhocal an gheata",
+          "rsa_key_path": "Cosán na heochrach príobháidí RSA",
+          "wifi_host": "Óstríomhaire cúltaca Wi-Fi (roghnach)"
+        },
+        "data_description": {
+          "host": "Óstainm nó seoladh IP gheata an Powerwall",
+          "gw_pwd": "Pasfhocal iomlán Wi-Fi an gheata atá clóite ar an lipéad QR",
+          "rsa_key_path": "Cosán chuig an gcomhad PEM eochrach príobháidí RSA-4096 a chruthaigh `python -m pypowerwall register`",
+          "wifi_host": "Óstríomhaire malartach Wi-Fi TEDAPI le titim siar air"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Theip ar an gceangal. Seiceáil sonraí an cheangail agus bain triail eile as.",
+      "unknown": "Earráid gan choinne"
+    },
+    "abort": {
+      "already_configured": "Tá an geata Powerwall seo cumraithe cheana féin"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Eatramh scanta (soicindí)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Leibhéal ceallra" },
+      "battery_level_app": { "name": "Leibhéal ceallra (aip Tesla)" },
+      "backup_time_remaining": { "name": "Am cúltaca fágtha" },
+      "grid_power": { "name": "Cumhacht greille" },
+      "grid_import_power": { "name": "Cumhacht iompórtála greille" },
+      "grid_export_power": { "name": "Cumhacht easpórtála greille" },
+      "solar_power": { "name": "Cumhacht ghrianda" },
+      "battery_power": { "name": "Cumhacht ceallra" },
+      "battery_import_power": { "name": "Cumhacht iompórtála ceallra" },
+      "battery_export_power": { "name": "Cumhacht easpórtála ceallra" },
+      "battery_energy_imported": { "name": "Fuinneamh luchtaithe ceallra" },
+      "battery_energy_exported": { "name": "Fuinneamh díluchtaithe ceallra" },
+      "battery_import_energy": { "name": "Fuinneamh iompórtála ceallra (measta)" },
+      "battery_export_energy": { "name": "Fuinneamh easpórtála ceallra (measta)" },
+      "grid_import_energy": { "name": "Fuinneamh iompórtála greille (measta)" },
+      "grid_export_energy": { "name": "Fuinneamh easpórtála greille (measta)" },
+      "home_energy": { "name": "Fuinneamh tí (measta)" },
+      "home_power": { "name": "Cumhacht tí" },
+      "grid_status": { "name": "Stádas greille" },
+      "alert_count": { "name": "Foláirimh ghníomhacha" },
+      "firmware_version": { "name": "Leagan bogearraí seasta" },
+      "uptime": { "name": "Am rite" },
+      "battery_temp": { "name": "Teocht {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Ceangailte leis an ngreille" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Cúlchiste ceallra" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Mód ceallra",
+        "state": {
+          "self_consumption": "Féin-chumhachtaithe",
+          "backup": "Cúltaca amháin",
+          "autonomous": "Rialú bunaithe ar am"
+        }
+      },
+      "grid_export": {
+        "name": "Easpórtáil greille",
+        "state": {
+          "battery_ok": "Grian agus ceallra",
+          "pv_only": "Grian amháin",
+          "never": "Riamh"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Luchtú greille" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Dícheangail ón ngreille" },
+      "reconnect_grid": { "name": "Athcheangail leis an ngreille" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Sceideal uas-chúltaca",
+      "description": "Cuireann sé tús le himeacht cúltaca de láimh (faire stoirme / mód uas-chúltaca), ag uasmhéadú chúlchiste an cheallra ar feadh tréimhse socraithe. Éilíonn sé mód TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Fad ama",
+          "description": "Cá fhad ba chóir don imeacht uas-chúltaca a rith, i soicindí. Réamhshocrú 7200 (2 uair an chloig)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Cealaigh an t-uas-chúltaca",
+      "description": "Cealaíonn sé an t-imeacht cúltaca de láimh atá reatha (faire stoirme / mód uas-chúltaca) a cuireadh tús leis ag schedule_max_backup. Éilíonn sé mód TEDAPI v1r LAN."
+    }
+  }
+}

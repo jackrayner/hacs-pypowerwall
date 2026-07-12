@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Vali ühenduse tüüp",
+        "menu_options": {
+          "tedapi": "TEDAPI (lüüsi parool)",
+          "hybrid": "Hübriid (kohalik sisselogimine + lüüsi parool)",
+          "local": "Kohalik sisselogimine (kliendi e-post/parool)",
+          "cloud": "Pilverežiim (olemasolev autentimise vahemälu)",
+          "fleetapi": "FleetAPI (olemasolev seadistuse vahemälu)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA-võti)"
+        }
+      },
+      "tedapi": {
+        "description": "Ühendumine lüüsi enda Wi-Fi parooli abil (režiim 4). Töötab Powerwall 2, Powerwall+ ja Powerwall 3 seadmetel ilma kliendi sisselogimist lubamata.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Lüüsi parool"
+        },
+        "data_description": {
+          "host": "Powerwalli lüüsi hostinimi või IP-aadress (nt 192.168.91.1)",
+          "gw_pwd": "QR-sildile trükitud lüüsi täielik Wi-Fi parool"
+        }
+      },
+      "hybrid": {
+        "description": "Ühendab kliendi sisselogimise lüüsi parooliga, et lisada täiendavaid seireandmeid. Eeldab, et lüüsil on kliendi sisselogimine lubatud.",
+        "data": {
+          "host": "Host",
+          "email": "E-post",
+          "password": "Kliendi parool",
+          "gw_pwd": "Lüüsi parool"
+        },
+        "data_description": {
+          "host": "Powerwalli lüüsi hostinimi või IP-aadress",
+          "email": "Kliendikonto e-posti aadress",
+          "password": "Lüüsil seadistatud kliendi parool",
+          "gw_pwd": "QR-sildile trükitud lüüsi täielik Wi-Fi parool"
+        }
+      },
+      "local": {
+        "description": "Ühendumine lüüsi kliendi sisselogimise abil. Eeldab, et kliendi sisselogimine on lüüsil eelnevalt lubatud (Tesla rakenduse või lüüsi veebiliidese kaudu).",
+        "data": {
+          "host": "Host",
+          "email": "E-post",
+          "password": "Kliendi parool"
+        },
+        "data_description": {
+          "host": "Powerwalli lüüsi hostinimi või IP-aadress",
+          "email": "Kliendikonto e-posti aadress",
+          "password": "Lüüsil seadistatud kliendi parool"
+        }
+      },
+      "cloud": {
+        "description": "Kasutab kohaliku ühenduse asemel Tesla pilve-API-t. Eeldab, et enne seda tehakse väljaspool Home Assistanti ühekordne sisselogimine: käivita `python -m pypowerwall setup` (või `setup -headless`), et luua fail `.pypowerwall.auth`, ning määra siin kataloog, kus see fail asub.",
+        "data": {
+          "authpath": "Autentimise vahemälu kataloog",
+          "siteid": "Saidi ID (valikuline)"
+        },
+        "data_description": {
+          "authpath": "Kataloog, mis sisaldab käsuga `python -m pypowerwall setup` loodud faili .pypowerwall.auth",
+          "siteid": "Kasutatav Tesla saidi ID, kui kontol on mitu saiti"
+        }
+      },
+      "fleetapi": {
+        "description": "Kasutab kohaliku ühenduse asemel Tesla FleetAPI-t. Eeldab, et enne seda tehakse väljaspool Home Assistanti ühekordne seadistus: registreeri rakendus aadressil developer.tesla.com, seejärel käivita `python -m pypowerwall.fleetapi setup`, et luua fail `.pypowerwall.fleetapi`, ning määra siin kataloog, kus see fail asub.",
+        "data": {
+          "authpath": "Seadistuse vahemälu kataloog",
+          "siteid": "Saidi ID (valikuline)"
+        },
+        "data_description": {
+          "authpath": "Kataloog, mis sisaldab käsuga `python -m pypowerwall.fleetapi setup` loodud faili .pypowerwall.fleetapi",
+          "siteid": "Kasutatav Tesla saidi ID, kui kontol on mitu saiti"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Täielik protobuf-põhine LAN-ligipääs Powerwall 3-le, kasutades eelnevalt registreeritud RSA-võtit. Eeldab, et enne seda tehakse väljaspool Home Assistanti ühekordne seadistus: käivita `python -m pypowerwall register`, et luua ja registreerida lüüsi juures RSA-4096 võtmepaar (see võib nõuda lüüsi lühiajalist väljalülitamist ja uuesti käivitamist kinnitamiseks), ning määra siin saadud privaatvõtme fail.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Lüüsi parool",
+          "rsa_key_path": "RSA privaatvõtme asukoht",
+          "wifi_host": "Varu-Wi-Fi host (valikuline)"
+        },
+        "data_description": {
+          "host": "Powerwalli lüüsi hostinimi või IP-aadress",
+          "gw_pwd": "QR-sildile trükitud lüüsi täielik Wi-Fi parool",
+          "rsa_key_path": "Tee käsuga `python -m pypowerwall register` loodud RSA-4096 privaatvõtme PEM-failini",
+          "wifi_host": "Alternatiivne Wi-Fi TEDAPI host, millele tagavaraks üle minna"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Ühendumine ebaõnnestus. Kontrolli ühenduse andmeid ja proovi uuesti.",
+      "unknown": "Ootamatu viga"
+    },
+    "abort": {
+      "already_configured": "See Powerwalli lüüs on juba seadistatud"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Kontrolli intervall (sekundites)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Aku laetuse tase" },
+      "battery_level_app": { "name": "Aku laetuse tase (Tesla rakendus)" },
+      "backup_time_remaining": { "name": "Varutoite jääkaeg" },
+      "grid_power": { "name": "Võrgu võimsus" },
+      "grid_import_power": { "name": "Võrgust võetav võimsus" },
+      "grid_export_power": { "name": "Võrku antav võimsus" },
+      "solar_power": { "name": "Päikesepaneelide võimsus" },
+      "battery_power": { "name": "Aku võimsus" },
+      "battery_import_power": { "name": "Aku laadimisvõimsus" },
+      "battery_export_power": { "name": "Aku tühjenemisvõimsus" },
+      "battery_energy_imported": { "name": "Akusse laetud energia" },
+      "battery_energy_exported": { "name": "Akust võetud energia" },
+      "battery_import_energy": { "name": "Aku laadimisenergia (hinnanguline)" },
+      "battery_export_energy": { "name": "Aku tühjenemisenergia (hinnanguline)" },
+      "grid_import_energy": { "name": "Võrgust võetud energia (hinnanguline)" },
+      "grid_export_energy": { "name": "Võrku antud energia (hinnanguline)" },
+      "home_energy": { "name": "Kodu energiakasutus (hinnanguline)" },
+      "home_power": { "name": "Kodu võimsus" },
+      "grid_status": { "name": "Võrgu olek" },
+      "alert_count": { "name": "Aktiivsed hoiatused" },
+      "firmware_version": { "name": "Püsivara versioon" },
+      "uptime": { "name": "Tööaeg" },
+      "battery_temp": { "name": "{device} temperatuur" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Võrku ühendatud" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Aku reserv" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Aku režiim",
+        "state": {
+          "self_consumption": "Isetarbimine",
+          "backup": "Ainult varutoide",
+          "autonomous": "Ajapõhine juhtimine"
+        }
+      },
+      "grid_export": {
+        "name": "Võrku andmine",
+        "state": {
+          "battery_ok": "Päike ja aku",
+          "pv_only": "Ainult päike",
+          "never": "Mitte kunagi"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Laadimine võrgust" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Katkesta ühendus võrguga" },
+      "reconnect_grid": { "name": "Taasta ühendus võrguga" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Planeeri maksimaalne varutoide",
+      "description": "Käivitab käsitsi varutoitesündmuse (tormivalve / maksimaalne varutoide), maksimeerides aku reservi kindlaksmääratud ajaks. Eeldab TEDAPI v1r LAN režiimi.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Kestus",
+          "description": "Kui kaua maksimaalse varutoite sündmus kestab, sekundites. Vaikimisi 7200 (2 tundi)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Tühista maksimaalne varutoide",
+      "description": "Tühistab käimasoleva käsitsi varutoitesündmuse (tormivalve / maksimaalne varutoide), mis käivitati teenusega schedule_max_backup. Eeldab TEDAPI v1r LAN režiimi."
+    }
+  }
+}

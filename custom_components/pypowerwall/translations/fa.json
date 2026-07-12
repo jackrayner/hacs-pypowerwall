@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "نوع اتصال را انتخاب کنید",
+        "menu_options": {
+          "tedapi": "TEDAPI (گذرواژه گیتوی)",
+          "hybrid": "ترکیبی (ورود محلی + گذرواژه گیتوی)",
+          "local": "ورود محلی (ایمیل/گذرواژه مشتری)",
+          "cloud": "حالت ابری (کش احراز هویت موجود)",
+          "fleetapi": "FleetAPI (کش پیکربندی موجود)",
+          "tedapi_v1r": "TEDAPI v1r LAN (کلید RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "اتصال با استفاده از گذرواژه Wi-Fi خود گیتوی (حالت 4). روی Powerwall 2، Powerwall+ و Powerwall 3 بدون فعال‌سازی ورود مشتری کار می‌کند.",
+        "data": {
+          "host": "میزبان",
+          "gw_pwd": "گذرواژه گیتوی"
+        },
+        "data_description": {
+          "host": "نام میزبان یا آدرس IP گیتوی Powerwall (مثلاً 192.168.91.1)",
+          "gw_pwd": "گذرواژه کامل Wi-Fi گیتوی که روی برچسب QR چاپ شده است"
+        }
+      },
+      "hybrid": {
+        "description": "ورود مشتری را با گذرواژه گیتوی ترکیب می‌کند تا داده‌های تکمیلی وضعیت دستگاه اضافه شود. نیازمند فعال بودن ورود مشتری روی گیتوی است.",
+        "data": {
+          "host": "میزبان",
+          "email": "ایمیل",
+          "password": "گذرواژه مشتری",
+          "gw_pwd": "گذرواژه گیتوی"
+        },
+        "data_description": {
+          "host": "نام میزبان یا آدرس IP گیتوی Powerwall",
+          "email": "ایمیل حساب مشتری",
+          "password": "گذرواژه مشتری تنظیم‌شده روی گیتوی",
+          "gw_pwd": "گذرواژه کامل Wi-Fi گیتوی که روی برچسب QR چاپ شده است"
+        }
+      },
+      "local": {
+        "description": "اتصال با استفاده از ورود مشتری گیتوی. ابتدا باید ورود مشتری روی گیتوی فعال شده باشد (از طریق برنامه Tesla یا رابط وب گیتوی).",
+        "data": {
+          "host": "میزبان",
+          "email": "ایمیل",
+          "password": "گذرواژه مشتری"
+        },
+        "data_description": {
+          "host": "نام میزبان یا آدرس IP گیتوی Powerwall",
+          "email": "ایمیل حساب مشتری",
+          "password": "گذرواژه مشتری تنظیم‌شده روی گیتوی"
+        }
+      },
+      "cloud": {
+        "description": "به‌جای اتصال محلی از API ابری Tesla استفاده می‌کند. ابتدا باید یک‌بار خارج از Home Assistant وارد شوید: دستور `python -m pypowerwall setup` (یا `setup -headless`) را اجرا کنید تا فایل `.pypowerwall.auth` ساخته شود، سپس این مسیر را به پوشه حاوی آن فایل تنظیم کنید.",
+        "data": {
+          "authpath": "پوشه کش احراز هویت",
+          "siteid": "شناسه سایت (اختیاری)"
+        },
+        "data_description": {
+          "authpath": "پوشه‌ای حاوی فایل .pypowerwall.auth که توسط `python -m pypowerwall setup` ساخته می‌شود",
+          "siteid": "شناسه سایت Tesla برای استفاده در صورتی که حساب بیش از یک سایت داشته باشد"
+        }
+      },
+      "fleetapi": {
+        "description": "به‌جای اتصال محلی از FleetAPI مربوط به Tesla استفاده می‌کند. ابتدا باید یک راه‌اندازی یک‌باره خارج از Home Assistant انجام دهید: یک برنامه در developer.tesla.com ثبت کنید، سپس دستور `python -m pypowerwall.fleetapi setup` را اجرا کنید تا فایل `.pypowerwall.fleetapi` ساخته شود، و این مسیر را به پوشه حاوی آن تنظیم کنید.",
+        "data": {
+          "authpath": "پوشه کش پیکربندی",
+          "siteid": "شناسه سایت (اختیاری)"
+        },
+        "data_description": {
+          "authpath": "پوشه‌ای حاوی فایل .pypowerwall.fleetapi که توسط `python -m pypowerwall.fleetapi setup` ساخته می‌شود",
+          "siteid": "شناسه سایت Tesla برای استفاده در صورتی که حساب بیش از یک سایت داشته باشد"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "دسترسی کامل LAN مبتنی بر protobuf برای Powerwall 3، با استفاده از یک کلید RSA از پیش ثبت‌شده. ابتدا باید یک راه‌اندازی یک‌باره خارج از Home Assistant انجام دهید: دستور `python -m pypowerwall register` را اجرا کنید تا یک جفت کلید RSA-4096 تولید و روی گیتوی ثبت شود (ممکن است برای تأیید نیاز به خاموش و روشن کردن کوتاه گیتوی باشد)، سپس این مسیر را به فایل کلید خصوصی حاصل تنظیم کنید.",
+        "data": {
+          "host": "میزبان",
+          "gw_pwd": "گذرواژه گیتوی",
+          "rsa_key_path": "مسیر کلید خصوصی RSA",
+          "wifi_host": "میزبان جایگزین WiFi (اختیاری)"
+        },
+        "data_description": {
+          "host": "نام میزبان یا آدرس IP گیتوی Powerwall",
+          "gw_pwd": "گذرواژه کامل Wi-Fi گیتوی که روی برچسب QR چاپ شده است",
+          "rsa_key_path": "مسیر فایل PEM کلید خصوصی RSA-4096 تولیدشده توسط `python -m pypowerwall register`",
+          "wifi_host": "میزبان جایگزین WiFi برای TEDAPI"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "اتصال ناموفق بود. جزئیات اتصال را بررسی کرده و دوباره تلاش کنید.",
+      "unknown": "خطای غیرمنتظره"
+    },
+    "abort": {
+      "already_configured": "این گیتوی Powerwall قبلاً پیکربندی شده است"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "فاصله بررسی (ثانیه)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "سطح شارژ باتری" },
+      "battery_level_app": { "name": "سطح شارژ باتری (برنامه Tesla)" },
+      "backup_time_remaining": { "name": "زمان باقی‌مانده پشتیبان" },
+      "grid_power": { "name": "توان شبکه برق" },
+      "grid_import_power": { "name": "توان دریافتی از شبکه" },
+      "grid_export_power": { "name": "توان ارسالی به شبکه" },
+      "solar_power": { "name": "توان خورشیدی" },
+      "battery_power": { "name": "توان باتری" },
+      "battery_import_power": { "name": "توان شارژ باتری" },
+      "battery_export_power": { "name": "توان تخلیه باتری" },
+      "battery_energy_imported": { "name": "انرژی شارژ باتری" },
+      "battery_energy_exported": { "name": "انرژی تخلیه باتری" },
+      "battery_import_energy": { "name": "انرژی شارژ باتری (تخمینی)" },
+      "battery_export_energy": { "name": "انرژی تخلیه باتری (تخمینی)" },
+      "grid_import_energy": { "name": "انرژی دریافتی از شبکه (تخمینی)" },
+      "grid_export_energy": { "name": "انرژی ارسالی به شبکه (تخمینی)" },
+      "home_energy": { "name": "انرژی مصرفی خانه (تخمینی)" },
+      "home_power": { "name": "توان مصرفی خانه" },
+      "grid_status": { "name": "وضعیت شبکه برق" },
+      "alert_count": { "name": "هشدارهای فعال" },
+      "firmware_version": { "name": "نسخه فریمور" },
+      "uptime": { "name": "مدت‌زمان روشن بودن" },
+      "battery_temp": { "name": "دمای {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "اتصال به شبکه برق" }
+    },
+    "number": {
+      "battery_reserve": { "name": "ذخیره باتری" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "حالت باتری",
+        "state": {
+          "self_consumption": "خودتأمینی",
+          "backup": "فقط پشتیبان",
+          "autonomous": "کنترل زمان‌بندی‌شده"
+        }
+      },
+      "grid_export": {
+        "name": "ارسال به شبکه",
+        "state": {
+          "battery_ok": "خورشیدی و باتری",
+          "pv_only": "فقط خورشیدی",
+          "never": "هرگز"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "شارژ از شبکه" }
+    },
+    "button": {
+      "go_off_grid": { "name": "قطع اتصال از شبکه" },
+      "reconnect_grid": { "name": "اتصال مجدد به شبکه" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "زمان‌بندی حداکثر پشتیبان",
+      "description": "یک رویداد پشتیبان دستی (حالت هشدار طوفان / حداکثر پشتیبان) را آغاز می‌کند و ذخیره باتری را برای مدت‌زمانی مشخص به حداکثر می‌رساند. نیازمند حالت TEDAPI v1r LAN است.",
+      "fields": {
+        "duration_seconds": {
+          "name": "مدت‌زمان",
+          "description": "مدت‌زمان اجرای رویداد حداکثر پشتیبان، بر حسب ثانیه. مقدار پیش‌فرض 7200 (2 ساعت) است."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "لغو حداکثر پشتیبان",
+      "description": "رویداد پشتیبان دستی جاری (حالت هشدار طوفان / حداکثر پشتیبان) را که با schedule_max_backup آغاز شده لغو می‌کند. نیازمند حالت TEDAPI v1r LAN است."
+    }
+  }
+}

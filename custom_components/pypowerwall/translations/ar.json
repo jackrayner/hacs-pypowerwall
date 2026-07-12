@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "اختر نوع الاتصال",
+        "menu_options": {
+          "tedapi": "TEDAPI (كلمة مرور البوابة)",
+          "hybrid": "هجين (تسجيل دخول محلي + كلمة مرور البوابة)",
+          "local": "تسجيل دخول محلي (البريد الإلكتروني/كلمة مرور العميل)",
+          "cloud": "وضع السحابة (ذاكرة تخزين مؤقت للمصادقة الحالية)",
+          "fleetapi": "FleetAPI (ذاكرة تخزين مؤقت للتكوين الحالية)",
+          "tedapi_v1r": "TEDAPI v1r عبر الشبكة المحلية (مفتاح RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "الاتصال باستخدام كلمة مرور Wi-Fi الخاصة بالبوابة نفسها (الوضع 4). يعمل مع Powerwall 2 وPowerwall+ وPowerwall 3 دون الحاجة إلى تفعيل تسجيل دخول العميل.",
+        "data": {
+          "host": "المضيف",
+          "gw_pwd": "كلمة مرور البوابة"
+        },
+        "data_description": {
+          "host": "اسم المضيف أو عنوان IP الخاص ببوابة Powerwall (مثال: 192.168.91.1)",
+          "gw_pwd": "كلمة مرور Wi-Fi الكاملة للبوابة المطبوعة على ملصق رمز الاستجابة السريعة"
+        }
+      },
+      "hybrid": {
+        "description": "يجمع بين تسجيل دخول العميل وكلمة مرور البوابة لإضافة بيانات حيوية تكميلية. يتطلب تفعيل تسجيل دخول العميل على البوابة.",
+        "data": {
+          "host": "المضيف",
+          "email": "البريد الإلكتروني",
+          "password": "كلمة مرور العميل",
+          "gw_pwd": "كلمة مرور البوابة"
+        },
+        "data_description": {
+          "host": "اسم المضيف أو عنوان IP الخاص ببوابة Powerwall",
+          "email": "عنوان البريد الإلكتروني لحساب العميل",
+          "password": "كلمة مرور العميل التي تم إعدادها على البوابة",
+          "gw_pwd": "كلمة مرور Wi-Fi الكاملة للبوابة المطبوعة على ملصق رمز الاستجابة السريعة"
+        }
+      },
+      "local": {
+        "description": "الاتصال باستخدام تسجيل دخول العميل الخاص بالبوابة. يتطلب تفعيل تسجيل دخول العميل على البوابة أولاً (عبر تطبيق Tesla أو واجهة الويب الخاصة بالبوابة).",
+        "data": {
+          "host": "المضيف",
+          "email": "البريد الإلكتروني",
+          "password": "كلمة مرور العميل"
+        },
+        "data_description": {
+          "host": "اسم المضيف أو عنوان IP الخاص ببوابة Powerwall",
+          "email": "عنوان البريد الإلكتروني لحساب العميل",
+          "password": "كلمة مرور العميل التي تم إعدادها على البوابة"
+        }
+      },
+      "cloud": {
+        "description": "يستخدم واجهة برمجة تطبيقات Tesla السحابية بدلاً من الاتصال المحلي. يتطلب تسجيل دخول لمرة واحدة يتم تنفيذه خارج Home Assistant أولاً: شغّل الأمر `python -m pypowerwall setup` (أو `setup -headless`) لإنشاء ملف `.pypowerwall.auth`، ثم أشر إلى المجلد الذي يحتوي عليه.",
+        "data": {
+          "authpath": "مجلد ذاكرة تخزين المصادقة المؤقتة",
+          "siteid": "معرّف الموقع (اختياري)"
+        },
+        "data_description": {
+          "authpath": "المجلد الذي يحتوي على ملف .pypowerwall.auth الذي تم إنشاؤه بواسطة `python -m pypowerwall setup`",
+          "siteid": "معرّف موقع Tesla المراد استخدامه إذا كان الحساب يحتوي على أكثر من موقع واحد"
+        }
+      },
+      "fleetapi": {
+        "description": "يستخدم FleetAPI الخاصة بـ Tesla بدلاً من الاتصال المحلي. يتطلب إعدادًا لمرة واحدة يتم تنفيذه خارج Home Assistant أولاً: قم بتسجيل تطبيق على developer.tesla.com، ثم شغّل الأمر `python -m pypowerwall.fleetapi setup` لإنشاء ملف `.pypowerwall.fleetapi`، وأشر إلى المجلد الذي يحتوي عليه.",
+        "data": {
+          "authpath": "مجلد ذاكرة تخزين التكوين المؤقتة",
+          "siteid": "معرّف الموقع (اختياري)"
+        },
+        "data_description": {
+          "authpath": "المجلد الذي يحتوي على ملف .pypowerwall.fleetapi الذي تم إنشاؤه بواسطة `python -m pypowerwall.fleetapi setup`",
+          "siteid": "معرّف موقع Tesla المراد استخدامه إذا كان الحساب يحتوي على أكثر من موقع واحد"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "وصول كامل عبر بروتوكول protobuf على الشبكة المحلية لجهاز Powerwall 3، باستخدام مفتاح RSA مسجَّل مسبقًا. يتطلب إعدادًا لمرة واحدة يتم تنفيذه خارج Home Assistant أولاً: شغّل الأمر `python -m pypowerwall register` لإنشاء زوج مفاتيح RSA-4096 وتسجيله لدى البوابة (قد يتطلب ذلك إعادة تشغيل البوابة لفترة وجيزة للتأكيد)، ثم أشر إلى ملف المفتاح الخاص الناتج.",
+        "data": {
+          "host": "المضيف",
+          "gw_pwd": "كلمة مرور البوابة",
+          "rsa_key_path": "مسار مفتاح RSA الخاص",
+          "wifi_host": "مضيف Wi-Fi الاحتياطي (اختياري)"
+        },
+        "data_description": {
+          "host": "اسم المضيف أو عنوان IP الخاص ببوابة Powerwall",
+          "gw_pwd": "كلمة مرور Wi-Fi الكاملة للبوابة المطبوعة على ملصق رمز الاستجابة السريعة",
+          "rsa_key_path": "مسار ملف PEM لمفتاح RSA-4096 الخاص الذي تم إنشاؤه بواسطة `python -m pypowerwall register`",
+          "wifi_host": "مضيف TEDAPI بديل عبر Wi-Fi للرجوع إليه"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "فشل الاتصال. تحقق من تفاصيل الاتصال وحاول مرة أخرى.",
+      "unknown": "خطأ غير متوقع"
+    },
+    "abort": {
+      "already_configured": "تم إعداد بوابة Powerwall هذه بالفعل"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "فترة المسح (بالثواني)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "مستوى البطارية" },
+      "battery_level_app": { "name": "مستوى البطارية (تطبيق Tesla)" },
+      "backup_time_remaining": { "name": "الوقت المتبقي للاحتياطي" },
+      "grid_power": { "name": "طاقة الشبكة" },
+      "grid_import_power": { "name": "طاقة استيراد الشبكة" },
+      "grid_export_power": { "name": "طاقة تصدير الشبكة" },
+      "solar_power": { "name": "الطاقة الشمسية" },
+      "battery_power": { "name": "طاقة البطارية" },
+      "battery_import_power": { "name": "طاقة استيراد البطارية" },
+      "battery_export_power": { "name": "طاقة تصدير البطارية" },
+      "battery_energy_imported": { "name": "طاقة البطارية المشحونة" },
+      "battery_energy_exported": { "name": "طاقة البطارية المفرغة" },
+      "battery_import_energy": { "name": "طاقة استيراد البطارية (تقديرية)" },
+      "battery_export_energy": { "name": "طاقة تصدير البطارية (تقديرية)" },
+      "grid_import_energy": { "name": "طاقة استيراد الشبكة (تقديرية)" },
+      "grid_export_energy": { "name": "طاقة تصدير الشبكة (تقديرية)" },
+      "home_energy": { "name": "طاقة المنزل (تقديرية)" },
+      "home_power": { "name": "طاقة المنزل" },
+      "grid_status": { "name": "حالة الشبكة" },
+      "alert_count": { "name": "التنبيهات النشطة" },
+      "firmware_version": { "name": "إصدار البرنامج الثابت" },
+      "uptime": { "name": "مدة التشغيل" },
+      "battery_temp": { "name": "درجة حرارة {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "متصل بالشبكة" }
+    },
+    "number": {
+      "battery_reserve": { "name": "احتياطي البطارية" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "وضع البطارية",
+        "state": {
+          "self_consumption": "الاكتفاء الذاتي",
+          "backup": "احتياطي فقط",
+          "autonomous": "تحكم قائم على الوقت"
+        }
+      },
+      "grid_export": {
+        "name": "تصدير الشبكة",
+        "state": {
+          "battery_ok": "الطاقة الشمسية والبطارية",
+          "pv_only": "الطاقة الشمسية فقط",
+          "never": "أبدًا"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "الشحن من الشبكة" }
+    },
+    "button": {
+      "go_off_grid": { "name": "الانفصال عن الشبكة" },
+      "reconnect_grid": { "name": "إعادة الاتصال بالشبكة" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "جدولة الاحتياطي الأقصى",
+      "description": "يبدأ حدث احتياطي يدوي (مراقبة العاصفة / وضع الاحتياطي الأقصى)، مما يرفع احتياطي البطارية إلى الحد الأقصى لمدة محددة. يتطلب وضع TEDAPI v1r عبر الشبكة المحلية.",
+      "fields": {
+        "duration_seconds": {
+          "name": "المدة",
+          "description": "المدة التي يجب أن يستمر فيها حدث الاحتياطي الأقصى، بالثواني. القيمة الافتراضية هي 7200 (ساعتان)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "إلغاء الاحتياطي الأقصى",
+      "description": "يلغي حدث الاحتياطي اليدوي الحالي (مراقبة العاصفة / وضع الاحتياطي الأقصى) الذي بدأ بواسطة schedule_max_backup. يتطلب وضع TEDAPI v1r عبر الشبكة المحلية."
+    }
+  }
+}

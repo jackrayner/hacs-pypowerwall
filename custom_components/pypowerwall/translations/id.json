@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Pilih jenis koneksi",
+        "menu_options": {
+          "tedapi": "TEDAPI (kata sandi gateway)",
+          "hybrid": "Hybrid (login lokal + kata sandi gateway)",
+          "local": "Login lokal (email/kata sandi pelanggan)",
+          "cloud": "Mode cloud (cache autentikasi yang ada)",
+          "fleetapi": "FleetAPI (cache konfigurasi yang ada)",
+          "tedapi_v1r": "TEDAPI v1r LAN (kunci RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "Hubungkan menggunakan kata sandi Wi-Fi milik gateway itu sendiri (mode 4). Berfungsi pada Powerwall 2, Powerwall+, dan Powerwall 3 tanpa perlu mengaktifkan Customer Login.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Kata sandi gateway"
+        },
+        "data_description": {
+          "host": "Nama host atau alamat IP gateway Powerwall (mis. 192.168.91.1)",
+          "gw_pwd": "Kata sandi Wi-Fi gateway lengkap yang tercetak pada label QR"
+        }
+      },
+      "hybrid": {
+        "description": "Menggabungkan login pelanggan dengan kata sandi gateway untuk menambahkan data vital tambahan. Memerlukan Customer Login yang telah diaktifkan pada gateway.",
+        "data": {
+          "host": "Host",
+          "email": "Email",
+          "password": "Kata sandi pelanggan",
+          "gw_pwd": "Kata sandi gateway"
+        },
+        "data_description": {
+          "host": "Nama host atau alamat IP gateway Powerwall",
+          "email": "Email akun pelanggan",
+          "password": "Kata sandi pelanggan yang diatur pada gateway",
+          "gw_pwd": "Kata sandi Wi-Fi gateway lengkap yang tercetak pada label QR"
+        }
+      },
+      "local": {
+        "description": "Hubungkan menggunakan Customer Login milik gateway. Memerlukan Customer Login yang telah diaktifkan terlebih dahulu pada gateway (melalui aplikasi Tesla atau UI web gateway).",
+        "data": {
+          "host": "Host",
+          "email": "Email",
+          "password": "Kata sandi pelanggan"
+        },
+        "data_description": {
+          "host": "Nama host atau alamat IP gateway Powerwall",
+          "email": "Email akun pelanggan",
+          "password": "Kata sandi pelanggan yang diatur pada gateway"
+        }
+      },
+      "cloud": {
+        "description": "Menggunakan API cloud Tesla, bukan koneksi lokal. Memerlukan login satu kali yang dilakukan di luar Home Assistant terlebih dahulu: jalankan `python -m pypowerwall setup` (atau `setup -headless`) untuk membuat berkas `.pypowerwall.auth`, lalu arahkan ini ke direktori yang berisi berkas tersebut.",
+        "data": {
+          "authpath": "Direktori cache autentikasi",
+          "siteid": "ID situs (opsional)"
+        },
+        "data_description": {
+          "authpath": "Direktori yang berisi berkas .pypowerwall.auth yang dibuat oleh `python -m pypowerwall setup`",
+          "siteid": "ID situs Tesla yang digunakan jika akun memiliki lebih dari satu situs"
+        }
+      },
+      "fleetapi": {
+        "description": "Menggunakan FleetAPI Tesla, bukan koneksi lokal. Memerlukan penyiapan satu kali yang dilakukan di luar Home Assistant terlebih dahulu: daftarkan aplikasi di developer.tesla.com, lalu jalankan `python -m pypowerwall.fleetapi setup` untuk membuat berkas `.pypowerwall.fleetapi`, dan arahkan ini ke direktori yang berisi berkas tersebut.",
+        "data": {
+          "authpath": "Direktori cache konfigurasi",
+          "siteid": "ID situs (opsional)"
+        },
+        "data_description": {
+          "authpath": "Direktori yang berisi berkas .pypowerwall.fleetapi yang dibuat oleh `python -m pypowerwall.fleetapi setup`",
+          "siteid": "ID situs Tesla yang digunakan jika akun memiliki lebih dari satu situs"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Akses LAN full-protobuf untuk Powerwall 3, menggunakan kunci RSA yang telah didaftarkan sebelumnya. Memerlukan penyiapan satu kali yang dilakukan di luar Home Assistant terlebih dahulu: jalankan `python -m pypowerwall register` untuk membuat dan mendaftarkan pasangan kunci RSA-4096 dengan gateway (langkah ini mungkin memerlukan gateway dimatikan-dihidupkan ulang sebentar untuk konfirmasi), lalu arahkan ini ke berkas kunci privat yang dihasilkan.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Kata sandi gateway",
+          "rsa_key_path": "Jalur kunci privat RSA",
+          "wifi_host": "Host cadangan WiFi (opsional)"
+        },
+        "data_description": {
+          "host": "Nama host atau alamat IP gateway Powerwall",
+          "gw_pwd": "Kata sandi Wi-Fi gateway lengkap yang tercetak pada label QR",
+          "rsa_key_path": "Jalur ke berkas PEM kunci privat RSA-4096 yang dihasilkan oleh `python -m pypowerwall register`",
+          "wifi_host": "Host TEDAPI WiFi alternatif sebagai cadangan"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Gagal terhubung. Periksa detail koneksi dan coba lagi.",
+      "unknown": "Terjadi kesalahan yang tidak terduga"
+    },
+    "abort": {
+      "already_configured": "Gateway Powerwall ini sudah dikonfigurasi"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Interval pemindaian (detik)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Tingkat baterai" },
+      "battery_level_app": { "name": "Tingkat baterai (aplikasi Tesla)" },
+      "backup_time_remaining": { "name": "Sisa waktu cadangan" },
+      "grid_power": { "name": "Daya jaringan listrik" },
+      "grid_import_power": { "name": "Daya impor jaringan listrik" },
+      "grid_export_power": { "name": "Daya ekspor jaringan listrik" },
+      "solar_power": { "name": "Daya surya" },
+      "battery_power": { "name": "Daya baterai" },
+      "battery_import_power": { "name": "Daya impor baterai" },
+      "battery_export_power": { "name": "Daya ekspor baterai" },
+      "battery_energy_imported": { "name": "Energi baterai yang diisi" },
+      "battery_energy_exported": { "name": "Energi baterai yang dikeluarkan" },
+      "battery_import_energy": { "name": "Energi impor baterai (estimasi)" },
+      "battery_export_energy": { "name": "Energi ekspor baterai (estimasi)" },
+      "grid_import_energy": { "name": "Energi impor jaringan listrik (estimasi)" },
+      "grid_export_energy": { "name": "Energi ekspor jaringan listrik (estimasi)" },
+      "home_energy": { "name": "Energi rumah (estimasi)" },
+      "home_power": { "name": "Daya rumah" },
+      "grid_status": { "name": "Status jaringan listrik" },
+      "alert_count": { "name": "Peringatan aktif" },
+      "firmware_version": { "name": "Versi firmware" },
+      "uptime": { "name": "Waktu aktif" },
+      "battery_temp": { "name": "Suhu {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Terhubung ke jaringan listrik" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Cadangan baterai" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Mode baterai",
+        "state": {
+          "self_consumption": "Swadaya",
+          "backup": "Khusus cadangan",
+          "autonomous": "Kontrol berbasis waktu"
+        }
+      },
+      "grid_export": {
+        "name": "Ekspor ke jaringan listrik",
+        "state": {
+          "battery_ok": "Surya dan baterai",
+          "pv_only": "Hanya surya",
+          "never": "Tidak pernah"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Pengisian dari jaringan listrik" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Putuskan dari jaringan listrik" },
+      "reconnect_grid": { "name": "Sambungkan kembali ke jaringan listrik" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Jadwalkan cadangan maksimum",
+      "description": "Memulai peristiwa cadangan manual (mode storm watch / cadangan maksimum), memaksimalkan cadangan baterai selama durasi tertentu. Memerlukan mode TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Durasi",
+          "description": "Berapa lama peristiwa cadangan maksimum berjalan, dalam detik. Standarnya adalah 7200 (2 jam)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Batalkan cadangan maksimum",
+      "description": "Membatalkan peristiwa cadangan manual (mode storm watch / cadangan maksimum) yang sedang berjalan, yang dimulai oleh schedule_max_backup. Memerlukan mode TEDAPI v1r LAN."
+    }
+  }
+}

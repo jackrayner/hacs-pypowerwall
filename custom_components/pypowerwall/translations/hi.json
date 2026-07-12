@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "कनेक्शन प्रकार चुनें",
+        "menu_options": {
+          "tedapi": "TEDAPI (गेटवे पासवर्ड)",
+          "hybrid": "हाइब्रिड (स्थानीय लॉगिन + गेटवे पासवर्ड)",
+          "local": "स्थानीय लॉगिन (ग्राहक ईमेल/पासवर्ड)",
+          "cloud": "क्लाउड मोड (मौजूदा ऑथ कैश)",
+          "fleetapi": "FleetAPI (मौजूदा कॉन्फ़िगरेशन कैश)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA कुंजी)"
+        }
+      },
+      "tedapi": {
+        "description": "गेटवे के अपने Wi-Fi पासवर्ड (मोड 4) का उपयोग करके कनेक्ट करें। यह कस्टमर लॉगिन सक्षम किए बिना Powerwall 2, Powerwall+ और Powerwall 3 पर काम करता है।",
+        "data": {
+          "host": "होस्ट",
+          "gw_pwd": "गेटवे पासवर्ड"
+        },
+        "data_description": {
+          "host": "Powerwall गेटवे का होस्टनाम या IP पता (उदाहरण: 192.168.91.1)",
+          "gw_pwd": "QR लेबल पर छपा पूरा गेटवे Wi-Fi पासवर्ड"
+        }
+      },
+      "hybrid": {
+        "description": "अतिरिक्त वाइटल्स डेटा जोड़ने के लिए कस्टमर लॉगिन को गेटवे पासवर्ड के साथ जोड़ता है। इसके लिए गेटवे पर कस्टमर लॉगिन सक्षम होना आवश्यक है।",
+        "data": {
+          "host": "होस्ट",
+          "email": "ईमेल",
+          "password": "ग्राहक पासवर्ड",
+          "gw_pwd": "गेटवे पासवर्ड"
+        },
+        "data_description": {
+          "host": "Powerwall गेटवे का होस्टनाम या IP पता",
+          "email": "ग्राहक खाते का ईमेल",
+          "password": "गेटवे पर सेट किया गया ग्राहक पासवर्ड",
+          "gw_pwd": "QR लेबल पर छपा पूरा गेटवे Wi-Fi पासवर्ड"
+        }
+      },
+      "local": {
+        "description": "गेटवे के कस्टमर लॉगिन का उपयोग करके कनेक्ट करें। इसके लिए पहले गेटवे पर कस्टमर लॉगिन सक्षम करना आवश्यक है (Tesla ऐप या गेटवे वेब UI के माध्यम से)।",
+        "data": {
+          "host": "होस्ट",
+          "email": "ईमेल",
+          "password": "ग्राहक पासवर्ड"
+        },
+        "data_description": {
+          "host": "Powerwall गेटवे का होस्टनाम या IP पता",
+          "email": "ग्राहक खाते का ईमेल",
+          "password": "गेटवे पर सेट किया गया ग्राहक पासवर्ड"
+        }
+      },
+      "cloud": {
+        "description": "स्थानीय कनेक्शन के बजाय Tesla के क्लाउड API का उपयोग करता है। इसके लिए पहले Home Assistant के बाहर एक बार का लॉगिन करना आवश्यक है: `.pypowerwall.auth` फ़ाइल बनाने के लिए `python -m pypowerwall setup` (या `setup -headless`) चलाएँ, फिर उस फ़ाइल वाली डायरेक्टरी यहाँ बताएँ।",
+        "data": {
+          "authpath": "ऑथ कैश डायरेक्टरी",
+          "siteid": "साइट ID (वैकल्पिक)"
+        },
+        "data_description": {
+          "authpath": "वह डायरेक्टरी जिसमें `python -m pypowerwall setup` द्वारा बनाई गई .pypowerwall.auth फ़ाइल है",
+          "siteid": "यदि खाते में एक से अधिक साइटें हैं तो उपयोग करने के लिए Tesla साइट ID"
+        }
+      },
+      "fleetapi": {
+        "description": "स्थानीय कनेक्शन के बजाय Tesla के FleetAPI का उपयोग करता है। इसके लिए पहले Home Assistant के बाहर एक बार की सेटअप प्रक्रिया आवश्यक है: developer.tesla.com पर एक ऐप रजिस्टर करें, फिर `.pypowerwall.fleetapi` फ़ाइल बनाने के लिए `python -m pypowerwall.fleetapi setup` चलाएँ, और उस फ़ाइल वाली डायरेक्टरी यहाँ बताएँ।",
+        "data": {
+          "authpath": "कॉन्फ़िगरेशन कैश डायरेक्टरी",
+          "siteid": "साइट ID (वैकल्पिक)"
+        },
+        "data_description": {
+          "authpath": "वह डायरेक्टरी जिसमें `python -m pypowerwall.fleetapi setup` द्वारा बनाई गई .pypowerwall.fleetapi फ़ाइल है",
+          "siteid": "यदि खाते में एक से अधिक साइटें हैं तो उपयोग करने के लिए Tesla साइट ID"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "पहले से रजिस्टर की गई RSA कुंजी का उपयोग करके Powerwall 3 के लिए पूर्ण-प्रोटोबफ़ LAN एक्सेस। इसके लिए पहले Home Assistant के बाहर एक बार की सेटअप प्रक्रिया आवश्यक है: RSA-4096 कुंजी युग्म बनाने और गेटवे के साथ रजिस्टर करने के लिए `python -m pypowerwall register` चलाएँ (पुष्टि के लिए गेटवे को थोड़ी देर के लिए बंद-चालू करना पड़ सकता है), फिर परिणामी प्राइवेट कुंजी फ़ाइल यहाँ बताएँ।",
+        "data": {
+          "host": "होस्ट",
+          "gw_pwd": "गेटवे पासवर्ड",
+          "rsa_key_path": "RSA प्राइवेट कुंजी पथ",
+          "wifi_host": "वाई-फाई फ़ॉलबैक होस्ट (वैकल्पिक)"
+        },
+        "data_description": {
+          "host": "Powerwall गेटवे का होस्टनाम या IP पता",
+          "gw_pwd": "QR लेबल पर छपा पूरा गेटवे Wi-Fi पासवर्ड",
+          "rsa_key_path": "`python -m pypowerwall register` द्वारा बनाई गई RSA-4096 प्राइवेट कुंजी PEM फ़ाइल का पथ",
+          "wifi_host": "फ़ॉलबैक के लिए वैकल्पिक वाई-फाई TEDAPI होस्ट"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "कनेक्ट करने में विफल। कनेक्शन विवरण जाँचें और फिर से प्रयास करें।",
+      "unknown": "अप्रत्याशित त्रुटि"
+    },
+    "abort": {
+      "already_configured": "यह Powerwall गेटवे पहले से ही कॉन्फ़िगर किया गया है"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "स्कैन अंतराल (सेकंड)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "बैटरी स्तर" },
+      "battery_level_app": { "name": "बैटरी स्तर (Tesla ऐप)" },
+      "backup_time_remaining": { "name": "शेष बैकअप समय" },
+      "grid_power": { "name": "ग्रिड पावर" },
+      "grid_import_power": { "name": "ग्रिड आयात पावर" },
+      "grid_export_power": { "name": "ग्रिड निर्यात पावर" },
+      "solar_power": { "name": "सोलर पावर" },
+      "battery_power": { "name": "बैटरी पावर" },
+      "battery_import_power": { "name": "बैटरी आयात पावर" },
+      "battery_export_power": { "name": "बैटरी निर्यात पावर" },
+      "battery_energy_imported": { "name": "बैटरी चार्ज ऊर्जा" },
+      "battery_energy_exported": { "name": "बैटरी डिस्चार्ज ऊर्जा" },
+      "battery_import_energy": { "name": "बैटरी आयात ऊर्जा (अनुमानित)" },
+      "battery_export_energy": { "name": "बैटरी निर्यात ऊर्जा (अनुमानित)" },
+      "grid_import_energy": { "name": "ग्रिड आयात ऊर्जा (अनुमानित)" },
+      "grid_export_energy": { "name": "ग्रिड निर्यात ऊर्जा (अनुमानित)" },
+      "home_energy": { "name": "घरेलू ऊर्जा (अनुमानित)" },
+      "home_power": { "name": "घरेलू पावर" },
+      "grid_status": { "name": "ग्रिड स्थिति" },
+      "alert_count": { "name": "सक्रिय अलर्ट" },
+      "firmware_version": { "name": "फर्मवेयर संस्करण" },
+      "uptime": { "name": "अपटाइम" },
+      "battery_temp": { "name": "{device} तापमान" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "ग्रिड से जुड़ा" }
+    },
+    "number": {
+      "battery_reserve": { "name": "बैटरी रिज़र्व" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "बैटरी मोड",
+        "state": {
+          "self_consumption": "स्व-संचालित",
+          "backup": "केवल बैकअप",
+          "autonomous": "समय-आधारित नियंत्रण"
+        }
+      },
+      "grid_export": {
+        "name": "ग्रिड निर्यात",
+        "state": {
+          "battery_ok": "सोलर और बैटरी",
+          "pv_only": "केवल सोलर",
+          "never": "कभी नहीं"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "ग्रिड चार्जिंग" }
+    },
+    "button": {
+      "go_off_grid": { "name": "ग्रिड से डिस्कनेक्ट करें" },
+      "reconnect_grid": { "name": "ग्रिड से पुनः कनेक्ट करें" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "अधिकतम बैकअप शेड्यूल करें",
+      "description": "एक मैनुअल बैकअप इवेंट (स्टॉर्म वॉच / मैक्स बैकअप मोड) शुरू करता है, जो एक निश्चित अवधि के लिए बैटरी रिज़र्व को अधिकतम कर देता है। इसके लिए TEDAPI v1r LAN मोड आवश्यक है।",
+      "fields": {
+        "duration_seconds": {
+          "name": "अवधि",
+          "description": "मैक्स बैकअप इवेंट कितने सेकंड तक चलना चाहिए। डिफ़ॉल्ट 7200 (2 घंटे) है।"
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "मैक्स बैकअप रद्द करें",
+      "description": "schedule_max_backup द्वारा शुरू किए गए वर्तमान मैनुअल बैकअप इवेंट (स्टॉर्म वॉच / मैक्स बैकअप मोड) को रद्द करता है। इसके लिए TEDAPI v1r LAN मोड आवश्यक है।"
+    }
+  }
+}

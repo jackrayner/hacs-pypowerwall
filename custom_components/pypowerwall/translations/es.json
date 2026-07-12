@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Elige un tipo de conexión",
+        "menu_options": {
+          "tedapi": "TEDAPI (contraseña de la puerta de enlace)",
+          "hybrid": "Híbrido (inicio de sesión local + contraseña de la puerta de enlace)",
+          "local": "Inicio de sesión local (correo electrónico/contraseña del cliente)",
+          "cloud": "Modo nube (caché de autenticación existente)",
+          "fleetapi": "FleetAPI (caché de configuración existente)",
+          "tedapi_v1r": "TEDAPI v1r LAN (clave RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "Conéctate usando la contraseña de Wi-Fi propia de la puerta de enlace (modo 4). Funciona en Powerwall 2, Powerwall+ y Powerwall 3 sin necesidad de habilitar el inicio de sesión de cliente.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Contraseña de la puerta de enlace"
+        },
+        "data_description": {
+          "host": "Nombre de host o dirección IP de la puerta de enlace del Powerwall (p. ej., 192.168.91.1)",
+          "gw_pwd": "Contraseña Wi-Fi completa de la puerta de enlace impresa en la etiqueta con el código QR"
+        }
+      },
+      "hybrid": {
+        "description": "Combina un inicio de sesión de cliente con la contraseña de la puerta de enlace para añadir datos de estado adicionales. Requiere que el inicio de sesión de cliente esté habilitado en la puerta de enlace.",
+        "data": {
+          "host": "Host",
+          "email": "Correo electrónico",
+          "password": "Contraseña del cliente",
+          "gw_pwd": "Contraseña de la puerta de enlace"
+        },
+        "data_description": {
+          "host": "Nombre de host o dirección IP de la puerta de enlace del Powerwall",
+          "email": "Correo electrónico de la cuenta del cliente",
+          "password": "Contraseña del cliente configurada en la puerta de enlace",
+          "gw_pwd": "Contraseña Wi-Fi completa de la puerta de enlace impresa en la etiqueta con el código QR"
+        }
+      },
+      "local": {
+        "description": "Conéctate usando el inicio de sesión de cliente de la puerta de enlace. Primero es necesario habilitar el inicio de sesión de cliente en la puerta de enlace (mediante la aplicación de Tesla o la interfaz web de la puerta de enlace).",
+        "data": {
+          "host": "Host",
+          "email": "Correo electrónico",
+          "password": "Contraseña del cliente"
+        },
+        "data_description": {
+          "host": "Nombre de host o dirección IP de la puerta de enlace del Powerwall",
+          "email": "Correo electrónico de la cuenta del cliente",
+          "password": "Contraseña del cliente configurada en la puerta de enlace"
+        }
+      },
+      "cloud": {
+        "description": "Utiliza la API en la nube de Tesla en lugar de una conexión local. Requiere un inicio de sesión único realizado previamente fuera de Home Assistant: ejecuta `python -m pypowerwall setup` (o `setup -headless`) para crear un archivo `.pypowerwall.auth`, y después indica aquí el directorio que lo contiene.",
+        "data": {
+          "authpath": "Directorio de la caché de autenticación",
+          "siteid": "ID del sitio (opcional)"
+        },
+        "data_description": {
+          "authpath": "Directorio que contiene el archivo .pypowerwall.auth creado por `python -m pypowerwall setup`",
+          "siteid": "ID del sitio de Tesla que usar si la cuenta tiene más de un sitio"
+        }
+      },
+      "fleetapi": {
+        "description": "Utiliza FleetAPI de Tesla en lugar de una conexión local. Requiere una configuración única realizada previamente fuera de Home Assistant: registra una aplicación en developer.tesla.com, luego ejecuta `python -m pypowerwall.fleetapi setup` para crear un archivo `.pypowerwall.fleetapi`, y después indica aquí el directorio que lo contiene.",
+        "data": {
+          "authpath": "Directorio de la caché de configuración",
+          "siteid": "ID del sitio (opcional)"
+        },
+        "data_description": {
+          "authpath": "Directorio que contiene el archivo .pypowerwall.fleetapi creado por `python -m pypowerwall.fleetapi setup`",
+          "siteid": "ID del sitio de Tesla que usar si la cuenta tiene más de un sitio"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Acceso LAN mediante protobuf completo para Powerwall 3, usando una clave RSA previamente registrada. Requiere una configuración única realizada previamente fuera de Home Assistant: ejecuta `python -m pypowerwall register` para generar y registrar un par de claves RSA-4096 con la puerta de enlace (esto puede requerir apagar y encender brevemente la puerta de enlace para confirmarlo), y después indica aquí el archivo de clave privada resultante.",
+        "data": {
+          "host": "Host",
+          "gw_pwd": "Contraseña de la puerta de enlace",
+          "rsa_key_path": "Ruta de la clave privada RSA",
+          "wifi_host": "Host Wi-Fi alternativo (opcional)"
+        },
+        "data_description": {
+          "host": "Nombre de host o dirección IP de la puerta de enlace del Powerwall",
+          "gw_pwd": "Contraseña Wi-Fi completa de la puerta de enlace impresa en la etiqueta con el código QR",
+          "rsa_key_path": "Ruta al archivo PEM de la clave privada RSA-4096 generado por `python -m pypowerwall register`",
+          "wifi_host": "Host TEDAPI Wi-Fi alternativo al que recurrir"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "No se pudo conectar. Comprueba los datos de conexión e inténtalo de nuevo.",
+      "unknown": "Error inesperado"
+    },
+    "abort": {
+      "already_configured": "Esta puerta de enlace de Powerwall ya está configurada"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Intervalo de sondeo (segundos)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Nivel de batería" },
+      "battery_level_app": { "name": "Nivel de batería (app de Tesla)" },
+      "backup_time_remaining": { "name": "Tiempo de respaldo restante" },
+      "grid_power": { "name": "Potencia de la red" },
+      "grid_import_power": { "name": "Potencia importada de la red" },
+      "grid_export_power": { "name": "Potencia exportada a la red" },
+      "solar_power": { "name": "Potencia solar" },
+      "battery_power": { "name": "Potencia de la batería" },
+      "battery_import_power": { "name": "Potencia de importación de la batería" },
+      "battery_export_power": { "name": "Potencia de exportación de la batería" },
+      "battery_energy_imported": { "name": "Energía cargada de la batería" },
+      "battery_energy_exported": { "name": "Energía descargada de la batería" },
+      "battery_import_energy": { "name": "Energía de importación de la batería (estimada)" },
+      "battery_export_energy": { "name": "Energía de exportación de la batería (estimada)" },
+      "grid_import_energy": { "name": "Energía importada de la red (estimada)" },
+      "grid_export_energy": { "name": "Energía exportada a la red (estimada)" },
+      "home_energy": { "name": "Energía del hogar (estimada)" },
+      "home_power": { "name": "Potencia del hogar" },
+      "grid_status": { "name": "Estado de la red" },
+      "alert_count": { "name": "Alertas activas" },
+      "firmware_version": { "name": "Versión del firmware" },
+      "uptime": { "name": "Tiempo de actividad" },
+      "battery_temp": { "name": "Temperatura de {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Conectado a la red" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Reserva de batería" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Modo de batería",
+        "state": {
+          "self_consumption": "Autoconsumo",
+          "backup": "Solo respaldo",
+          "autonomous": "Control basado en el tiempo"
+        }
+      },
+      "grid_export": {
+        "name": "Exportación a la red",
+        "state": {
+          "battery_ok": "Solar y batería",
+          "pv_only": "Solo solar",
+          "never": "Nunca"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Carga desde la red" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Desconectar de la red" },
+      "reconnect_grid": { "name": "Reconectar a la red" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Programar respaldo máximo",
+      "description": "Inicia un evento de respaldo manual (modo de vigilancia de tormentas / respaldo máximo), maximizando la reserva de la batería durante un período fijo. Requiere el modo TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Duración",
+          "description": "Cuánto tiempo debe durar el evento de respaldo máximo, en segundos. El valor predeterminado es 7200 (2 horas)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Cancelar respaldo máximo",
+      "description": "Cancela el evento de respaldo manual actual (modo de vigilancia de tormentas / respaldo máximo) iniciado por schedule_max_backup. Requiere el modo TEDAPI v1r LAN."
+    }
+  }
+}

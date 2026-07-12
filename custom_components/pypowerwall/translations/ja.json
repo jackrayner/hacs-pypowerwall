@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "接続方式を選択してください",
+        "menu_options": {
+          "tedapi": "TEDAPI（ゲートウェイパスワード）",
+          "hybrid": "ハイブリッド（ローカルログイン + ゲートウェイパスワード）",
+          "local": "ローカルログイン（顧客のメールアドレス/パスワード）",
+          "cloud": "クラウドモード（既存の認証キャッシュ）",
+          "fleetapi": "FleetAPI（既存の設定キャッシュ）",
+          "tedapi_v1r": "TEDAPI v1r LAN（RSA鍵）"
+        }
+      },
+      "tedapi": {
+        "description": "ゲートウェイ自体のWi-Fiパスワードを使用して接続します（モード4）。Customer Loginを有効にしなくても、Powerwall 2、Powerwall+、Powerwall 3で動作します。",
+        "data": {
+          "host": "ホスト",
+          "gw_pwd": "ゲートウェイパスワード"
+        },
+        "data_description": {
+          "host": "Powerwallゲートウェイのホスト名またはIPアドレス（例: 192.168.91.1）",
+          "gw_pwd": "QRラベルに印字されているゲートウェイのWi-Fiパスワード（全文）"
+        }
+      },
+      "hybrid": {
+        "description": "顧客ログインとゲートウェイパスワードを組み合わせて、補足的な稼働データを追加します。ゲートウェイでCustomer Loginが有効になっている必要があります。",
+        "data": {
+          "host": "ホスト",
+          "email": "メールアドレス",
+          "password": "顧客パスワード",
+          "gw_pwd": "ゲートウェイパスワード"
+        },
+        "data_description": {
+          "host": "Powerwallゲートウェイのホスト名またはIPアドレス",
+          "email": "顧客アカウントのメールアドレス",
+          "password": "ゲートウェイに設定されている顧客パスワード",
+          "gw_pwd": "QRラベルに印字されているゲートウェイのWi-Fiパスワード（全文）"
+        }
+      },
+      "local": {
+        "description": "ゲートウェイのCustomer Loginを使用して接続します。事前にゲートウェイでCustomer Loginを有効にしておく必要があります（Teslaアプリまたはゲートウェイのウェブ管理画面から設定）。",
+        "data": {
+          "host": "ホスト",
+          "email": "メールアドレス",
+          "password": "顧客パスワード"
+        },
+        "data_description": {
+          "host": "Powerwallゲートウェイのホスト名またはIPアドレス",
+          "email": "顧客アカウントのメールアドレス",
+          "password": "ゲートウェイに設定されている顧客パスワード"
+        }
+      },
+      "cloud": {
+        "description": "ローカル接続の代わりにTeslaのクラウドAPIを使用します。事前にHome Assistantの外部で一度だけログインを行う必要があります。`python -m pypowerwall setup`（または`setup -headless`）を実行して`.pypowerwall.auth`ファイルを作成し、そのファイルが置かれているディレクトリを指定してください。",
+        "data": {
+          "authpath": "認証キャッシュディレクトリ",
+          "siteid": "サイトID（任意）"
+        },
+        "data_description": {
+          "authpath": "`python -m pypowerwall setup`によって作成された`.pypowerwall.auth`ファイルが置かれているディレクトリ",
+          "siteid": "アカウントに複数のサイトがある場合に使用するTeslaサイトID"
+        }
+      },
+      "fleetapi": {
+        "description": "ローカル接続の代わりにTeslaのFleetAPIを使用します。事前にHome Assistantの外部で一度だけセットアップを行う必要があります。developer.tesla.comでアプリを登録した後、`python -m pypowerwall.fleetapi setup`を実行して`.pypowerwall.fleetapi`ファイルを作成し、そのファイルが置かれているディレクトリを指定してください。",
+        "data": {
+          "authpath": "設定キャッシュディレクトリ",
+          "siteid": "サイトID（任意）"
+        },
+        "data_description": {
+          "authpath": "`python -m pypowerwall.fleetapi setup`によって作成された`.pypowerwall.fleetapi`ファイルが置かれているディレクトリ",
+          "siteid": "アカウントに複数のサイトがある場合に使用するTeslaサイトID"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "事前に登録したRSA鍵を使用した、Powerwall 3向けのフルprotobuf LANアクセスです。事前にHome Assistantの外部で一度だけセットアップを行う必要があります。`python -m pypowerwall register`を実行してRSA-4096鍵ペアを生成し、ゲートウェイに登録します（確認のためゲートウェイの電源を一度入れ直す必要がある場合があります）。その後、生成された秘密鍵ファイルを指定してください。",
+        "data": {
+          "host": "ホスト",
+          "gw_pwd": "ゲートウェイパスワード",
+          "rsa_key_path": "RSA秘密鍵のパス",
+          "wifi_host": "WiFiフォールバックホスト（任意）"
+        },
+        "data_description": {
+          "host": "Powerwallゲートウェイのホスト名またはIPアドレス",
+          "gw_pwd": "QRラベルに印字されているゲートウェイのWi-Fiパスワード（全文）",
+          "rsa_key_path": "`python -m pypowerwall register`によって生成されたRSA-4096秘密鍵のPEMファイルのパス",
+          "wifi_host": "フォールバック先として使用する代替のWiFi TEDAPIホスト"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "接続に失敗しました。接続情報を確認して、もう一度お試しください。",
+      "unknown": "予期しないエラー"
+    },
+    "abort": {
+      "already_configured": "このPowerwallゲートウェイは既に設定されています"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "スキャン間隔（秒）"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "バッテリー残量" },
+      "battery_level_app": { "name": "バッテリー残量（Teslaアプリ）" },
+      "backup_time_remaining": { "name": "バックアップ残り時間" },
+      "grid_power": { "name": "系統電力" },
+      "grid_import_power": { "name": "系統からの受電電力" },
+      "grid_export_power": { "name": "系統への送電電力" },
+      "solar_power": { "name": "太陽光発電電力" },
+      "battery_power": { "name": "バッテリー電力" },
+      "battery_import_power": { "name": "バッテリー充電電力" },
+      "battery_export_power": { "name": "バッテリー放電電力" },
+      "battery_energy_imported": { "name": "バッテリー充電量" },
+      "battery_energy_exported": { "name": "バッテリー放電量" },
+      "battery_import_energy": { "name": "バッテリー充電量（推定）" },
+      "battery_export_energy": { "name": "バッテリー放電量（推定）" },
+      "grid_import_energy": { "name": "系統からの受電量（推定）" },
+      "grid_export_energy": { "name": "系統への送電量（推定）" },
+      "home_energy": { "name": "家庭消費電力量（推定）" },
+      "home_power": { "name": "家庭消費電力" },
+      "grid_status": { "name": "系統ステータス" },
+      "alert_count": { "name": "有効なアラート数" },
+      "firmware_version": { "name": "ファームウェアバージョン" },
+      "uptime": { "name": "稼働時間" },
+      "battery_temp": { "name": "{device}の温度" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "系統接続" }
+    },
+    "number": {
+      "battery_reserve": { "name": "バッテリー予備率" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "バッテリーモード",
+        "state": {
+          "self_consumption": "自家消費優先",
+          "backup": "バックアップ専用",
+          "autonomous": "時間帯別制御"
+        }
+      },
+      "grid_export": {
+        "name": "系統への売電",
+        "state": {
+          "battery_ok": "太陽光とバッテリー",
+          "pv_only": "太陽光のみ",
+          "never": "なし"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "系統からの充電" }
+    },
+    "button": {
+      "go_off_grid": { "name": "系統から切断" },
+      "reconnect_grid": { "name": "系統に再接続" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "最大バックアップをスケジュール",
+      "description": "手動バックアップイベント（ストームウォッチ／最大バックアップモード）を開始し、一定時間バッテリー予備率を最大にします。TEDAPI v1r LANモードが必要です。",
+      "fields": {
+        "duration_seconds": {
+          "name": "実行時間",
+          "description": "最大バックアップイベントを実行する時間（秒）。デフォルトは7200（2時間）です。"
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "最大バックアップをキャンセル",
+      "description": "schedule_max_backupによって開始された現在の手動バックアップイベント（ストームウォッチ／最大バックアップモード）をキャンセルします。TEDAPI v1r LANモードが必要です。"
+    }
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Vælg forbindelsestype",
+        "menu_options": {
+          "tedapi": "TEDAPI (gateway-adgangskode)",
+          "hybrid": "Hybrid (lokalt login + gateway-adgangskode)",
+          "local": "Lokalt login (kunde-e-mail/adgangskode)",
+          "cloud": "Cloud-tilstand (eksisterende godkendelses-cache)",
+          "fleetapi": "FleetAPI (eksisterende konfigurations-cache)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA-nøgle)"
+        }
+      },
+      "tedapi": {
+        "description": "Opret forbindelse med gatewayens egen Wi-Fi-adgangskode (tilstand 4). Fungerer på Powerwall 2, Powerwall+ og Powerwall 3 uden at aktivere kundelogin.",
+        "data": {
+          "host": "Vært",
+          "gw_pwd": "Gateway-adgangskode"
+        },
+        "data_description": {
+          "host": "Værtsnavn eller IP-adresse for Powerwall-gatewayen (f.eks. 192.168.91.1)",
+          "gw_pwd": "Den fulde Wi-Fi-adgangskode til gatewayen, som er trykt på QR-mærkaten"
+        }
+      },
+      "hybrid": {
+        "description": "Kombinerer et kundelogin med gateway-adgangskoden for at tilføje supplerende driftsdata. Kræver, at kundelogin er aktiveret på gatewayen.",
+        "data": {
+          "host": "Vært",
+          "email": "E-mail",
+          "password": "Kundeadgangskode",
+          "gw_pwd": "Gateway-adgangskode"
+        },
+        "data_description": {
+          "host": "Værtsnavn eller IP-adresse for Powerwall-gatewayen",
+          "email": "E-mail til kundekontoen",
+          "password": "Kundeadgangskode oprettet på gatewayen",
+          "gw_pwd": "Den fulde Wi-Fi-adgangskode til gatewayen, som er trykt på QR-mærkaten"
+        }
+      },
+      "local": {
+        "description": "Opret forbindelse med gatewayens kundelogin. Kræver, at kundelogin først aktiveres på gatewayen (via Tesla-appen eller gatewayens webgrænseflade).",
+        "data": {
+          "host": "Vært",
+          "email": "E-mail",
+          "password": "Kundeadgangskode"
+        },
+        "data_description": {
+          "host": "Værtsnavn eller IP-adresse for Powerwall-gatewayen",
+          "email": "E-mail til kundekontoen",
+          "password": "Kundeadgangskode oprettet på gatewayen"
+        }
+      },
+      "cloud": {
+        "description": "Bruger Teslas cloud-API i stedet for en lokal forbindelse. Kræver et engangslogin, der udføres uden for Home Assistant først: kør `python -m pypowerwall setup` (eller `setup -headless`) for at oprette en `.pypowerwall.auth`-fil, og peg derefter på den mappe, der indeholder den.",
+        "data": {
+          "authpath": "Mappe til godkendelses-cache",
+          "siteid": "Site-ID (valgfrit)"
+        },
+        "data_description": {
+          "authpath": "Mappe, der indeholder filen .pypowerwall.auth oprettet af `python -m pypowerwall setup`",
+          "siteid": "Tesla site-ID, der skal bruges, hvis kontoen har mere end ét site"
+        }
+      },
+      "fleetapi": {
+        "description": "Bruger Teslas FleetAPI i stedet for en lokal forbindelse. Kræver en engangsopsætning, der udføres uden for Home Assistant først: registrer en app på developer.tesla.com, kør derefter `python -m pypowerwall.fleetapi setup` for at oprette en `.pypowerwall.fleetapi`-fil, og peg på den mappe, der indeholder den.",
+        "data": {
+          "authpath": "Mappe til konfigurations-cache",
+          "siteid": "Site-ID (valgfrit)"
+        },
+        "data_description": {
+          "authpath": "Mappe, der indeholder filen .pypowerwall.fleetapi oprettet af `python -m pypowerwall.fleetapi setup`",
+          "siteid": "Tesla site-ID, der skal bruges, hvis kontoen har mere end ét site"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Fuld protobuf-baseret LAN-adgang til Powerwall 3 ved brug af en forudregistreret RSA-nøgle. Kræver en engangsopsætning, der udføres uden for Home Assistant først: kør `python -m pypowerwall register` for at generere og registrere et RSA-4096-nøglepar hos gatewayen (dette kan kræve en kort genstart af gatewayen for at bekræfte), og peg derefter på den resulterende private nøglefil.",
+        "data": {
+          "host": "Vært",
+          "gw_pwd": "Gateway-adgangskode",
+          "rsa_key_path": "Sti til privat RSA-nøgle",
+          "wifi_host": "WiFi-reservevært (valgfrit)"
+        },
+        "data_description": {
+          "host": "Værtsnavn eller IP-adresse for Powerwall-gatewayen",
+          "gw_pwd": "Den fulde Wi-Fi-adgangskode til gatewayen, som er trykt på QR-mærkaten",
+          "rsa_key_path": "Sti til PEM-filen med den private RSA-4096-nøgle, der er genereret af `python -m pypowerwall register`",
+          "wifi_host": "Alternativ WiFi TEDAPI-vært, der bruges som reserve"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Kunne ikke oprette forbindelse. Kontrollér forbindelsesoplysningerne, og prøv igen.",
+      "unknown": "Uventet fejl"
+    },
+    "abort": {
+      "already_configured": "Denne Powerwall-gateway er allerede konfigureret"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Scanningsinterval (sekunder)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Batteriniveau" },
+      "battery_level_app": { "name": "Batteriniveau (Tesla-app)" },
+      "backup_time_remaining": { "name": "Resterende backuptid" },
+      "grid_power": { "name": "Nettets effekt" },
+      "grid_import_power": { "name": "Effekt importeret fra nettet" },
+      "grid_export_power": { "name": "Effekt eksporteret til nettet" },
+      "solar_power": { "name": "Solcelleeffekt" },
+      "battery_power": { "name": "Batterieffekt" },
+      "battery_import_power": { "name": "Effekt importeret til batteri" },
+      "battery_export_power": { "name": "Effekt eksporteret fra batteri" },
+      "battery_energy_imported": { "name": "Batterienergi opladet" },
+      "battery_energy_exported": { "name": "Batterienergi afladet" },
+      "battery_import_energy": { "name": "Importeret batterienergi (estimeret)" },
+      "battery_export_energy": { "name": "Eksporteret batterienergi (estimeret)" },
+      "grid_import_energy": { "name": "Importeret netenergi (estimeret)" },
+      "grid_export_energy": { "name": "Eksporteret netenergi (estimeret)" },
+      "home_energy": { "name": "Husets energiforbrug (estimeret)" },
+      "home_power": { "name": "Husets effekt" },
+      "grid_status": { "name": "Netstatus" },
+      "alert_count": { "name": "Aktive advarsler" },
+      "firmware_version": { "name": "Firmwareversion" },
+      "uptime": { "name": "Oppetid" },
+      "battery_temp": { "name": "{device} temperatur" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Tilsluttet nettet" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Batterireserve" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Batteritilstand",
+        "state": {
+          "self_consumption": "Selvforsyning",
+          "backup": "Kun backup",
+          "autonomous": "Tidsbaseret styring"
+        }
+      },
+      "grid_export": {
+        "name": "Neteksport",
+        "state": {
+          "battery_ok": "Solceller og batteri",
+          "pv_only": "Kun solceller",
+          "never": "Aldrig"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Opladning fra nettet" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Afbryd forbindelsen til nettet" },
+      "reconnect_grid": { "name": "Genopret forbindelsen til nettet" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Planlæg maksimal backup",
+      "description": "Starter en manuel backup-hændelse (storm watch/maksimal backup-tilstand), som maksimerer batterireserven i en fast periode. Kræver TEDAPI v1r LAN-tilstand.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Varighed",
+          "description": "Hvor længe den maksimale backup-hændelse skal køre, i sekunder. Standard er 7200 (2 timer)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Annuller maksimal backup",
+      "description": "Annullerer den aktuelle manuelle backup-hændelse (storm watch/maksimal backup-tilstand), der er startet af schedule_max_backup. Kræver TEDAPI v1r LAN-tilstand."
+    }
+  }
+}

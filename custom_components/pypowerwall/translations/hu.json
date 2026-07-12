@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Válasszon kapcsolattípust",
+        "menu_options": {
+          "tedapi": "TEDAPI (átjáró jelszó)",
+          "hybrid": "Hibrid (helyi bejelentkezés + átjáró jelszó)",
+          "local": "Helyi bejelentkezés (ügyfél e-mail-cím/jelszó)",
+          "cloud": "Felhő mód (meglévő hitelesítési gyorsítótár)",
+          "fleetapi": "FleetAPI (meglévő konfigurációs gyorsítótár)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA-kulcs)"
+        }
+      },
+      "tedapi": {
+        "description": "Csatlakozás az átjáró saját Wi-Fi jelszavával (4-es mód). Powerwall 2, Powerwall+ és Powerwall 3 eszközökön is működik az Ügyfél bejelentkezés engedélyezése nélkül.",
+        "data": {
+          "host": "Gazdagép",
+          "gw_pwd": "Átjáró jelszava"
+        },
+        "data_description": {
+          "host": "A Powerwall átjáró állomásneve vagy IP-címe (pl. 192.168.91.1)",
+          "gw_pwd": "A QR-címkén nyomtatott teljes átjáró Wi-Fi jelszó"
+        }
+      },
+      "hybrid": {
+        "description": "Az ügyfél bejelentkezést az átjáró jelszavával kombinálja, hogy kiegészítő élettani adatokat is hozzáadjon. Ehhez az átjárón engedélyezve kell lennie az Ügyfél bejelentkezésnek.",
+        "data": {
+          "host": "Gazdagép",
+          "email": "E-mail",
+          "password": "Ügyfél jelszó",
+          "gw_pwd": "Átjáró jelszava"
+        },
+        "data_description": {
+          "host": "A Powerwall átjáró állomásneve vagy IP-címe",
+          "email": "Az ügyfélfiók e-mail-címe",
+          "password": "Az átjárón beállított ügyfél jelszó",
+          "gw_pwd": "A QR-címkén nyomtatott teljes átjáró Wi-Fi jelszó"
+        }
+      },
+      "local": {
+        "description": "Csatlakozás az átjáró Ügyfél bejelentkezésével. Ehhez előbb engedélyezni kell az Ügyfél bejelentkezést az átjárón (a Tesla alkalmazáson vagy az átjáró webes felületén keresztül).",
+        "data": {
+          "host": "Gazdagép",
+          "email": "E-mail",
+          "password": "Ügyfél jelszó"
+        },
+        "data_description": {
+          "host": "A Powerwall átjáró állomásneve vagy IP-címe",
+          "email": "Az ügyfélfiók e-mail-címe",
+          "password": "Az átjárón beállított ügyfél jelszó"
+        }
+      },
+      "cloud": {
+        "description": "A Tesla felhő API-ját használja helyi kapcsolat helyett. Ehhez előbb egyszeri bejelentkezést kell végezni a Home Assistanton kívül: futtassa a `python -m pypowerwall setup` (vagy `setup -headless`) parancsot egy `.pypowerwall.auth` fájl létrehozásához, majd itt adja meg az azt tartalmazó könyvtárat.",
+        "data": {
+          "authpath": "Hitelesítési gyorsítótár könyvtára",
+          "siteid": "Telephely azonosító (opcionális)"
+        },
+        "data_description": {
+          "authpath": "A `python -m pypowerwall setup` által létrehozott .pypowerwall.auth fájlt tartalmazó könyvtár",
+          "siteid": "A használandó Tesla telephely azonosító, ha a fiókhoz több telephely is tartozik"
+        }
+      },
+      "fleetapi": {
+        "description": "A Tesla FleetAPI-ját használja helyi kapcsolat helyett. Ehhez előbb egyszeri beállítást kell végezni a Home Assistanton kívül: regisztráljon egy alkalmazást a developer.tesla.com oldalon, majd futtassa a `python -m pypowerwall.fleetapi setup` parancsot egy `.pypowerwall.fleetapi` fájl létrehozásához, és itt adja meg az azt tartalmazó könyvtárat.",
+        "data": {
+          "authpath": "Konfigurációs gyorsítótár könyvtára",
+          "siteid": "Telephely azonosító (opcionális)"
+        },
+        "data_description": {
+          "authpath": "A `python -m pypowerwall.fleetapi setup` által létrehozott .pypowerwall.fleetapi fájlt tartalmazó könyvtár",
+          "siteid": "A használandó Tesla telephely azonosító, ha a fiókhoz több telephely is tartozik"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Teljes protobuf alapú LAN hozzáférés Powerwall 3 eszközökhöz, előre regisztrált RSA-kulcs használatával. Ehhez előbb egyszeri beállítást kell végezni a Home Assistanton kívül: futtassa a `python -m pypowerwall register` parancsot egy RSA-4096 kulcspár létrehozásához és az átjárón történő regisztrálásához (ehhez szükség lehet az átjáró rövid újraindítására a megerősítéshez), majd itt adja meg a létrejött privát kulcsfájlt.",
+        "data": {
+          "host": "Gazdagép",
+          "gw_pwd": "Átjáró jelszava",
+          "rsa_key_path": "RSA privát kulcs elérési útja",
+          "wifi_host": "WiFi tartalék gazdagép (opcionális)"
+        },
+        "data_description": {
+          "host": "A Powerwall átjáró állomásneve vagy IP-címe",
+          "gw_pwd": "A QR-címkén nyomtatott teljes átjáró Wi-Fi jelszó",
+          "rsa_key_path": "A `python -m pypowerwall register` által létrehozott RSA-4096 privát kulcs PEM-fájl elérési útja",
+          "wifi_host": "Alternatív WiFi TEDAPI gazdagép, amelyre tartalékként vissza lehet váltani"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Sikertelen kapcsolódás. Ellenőrizze a kapcsolat adatait, és próbálja újra.",
+      "unknown": "Váratlan hiba"
+    },
+    "abort": {
+      "already_configured": "Ez a Powerwall átjáró már be van állítva"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Lekérdezési időköz (másodperc)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Akkumulátor töltöttsége" },
+      "battery_level_app": { "name": "Akkumulátor töltöttsége (Tesla alkalmazás)" },
+      "backup_time_remaining": { "name": "Hátralévő tartalék üzemidő" },
+      "grid_power": { "name": "Hálózati teljesítmény" },
+      "grid_import_power": { "name": "Hálózatból vételezett teljesítmény" },
+      "grid_export_power": { "name": "Hálózatba táplált teljesítmény" },
+      "solar_power": { "name": "Napelem teljesítménye" },
+      "battery_power": { "name": "Akkumulátor teljesítménye" },
+      "battery_import_power": { "name": "Akkumulátor töltési teljesítménye" },
+      "battery_export_power": { "name": "Akkumulátor kisütési teljesítménye" },
+      "battery_energy_imported": { "name": "Akkumulátorba töltött energia" },
+      "battery_energy_exported": { "name": "Akkumulátorból kisütött energia" },
+      "battery_import_energy": { "name": "Akkumulátor töltési energiája (becsült)" },
+      "battery_export_energy": { "name": "Akkumulátor kisütési energiája (becsült)" },
+      "grid_import_energy": { "name": "Hálózatból vételezett energia (becsült)" },
+      "grid_export_energy": { "name": "Hálózatba táplált energia (becsült)" },
+      "home_energy": { "name": "Otthoni energiafogyasztás (becsült)" },
+      "home_power": { "name": "Otthoni teljesítményfogyasztás" },
+      "grid_status": { "name": "Hálózat állapota" },
+      "alert_count": { "name": "Aktív riasztások" },
+      "firmware_version": { "name": "Firmware verzió" },
+      "uptime": { "name": "Üzemidő" },
+      "battery_temp": { "name": "{device} hőmérséklete" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Hálózatra csatlakozva" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Akkumulátor tartalék" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Akkumulátor üzemmód",
+        "state": {
+          "self_consumption": "Saját fogyasztás",
+          "backup": "Csak tartalék",
+          "autonomous": "Időalapú vezérlés"
+        }
+      },
+      "grid_export": {
+        "name": "Hálózatba táplálás",
+        "state": {
+          "battery_ok": "Napelem és akkumulátor",
+          "pv_only": "Csak napelem",
+          "never": "Soha"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Hálózatról töltés" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Leválasztás a hálózatról" },
+      "reconnect_grid": { "name": "Újracsatlakozás a hálózathoz" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Maximális tartalék ütemezése",
+      "description": "Elindít egy manuális tartalék eseményt (vihar figyelés / maximális tartalék mód), amely egy meghatározott időre a lehető legmagasabbra növeli az akkumulátor tartalékot. TEDAPI v1r LAN módot igényel.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Időtartam",
+          "description": "Meddig tartson a maximális tartalék esemény, másodpercben megadva. Alapértelmezés szerint 7200 (2 óra)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Maximális tartalék megszakítása",
+      "description": "Megszakítja a schedule_max_backup által elindított aktuális manuális tartalék eseményt (vihar figyelés / maximális tartalék mód). TEDAPI v1r LAN módot igényel."
+    }
+  }
+}

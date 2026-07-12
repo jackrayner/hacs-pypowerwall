@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "کنکشن کی قسم منتخب کریں",
+        "menu_options": {
+          "tedapi": "TEDAPI (گیٹ وے پاس ورڈ)",
+          "hybrid": "ہائبرڈ (لوکل لاگ ان + گیٹ وے پاس ورڈ)",
+          "local": "لوکل لاگ ان (کسٹمر ای میل/پاس ورڈ)",
+          "cloud": "کلاؤڈ موڈ (موجودہ تصدیقی کیشے)",
+          "fleetapi": "FleetAPI (موجودہ کنفیگ کیشے)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA کلید)"
+        }
+      },
+      "tedapi": {
+        "description": "گیٹ وے کے اپنے Wi-Fi پاس ورڈ کے ذریعے کنکٹ کریں (موڈ 4)۔ یہ Powerwall 2، Powerwall+ اور Powerwall 3 پر کسٹمر لاگ ان فعال کیے بغیر بھی کام کرتا ہے۔",
+        "data": {
+          "host": "ہوسٹ",
+          "gw_pwd": "گیٹ وے پاس ورڈ"
+        },
+        "data_description": {
+          "host": "Powerwall گیٹ وے کا ہوسٹ نیم یا IP ایڈریس (مثلاً 192.168.91.1)",
+          "gw_pwd": "QR لیبل پر درج مکمل گیٹ وے Wi-Fi پاس ورڈ"
+        }
+      },
+      "hybrid": {
+        "description": "اضافی وائٹلز ڈیٹا شامل کرنے کے لیے کسٹمر لاگ ان کو گیٹ وے پاس ورڈ کے ساتھ ملاتا ہے۔ اس کے لیے گیٹ وے پر کسٹمر لاگ ان فعال ہونا ضروری ہے۔",
+        "data": {
+          "host": "ہوسٹ",
+          "email": "ای میل",
+          "password": "کسٹمر پاس ورڈ",
+          "gw_pwd": "گیٹ وے پاس ورڈ"
+        },
+        "data_description": {
+          "host": "Powerwall گیٹ وے کا ہوسٹ نیم یا IP ایڈریس",
+          "email": "کسٹمر اکاؤنٹ کی ای میل",
+          "password": "گیٹ وے پر مقرر کردہ کسٹمر پاس ورڈ",
+          "gw_pwd": "QR لیبل پر درج مکمل گیٹ وے Wi-Fi پاس ورڈ"
+        }
+      },
+      "local": {
+        "description": "گیٹ وے کے کسٹمر لاگ ان کے ذریعے کنکٹ کریں۔ اس کے لیے پہلے گیٹ وے پر کسٹمر لاگ ان فعال ہونا ضروری ہے (Tesla ایپ یا گیٹ وے ویب یوآئی کے ذریعے)۔",
+        "data": {
+          "host": "ہوسٹ",
+          "email": "ای میل",
+          "password": "کسٹمر پاس ورڈ"
+        },
+        "data_description": {
+          "host": "Powerwall گیٹ وے کا ہوسٹ نیم یا IP ایڈریس",
+          "email": "کسٹمر اکاؤنٹ کی ای میل",
+          "password": "گیٹ وے پر مقرر کردہ کسٹمر پاس ورڈ"
+        }
+      },
+      "cloud": {
+        "description": "لوکل کنکشن کی بجائے Tesla کا کلاؤڈ API استعمال کرتا ہے۔ اس کے لیے پہلے Home Assistant سے باہر ایک بار لاگ ان کرنا ضروری ہے: `.pypowerwall.auth` فائل بنانے کے لیے `python -m pypowerwall setup` (یا `setup -headless`) چلائیں، پھر اس فولڈر کا راستہ یہاں درج کریں جس میں یہ فائل موجود ہو۔",
+        "data": {
+          "authpath": "تصدیقی کیشے فولڈر",
+          "siteid": "سائٹ آئی ڈی (اختیاری)"
+        },
+        "data_description": {
+          "authpath": "وہ فولڈر جس میں `python -m pypowerwall setup` سے بنائی گئی .pypowerwall.auth فائل موجود ہے",
+          "siteid": "اگر اکاؤنٹ میں ایک سے زیادہ سائٹس ہوں تو استعمال کے لیے Tesla سائٹ آئی ڈی"
+        }
+      },
+      "fleetapi": {
+        "description": "لوکل کنکشن کی بجائے Tesla کا FleetAPI استعمال کرتا ہے۔ اس کے لیے پہلے Home Assistant سے باہر ایک بار سیٹ اپ کرنا ضروری ہے: developer.tesla.com پر ایک ایپ رجسٹر کریں، پھر `.pypowerwall.fleetapi` فائل بنانے کے لیے `python -m pypowerwall.fleetapi setup` چلائیں، اور اس فولڈر کا راستہ یہاں درج کریں جس میں یہ فائل موجود ہو۔",
+        "data": {
+          "authpath": "کنفیگ کیشے فولڈر",
+          "siteid": "سائٹ آئی ڈی (اختیاری)"
+        },
+        "data_description": {
+          "authpath": "وہ فولڈر جس میں `python -m pypowerwall.fleetapi setup` سے بنائی گئی .pypowerwall.fleetapi فائل موجود ہے",
+          "siteid": "اگر اکاؤنٹ میں ایک سے زیادہ سائٹس ہوں تو استعمال کے لیے Tesla سائٹ آئی ڈی"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "پہلے سے رجسٹرڈ RSA کلید کا استعمال کرتے ہوئے Powerwall 3 کے لیے مکمل پروٹوبف LAN رسائی۔ اس کے لیے پہلے Home Assistant سے باہر ایک بار سیٹ اپ کرنا ضروری ہے: گیٹ وے کے ساتھ RSA-4096 کلیدی جوڑا تیار اور رجسٹر کرنے کے لیے `python -m pypowerwall register` چلائیں (تصدیق کے لیے گیٹ وے کو مختصر وقت کے لیے بند اور دوبارہ آن کرنا پڑ سکتا ہے)، پھر حاصل شدہ پرائیویٹ کلید فائل کا راستہ یہاں درج کریں۔",
+        "data": {
+          "host": "ہوسٹ",
+          "gw_pwd": "گیٹ وے پاس ورڈ",
+          "rsa_key_path": "RSA پرائیویٹ کلید کا راستہ",
+          "wifi_host": "WiFi متبادل ہوسٹ (اختیاری)"
+        },
+        "data_description": {
+          "host": "Powerwall گیٹ وے کا ہوسٹ نیم یا IP ایڈریس",
+          "gw_pwd": "QR لیبل پر درج مکمل گیٹ وے Wi-Fi پاس ورڈ",
+          "rsa_key_path": "`python -m pypowerwall register` سے تیار کردہ RSA-4096 پرائیویٹ کلید PEM فائل کا راستہ",
+          "wifi_host": "متبادل کے طور پر استعمال ہونے والا WiFi TEDAPI ہوسٹ"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "کنکٹ ہونے میں ناکامی۔ کنکشن کی تفصیلات چیک کریں اور دوبارہ کوشش کریں۔",
+      "unknown": "غیر متوقع خرابی"
+    },
+    "abort": {
+      "already_configured": "یہ Powerwall گیٹ وے پہلے ہی کنفیگر ہو چکا ہے"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "اسکین وقفہ (سیکنڈ)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "بیٹری لیول" },
+      "battery_level_app": { "name": "بیٹری لیول (Tesla ایپ)" },
+      "backup_time_remaining": { "name": "باقی ماندہ بیک اپ وقت" },
+      "grid_power": { "name": "گرڈ پاور" },
+      "grid_import_power": { "name": "گرڈ سے درآمد شدہ پاور" },
+      "grid_export_power": { "name": "گرڈ کو برآمد شدہ پاور" },
+      "solar_power": { "name": "سولر پاور" },
+      "battery_power": { "name": "بیٹری پاور" },
+      "battery_import_power": { "name": "بیٹری چارجنگ پاور" },
+      "battery_export_power": { "name": "بیٹری ڈسچارجنگ پاور" },
+      "battery_energy_imported": { "name": "بیٹری میں چارج ہونے والی توانائی" },
+      "battery_energy_exported": { "name": "بیٹری سے خارج ہونے والی توانائی" },
+      "battery_import_energy": { "name": "بیٹری درآمدی توانائی (تخمینی)" },
+      "battery_export_energy": { "name": "بیٹری برآمدی توانائی (تخمینی)" },
+      "grid_import_energy": { "name": "گرڈ درآمدی توانائی (تخمینی)" },
+      "grid_export_energy": { "name": "گرڈ برآمدی توانائی (تخمینی)" },
+      "home_energy": { "name": "گھریلو توانائی (تخمینی)" },
+      "home_power": { "name": "گھریلو پاور" },
+      "grid_status": { "name": "گرڈ کی صورتحال" },
+      "alert_count": { "name": "فعال الرٹس" },
+      "firmware_version": { "name": "فرم ویئر ورژن" },
+      "uptime": { "name": "اپ ٹائم" },
+      "battery_temp": { "name": "{device} کا درجہ حرارت" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "گرڈ سے منسلک" }
+    },
+    "number": {
+      "battery_reserve": { "name": "بیٹری ریزرو" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "بیٹری موڈ",
+        "state": {
+          "self_consumption": "خود انحصار",
+          "backup": "صرف بیک اپ",
+          "autonomous": "وقت پر مبنی کنٹرول"
+        }
+      },
+      "grid_export": {
+        "name": "گرڈ ایکسپورٹ",
+        "state": {
+          "battery_ok": "سولر اور بیٹری",
+          "pv_only": "صرف سولر",
+          "never": "کبھی نہیں"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "گرڈ چارجنگ" }
+    },
+    "button": {
+      "go_off_grid": { "name": "گرڈ سے منقطع کریں" },
+      "reconnect_grid": { "name": "گرڈ سے دوبارہ منسلک کریں" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "زیادہ سے زیادہ بیک اپ شیڈول کریں",
+      "description": "ایک دستی بیک اپ ایونٹ شروع کرتا ہے (طوفان وارننگ / زیادہ سے زیادہ بیک اپ موڈ)، جو ایک مقررہ مدت کے لیے بیٹری ریزرو کو زیادہ سے زیادہ کر دیتا ہے۔ اس کے لیے TEDAPI v1r LAN موڈ ضروری ہے۔",
+      "fields": {
+        "duration_seconds": {
+          "name": "دورانیہ",
+          "description": "زیادہ سے زیادہ بیک اپ ایونٹ کتنی دیر تک چلنا چاہیے، سیکنڈوں میں۔ پہلے سے طے شدہ قدر 7200 (2 گھنٹے) ہے۔"
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "زیادہ سے زیادہ بیک اپ منسوخ کریں",
+      "description": "schedule_max_backup کے ذریعے شروع کیے گئے موجودہ دستی بیک اپ ایونٹ (طوفان وارننگ / زیادہ سے زیادہ بیک اپ موڈ) کو منسوخ کرتا ہے۔ اس کے لیے TEDAPI v1r LAN موڈ ضروری ہے۔"
+    }
+  }
+}

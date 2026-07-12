@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Veldu tegund tengingar",
+        "menu_options": {
+          "tedapi": "TEDAPI (lykilorð gáttar)",
+          "hybrid": "Blönduð (staðvær innskráning + lykilorð gáttar)",
+          "local": "Staðvær innskráning (tölvupóstur/lykilorð viðskiptavinar)",
+          "cloud": "Skýjahamur (fyrirliggjandi auðkenningarskyndiminni)",
+          "fleetapi": "FleetAPI (fyrirliggjandi stillingaskyndiminni)",
+          "tedapi_v1r": "TEDAPI v1r staðarnet (RSA-lykill)"
+        }
+      },
+      "tedapi": {
+        "description": "Tengstu með Wi-Fi lykilorði gáttarinnar sjálfrar (hamur 4). Virkar á Powerwall 2, Powerwall+ og Powerwall 3 án þess að virkja innskráningu viðskiptavinar.",
+        "data": {
+          "host": "Hýsill",
+          "gw_pwd": "Lykilorð gáttar"
+        },
+        "data_description": {
+          "host": "Hýsingarheiti eða IP-tala Powerwall-gáttarinnar (t.d. 192.168.91.1)",
+          "gw_pwd": "Fullt Wi-Fi lykilorð gáttarinnar sem prentað er á QR-merkimiðann"
+        }
+      },
+      "hybrid": {
+        "description": "Sameinar innskráningu viðskiptavinar og lykilorð gáttar til að bæta við viðbótar heilsufarsgögnum. Krefst þess að innskráning viðskiptavinar sé virkjuð á gáttinni.",
+        "data": {
+          "host": "Hýsill",
+          "email": "Tölvupóstur",
+          "password": "Lykilorð viðskiptavinar",
+          "gw_pwd": "Lykilorð gáttar"
+        },
+        "data_description": {
+          "host": "Hýsingarheiti eða IP-tala Powerwall-gáttarinnar",
+          "email": "Tölvupóstur reiknings viðskiptavinar",
+          "password": "Lykilorð viðskiptavinar sem stillt er á gáttinni",
+          "gw_pwd": "Fullt Wi-Fi lykilorð gáttarinnar sem prentað er á QR-merkimiðann"
+        }
+      },
+      "local": {
+        "description": "Tengstu með innskráningu viðskiptavinar á gáttinni. Krefst þess að innskráning viðskiptavinar sé fyrst virkjuð á gáttinni (með Tesla forritinu eða vefviðmóti gáttarinnar).",
+        "data": {
+          "host": "Hýsill",
+          "email": "Tölvupóstur",
+          "password": "Lykilorð viðskiptavinar"
+        },
+        "data_description": {
+          "host": "Hýsingarheiti eða IP-tala Powerwall-gáttarinnar",
+          "email": "Tölvupóstur reiknings viðskiptavinar",
+          "password": "Lykilorð viðskiptavinar sem stillt er á gáttinni"
+        }
+      },
+      "cloud": {
+        "description": "Notar skýja-API Tesla í stað staðværrar tengingar. Krefst þess að innskráning sé fyrst framkvæmd einu sinni utan Home Assistant: keyrðu `python -m pypowerwall setup` (eða `setup -headless`) til að búa til `.pypowerwall.auth` skrá, og bentu síðan á möppuna sem inniheldur hana.",
+        "data": {
+          "authpath": "Mappa fyrir auðkenningarskyndiminni",
+          "siteid": "Auðkenni staðar (valfrjálst)"
+        },
+        "data_description": {
+          "authpath": "Mappa sem inniheldur .pypowerwall.auth skrána sem búin er til með `python -m pypowerwall setup`",
+          "siteid": "Auðkenni Tesla-staðar sem nota skal ef reikningurinn hefur fleiri en einn stað"
+        }
+      },
+      "fleetapi": {
+        "description": "Notar FleetAPI Tesla í stað staðværrar tengingar. Krefst þess að uppsetning sé fyrst framkvæmd einu sinni utan Home Assistant: skráðu forrit á developer.tesla.com, keyrðu síðan `python -m pypowerwall.fleetapi setup` til að búa til `.pypowerwall.fleetapi` skrá, og bentu á möppuna sem inniheldur hana.",
+        "data": {
+          "authpath": "Mappa fyrir stillingaskyndiminni",
+          "siteid": "Auðkenni staðar (valfrjálst)"
+        },
+        "data_description": {
+          "authpath": "Mappa sem inniheldur .pypowerwall.fleetapi skrána sem búin er til með `python -m pypowerwall.fleetapi setup`",
+          "siteid": "Auðkenni Tesla-staðar sem nota skal ef reikningurinn hefur fleiri en einn stað"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Fullur protobuf-aðgangur um staðarnet fyrir Powerwall 3, með fyrirfram skráðum RSA-lykli. Krefst þess að uppsetning sé fyrst framkvæmd einu sinni utan Home Assistant: keyrðu `python -m pypowerwall register` til að búa til og skrá RSA-4096 lyklapar hjá gáttinni (þetta gæti krafist þess að slökkva og kveikja stuttlega á gáttinni til staðfestingar), og bentu síðan á einkalykilskrána sem myndast.",
+        "data": {
+          "host": "Hýsill",
+          "gw_pwd": "Lykilorð gáttar",
+          "rsa_key_path": "Slóð á RSA einkalykil",
+          "wifi_host": "Varahýsill fyrir WiFi (valfrjálst)"
+        },
+        "data_description": {
+          "host": "Hýsingarheiti eða IP-tala Powerwall-gáttarinnar",
+          "gw_pwd": "Fullt Wi-Fi lykilorð gáttarinnar sem prentað er á QR-merkimiðann",
+          "rsa_key_path": "Slóð á RSA-4096 einkalykil (PEM-skrá) sem búin er til með `python -m pypowerwall register`",
+          "wifi_host": "Annar WiFi TEDAPI hýsill til að nota sem varaleið"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Tenging mistókst. Athugaðu tengingarupplýsingarnar og reyndu aftur.",
+      "unknown": "Óvænt villa"
+    },
+    "abort": {
+      "already_configured": "Þessi Powerwall-gátt hefur þegar verið sett upp"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Skannbil (sekúndur)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Hleðslustaða rafhlöðu" },
+      "battery_level_app": { "name": "Hleðslustaða rafhlöðu (Tesla forrit)" },
+      "backup_time_remaining": { "name": "Eftirstandandi varaaflstími" },
+      "grid_power": { "name": "Afl rafveitu" },
+      "grid_import_power": { "name": "Innflutt afl frá rafveitu" },
+      "grid_export_power": { "name": "Útflutt afl til rafveitu" },
+      "solar_power": { "name": "Sólarafl" },
+      "battery_power": { "name": "Afl rafhlöðu" },
+      "battery_import_power": { "name": "Innflutt afl rafhlöðu" },
+      "battery_export_power": { "name": "Útflutt afl rafhlöðu" },
+      "battery_energy_imported": { "name": "Hlaðin orka rafhlöðu" },
+      "battery_energy_exported": { "name": "Afhlaðin orka rafhlöðu" },
+      "battery_import_energy": { "name": "Innflutt orka rafhlöðu (áætluð)" },
+      "battery_export_energy": { "name": "Útflutt orka rafhlöðu (áætluð)" },
+      "grid_import_energy": { "name": "Innflutt orka frá rafveitu (áætluð)" },
+      "grid_export_energy": { "name": "Útflutt orka til rafveitu (áætluð)" },
+      "home_energy": { "name": "Orkunotkun heimilis (áætluð)" },
+      "home_power": { "name": "Afl heimilis" },
+      "grid_status": { "name": "Staða rafveitu" },
+      "alert_count": { "name": "Virkar viðvaranir" },
+      "firmware_version": { "name": "Útgáfa fastbúnaðar" },
+      "uptime": { "name": "Rekstrartími" },
+      "battery_temp": { "name": "Hitastig {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Tengt við rafveitu" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Varaforði rafhlöðu" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Stilling rafhlöðu",
+        "state": {
+          "self_consumption": "Eigin notkun",
+          "backup": "Eingöngu varaafl",
+          "autonomous": "Tímastýrt"
+        }
+      },
+      "grid_export": {
+        "name": "Útflutningur til rafveitu",
+        "state": {
+          "battery_ok": "Sól og rafhlaða",
+          "pv_only": "Eingöngu sól",
+          "never": "Aldrei"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Hleðsla frá rafveitu" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Aftengja frá rafveitu" },
+      "reconnect_grid": { "name": "Endurtengja við rafveitu" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Áætla hámarks varaafl",
+      "description": "Hefur handvirkt varaaflsatvik (stormvakt / hámarks varaaflshamur), sem hámarkar varaforða rafhlöðunnar í ákveðinn tíma. Krefst TEDAPI v1r staðarnetshams.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Tímalengd",
+          "description": "Hversu lengi hámarks varaaflsatvikið á að standa yfir, í sekúndum. Sjálfgefið er 7200 (2 klukkustundir)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Hætta við hámarks varaafl",
+      "description": "Hættir við núverandi handvirkt varaaflsatvik (stormvakt / hámarks varaaflshamur) sem hafið var með schedule_max_backup. Krefst TEDAPI v1r staðarnetshams."
+    }
+  }
+}
