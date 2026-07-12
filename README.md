@@ -21,7 +21,7 @@ Copy `custom_components/pypowerwall/` into your Home Assistant `config/custom_co
 
 Settings → Devices & Services → Add Integration → "Tesla Powerwall (pypowerwall)" → pick a connection type.
 
-Poll interval defaults to 5s and is configurable afterward via the integration's Options, regardless of connection type.
+Poll interval defaults to 5s (60s for Cloud/FleetAPI, to avoid hammering Tesla's rate-limited cloud API) and is configurable afterward via the integration's Options.
 
 ### Connection types
 
@@ -33,6 +33,8 @@ Poll interval defaults to 5s and is configurable afterward via the integration's
 | **Cloud mode** | A directory containing a `.pypowerwall.auth` file | One-time setup *outside* Home Assistant: run `python -m pypowerwall setup` (or `setup -headless` if you can't open a browser on the machine) to log into your Tesla account and create that file, then point the integration at its directory. |
 | **FleetAPI** | A directory containing a `.pypowerwall.fleetapi` file | One-time setup outside Home Assistant: register an app at [developer.tesla.com](https://developer.tesla.com), then run `python -m pypowerwall.fleetapi setup` to complete the OAuth flow and create that file. |
 | **TEDAPI v1r LAN** | Gateway host + gateway password + an RSA private key path | One-time setup outside Home Assistant: run `python -m pypowerwall register` to generate and register an RSA-4096 key pair with the gateway (may require briefly power-cycling it to confirm), then point the integration at the resulting `.pem`. Powerwall 3 only. |
+
+Note: Cloud and FleetAPI modes poll Tesla's cloud API rather than the local gateway, even though the integration as a whole is classified `local_polling` in its manifest (Home Assistant only allows one `iot_class` per integration, and 4 of the 6 connection types above are genuinely local).
 
 The three file-based modes (Cloud, FleetAPI, TEDAPI v1r) authenticate via an artifact pypowerwall's own CLI setup tools produce — Tesla's login flow needs a real browser (or a token you paste in headlessly), so there's no way to complete it from a single Home Assistant form. Run the relevant `setup`/`register` command once, on any machine, then tell the integration where the resulting file lives (it just needs to be readable from wherever Home Assistant runs).
 

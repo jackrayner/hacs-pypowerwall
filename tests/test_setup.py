@@ -1,3 +1,4 @@
+from datetime import timedelta
 from unittest.mock import patch
 
 import pytest
@@ -9,9 +10,13 @@ from homeassistant.helpers import entity_registry as er
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.pypowerwall.const import (
+    CONF_AUTHPATH,
     CONF_CONN_TYPE,
     CONF_GW_PWD,
+    CONN_TYPE_CLOUD,
     CONN_TYPE_TEDAPI,
+    DEFAULT_SCAN_INTERVAL,
+    DEFAULT_SCAN_INTERVAL_CLOUD,
     DOMAIN,
 )
 
@@ -131,3 +136,49 @@ async def test_setup_fails_when_not_connected(hass: HomeAssistant) -> None:
         await hass.async_block_till_done()
 
     assert entry.state is ConfigEntryState.SETUP_RETRY
+
+
+async def test_lan_entry_defaults_to_fast_scan_interval(hass: HomeAssistant) -> None:
+    entry = MockConfigEntry(domain=DOMAIN, unique_id=DIN, data=ENTRY_DATA)
+    entry.add_to_hass(hass)
+
+    with patch(CONNECT_TARGET, return_value=make_fake_pw()):
+        assert await hass.config_entries.async_setup(entry.entry_id)
+        await hass.async_block_till_done()
+
+    assert entry.runtime_data.update_interval == timedelta(seconds=DEFAULT_SCAN_INTERVAL)
+
+
+async def test_cloud_entry_defaults_to_slow_scan_interval(hass: HomeAssistant) -> None:
+    cloud_din = "CLOUD00-00-E--TG000000000000"
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=cloud_din,
+        data={CONF_CONN_TYPE: CONN_TYPE_CLOUD, CONF_AUTHPATH: "/config/pypowerwall"},
+    )
+    entry.add_to_hass(hass)
+
+    with patch(CONNECT_TARGET, return_value=make_fake_pw(din=cloud_din)):
+        assert await hass.config_entries.async_setup(entry.entry_id)
+        await hass.async_block_till_done()
+
+    assert entry.runtime_data.update_interval == timedelta(seconds=DEFAULT_SCAN_INTERVAL_CLOUD)
+
+
+async def test_cloud_entry_explicit_scan_interval_overrides_cloud_default(
+    hass: HomeAssistant,
+) -> None:
+    cloud_din = "CLOUD01-00-E--TG000000000001"
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=cloud_din,
+        data={CONF_CONN_TYPE: CONN_TYPE_CLOUD, CONF_AUTHPATH: "/config/pypowerwall"},
+        options={"scan_interval": 20},
+    )
+    entry.add_to_hass(hass)
+
+    with patch(CONNECT_TARGET, return_value=make_fake_pw(din=cloud_din)):
+        assert await hass.config_entries.async_setup(entry.entry_id)
+        await hass.async_block_till_done()
+
+    assert entry.runtime_data.update_interval == timedelta(seconds=20)

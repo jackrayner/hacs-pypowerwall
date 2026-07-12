@@ -16,12 +16,29 @@ class PowerwallEntity(CoordinatorEntity[PowerwallDataUpdateCoordinator]):
 
     def __init__(self, coordinator: PowerwallDataUpdateCoordinator) -> None:
         super().__init__(coordinator)
-        din = coordinator.config_entry.unique_id or coordinator.data.din
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, din)},
+        # The DIN identifies the physical gateway and can't change for the lifetime
+        # of a config entry, so it's fixed at init time -- unlike device_info below,
+        # which is derived live so it reflects the latest poll.
+        self._din = coordinator.config_entry.unique_id or coordinator.data.din
+
+    @property
+    def din(self) -> str:
+        """The Powerwall gateway's DIN, fixed for the lifetime of this entity."""
+        return self._din
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Device info, derived live from the coordinator's latest data.
+
+        Computed on each access (rather than cached once in __init__) so that a
+        firmware update or site rename is reflected on the HA device page without
+        requiring a reload of the config entry.
+        """
+        return DeviceInfo(
+            identifiers={(DOMAIN, self._din)},
             manufacturer=MANUFACTURER,
-            name=coordinator.data.site_name or "Powerwall",
+            name=self.coordinator.data.site_name or "Powerwall",
             model="Powerwall Gateway",
-            sw_version=coordinator.data.version,
-            serial_number=din,
+            sw_version=self.coordinator.data.version,
+            serial_number=self._din,
         )

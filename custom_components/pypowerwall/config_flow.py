@@ -27,7 +27,9 @@ from .const import (
     CONN_TYPE_TEDAPI,
     CONN_TYPE_TEDAPI_V1R,
     DEFAULT_SCAN_INTERVAL,
+    DEFAULT_SCAN_INTERVAL_CLOUD,
     DOMAIN,
+    GRID_CONTROL_CONN_TYPES,
     MIN_SCAN_INTERVAL,
 )
 from .coordinator import build_powerwall_kwargs
@@ -193,7 +195,12 @@ class PypowerwallOptionsFlow(OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(data=user_input)
 
-        current = self.config_entry.options.get("scan_interval", DEFAULT_SCAN_INTERVAL)
+        default_scan_interval = (
+            DEFAULT_SCAN_INTERVAL_CLOUD
+            if self.config_entry.data[CONF_CONN_TYPE] in GRID_CONTROL_CONN_TYPES
+            else DEFAULT_SCAN_INTERVAL
+        )
+        current = self.config_entry.options.get("scan_interval", default_scan_interval)
         schema = vol.Schema(
             {
                 vol.Required("scan_interval", default=current): NumberSelector(

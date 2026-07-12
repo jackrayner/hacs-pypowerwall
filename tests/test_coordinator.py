@@ -1,10 +1,15 @@
+import logging
 from unittest.mock import MagicMock
 
 import pytest
 from homeassistant.const import CONF_EMAIL, CONF_HOST, CONF_PASSWORD
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.update_coordinator import UpdateFailed
+from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.pypowerwall.const import (
     CONF_AUTHPATH,
+    CONF_CONN_TYPE,
     CONF_GW_PWD,
     CONF_RSA_KEY_PATH,
     CONF_SITEID,
@@ -15,9 +20,11 @@ from custom_components.pypowerwall.const import (
     CONN_TYPE_LOCAL,
     CONN_TYPE_TEDAPI,
     CONN_TYPE_TEDAPI_V1R,
+    DOMAIN,
 )
 from custom_components.pypowerwall.coordinator import (
     PowerwallData,
+    PowerwallDataUpdateCoordinator,
     _fetch_data,
     build_powerwall_kwargs,
 )
@@ -225,3 +232,30 @@ class TestBuildPowerwallKwargs:
     def test_unknown_conn_type_raises(self):
         with pytest.raises(ValueError):
             build_powerwall_kwargs("bogus", {})
+
+
+async def test_update_data_logs_exception_before_raising_update_failed(
+    hass: HomeAssistant, caplog: pytest.LogCaptureFixture
+) -> None:
+    """The underlying exception (type + message) must be preserved in the logs, not
+    just the generic UpdateFailed wrapper -- otherwise an AttributeError from a
+    pypowerwall API change is indistinguishable from a normal connectivity failure.
+    """
+    caplog.set_level(logging.DEBUG)
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_CONN_TYPE: CONN_TYPE_TEDAPI, CONF_HOST: "192.168.91.1", CONF_GW_PWD: "secret"},
+    )
+    entry.add_to_hass(hass)
+
+    pw = MagicMock()
+    pw.grid_status.side_effect = AttributeError("'NoneType' object has no attribute 'foo'")
+
+    coordinator = PowerwallDataUpdateCoordinator(hass, entry, pw, 5)
+
+    with pytest.raises(UpdateFailed):
+        await coordinator._async_update_data()
+
+    assert "Error communicating with Powerwall" in caplog.text
+    assert "AttributeError" in caplog.text
+    assert "has no attribute 'foo'" in caplog.text
