@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Bir bağlantı türü seçin",
+        "menu_options": {
+          "tedapi": "TEDAPI (ağ geçidi şifresi)",
+          "hybrid": "Hibrit (yerel giriş + ağ geçidi şifresi)",
+          "local": "Yerel giriş (müşteri e-posta/şifresi)",
+          "cloud": "Bulut modu (mevcut kimlik doğrulama önbelleği)",
+          "fleetapi": "FleetAPI (mevcut yapılandırma önbelleği)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA anahtarı)"
+        }
+      },
+      "tedapi": {
+        "description": "Ağ geçidinin kendi Wi-Fi şifresini kullanarak bağlanın (mod 4). Müşteri Girişini etkinleştirmeden Powerwall 2, Powerwall+ ve Powerwall 3 üzerinde çalışır.",
+        "data": {
+          "host": "Sunucu",
+          "gw_pwd": "Ağ geçidi şifresi"
+        },
+        "data_description": {
+          "host": "Powerwall ağ geçidinin ana bilgisayar adı veya IP adresi (örn. 192.168.91.1)",
+          "gw_pwd": "QR etiketinde yazılı tam ağ geçidi Wi-Fi şifresi"
+        }
+      },
+      "hybrid": {
+        "description": "Ek durum verileri eklemek için bir müşteri girişini ağ geçidi şifresiyle birleştirir. Ağ geçidinde Müşteri Girişinin etkinleştirilmiş olmasını gerektirir.",
+        "data": {
+          "host": "Sunucu",
+          "email": "E-posta",
+          "password": "Müşteri şifresi",
+          "gw_pwd": "Ağ geçidi şifresi"
+        },
+        "data_description": {
+          "host": "Powerwall ağ geçidinin ana bilgisayar adı veya IP adresi",
+          "email": "Müşteri hesabı e-postası",
+          "password": "Ağ geçidinde ayarlanan müşteri şifresi",
+          "gw_pwd": "QR etiketinde yazılı tam ağ geçidi Wi-Fi şifresi"
+        }
+      },
+      "local": {
+        "description": "Ağ geçidinin Müşteri Girişini kullanarak bağlanın. Öncelikle ağ geçidinde Müşteri Girişinin etkinleştirilmiş olmasını gerektirir (Tesla uygulaması veya ağ geçidi web arayüzü üzerinden).",
+        "data": {
+          "host": "Sunucu",
+          "email": "E-posta",
+          "password": "Müşteri şifresi"
+        },
+        "data_description": {
+          "host": "Powerwall ağ geçidinin ana bilgisayar adı veya IP adresi",
+          "email": "Müşteri hesabı e-postası",
+          "password": "Ağ geçidinde ayarlanan müşteri şifresi"
+        }
+      },
+      "cloud": {
+        "description": "Yerel bağlantı yerine Tesla'nın bulut API'sini kullanır. Önce Home Assistant dışında tek seferlik bir giriş yapılmasını gerektirir: bir `.pypowerwall.auth` dosyası oluşturmak için `python -m pypowerwall setup` (veya `setup -headless`) komutunu çalıştırın, ardından bunu içeren dizini burada belirtin.",
+        "data": {
+          "authpath": "Kimlik doğrulama önbellek dizini",
+          "siteid": "Site kimliği (isteğe bağlı)"
+        },
+        "data_description": {
+          "authpath": "`python -m pypowerwall setup` tarafından oluşturulan .pypowerwall.auth dosyasını içeren dizin",
+          "siteid": "Hesabın birden fazla sitesi varsa kullanılacak Tesla site kimliği"
+        }
+      },
+      "fleetapi": {
+        "description": "Yerel bağlantı yerine Tesla'nın FleetAPI'sini kullanır. Önce Home Assistant dışında tek seferlik bir kurulum yapılmasını gerektirir: developer.tesla.com üzerinde bir uygulama kaydedin, ardından bir `.pypowerwall.fleetapi` dosyası oluşturmak için `python -m pypowerwall.fleetapi setup` komutunu çalıştırın ve bunu içeren dizini burada belirtin.",
+        "data": {
+          "authpath": "Yapılandırma önbellek dizini",
+          "siteid": "Site kimliği (isteğe bağlı)"
+        },
+        "data_description": {
+          "authpath": "`python -m pypowerwall.fleetapi setup` tarafından oluşturulan .pypowerwall.fleetapi dosyasını içeren dizin",
+          "siteid": "Hesabın birden fazla sitesi varsa kullanılacak Tesla site kimliği"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Önceden kaydedilmiş bir RSA anahtarı kullanarak Powerwall 3 için tam protobuf LAN erişimi. Önce Home Assistant dışında tek seferlik bir kurulum yapılmasını gerektirir: ağ geçidiyle bir RSA-4096 anahtar çifti oluşturup kaydetmek için `python -m pypowerwall register` komutunu çalıştırın (bu, onaylamak için ağ geçidinin kısa süreliğine yeniden başlatılmasını gerektirebilir), ardından bunu ortaya çıkan özel anahtar dosyasına yönlendirin.",
+        "data": {
+          "host": "Sunucu",
+          "gw_pwd": "Ağ geçidi şifresi",
+          "rsa_key_path": "RSA özel anahtar yolu",
+          "wifi_host": "WiFi yedek sunucusu (isteğe bağlı)"
+        },
+        "data_description": {
+          "host": "Powerwall ağ geçidinin ana bilgisayar adı veya IP adresi",
+          "gw_pwd": "QR etiketinde yazılı tam ağ geçidi Wi-Fi şifresi",
+          "rsa_key_path": "`python -m pypowerwall register` tarafından üretilen RSA-4096 özel anahtar PEM dosyasının yolu",
+          "wifi_host": "Yedek olarak kullanılacak alternatif WiFi TEDAPI sunucusu"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Bağlanılamadı. Bağlantı bilgilerini kontrol edip tekrar deneyin.",
+      "unknown": "Beklenmeyen hata"
+    },
+    "abort": {
+      "already_configured": "Bu Powerwall ağ geçidi zaten yapılandırılmış"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Tarama aralığı (saniye)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Batarya seviyesi" },
+      "battery_level_app": { "name": "Batarya seviyesi (Tesla uygulaması)" },
+      "backup_time_remaining": { "name": "Kalan yedek güç süresi" },
+      "grid_power": { "name": "Şebeke gücü" },
+      "grid_import_power": { "name": "Şebekeden çekilen güç" },
+      "grid_export_power": { "name": "Şebekeye verilen güç" },
+      "solar_power": { "name": "Güneş enerjisi gücü" },
+      "battery_power": { "name": "Batarya gücü" },
+      "battery_import_power": { "name": "Bataryaya giden güç" },
+      "battery_export_power": { "name": "Bataryadan çıkan güç" },
+      "battery_energy_imported": { "name": "Şarj edilen batarya enerjisi" },
+      "battery_energy_exported": { "name": "Deşarj edilen batarya enerjisi" },
+      "battery_import_energy": { "name": "Batarya giriş enerjisi (tahmini)" },
+      "battery_export_energy": { "name": "Batarya çıkış enerjisi (tahmini)" },
+      "grid_import_energy": { "name": "Şebeke giriş enerjisi (tahmini)" },
+      "grid_export_energy": { "name": "Şebeke çıkış enerjisi (tahmini)" },
+      "home_energy": { "name": "Ev enerjisi (tahmini)" },
+      "home_power": { "name": "Ev gücü" },
+      "grid_status": { "name": "Şebeke durumu" },
+      "alert_count": { "name": "Aktif uyarılar" },
+      "firmware_version": { "name": "Bellenim sürümü" },
+      "uptime": { "name": "Çalışma süresi" },
+      "battery_temp": { "name": "{device} sıcaklığı" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Şebekeye bağlı" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Batarya rezervi" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Batarya modu",
+        "state": {
+          "self_consumption": "Kendi kendine yeterli",
+          "backup": "Yalnızca yedek güç",
+          "autonomous": "Zaman tabanlı kontrol"
+        }
+      },
+      "grid_export": {
+        "name": "Şebekeye enerji verme",
+        "state": {
+          "battery_ok": "Güneş enerjisi ve batarya",
+          "pv_only": "Yalnızca güneş enerjisi",
+          "never": "Asla"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Şebekeden şarj" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Şebeke bağlantısını kes" },
+      "reconnect_grid": { "name": "Şebekeye yeniden bağlan" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Maksimum yedek gücü zamanla",
+      "description": "Batarya rezervini belirli bir süre için en üst düzeye çıkararak manuel bir yedek güç olayı başlatır (fırtına izleme / maksimum yedek güç modu). TEDAPI v1r LAN modunu gerektirir.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Süre",
+          "description": "Maksimum yedek güç olayının saniye cinsinden ne kadar süreceği. Varsayılan olarak 7200 (2 saat)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Maksimum yedek gücü iptal et",
+      "description": "schedule_max_backup tarafından başlatılan mevcut manuel yedek güç olayını iptal eder (fırtına izleme / maksimum yedek güç modu). TEDAPI v1r LAN modunu gerektirir."
+    }
+  }
+}

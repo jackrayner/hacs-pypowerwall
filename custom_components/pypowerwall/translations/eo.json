@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Elektu tipon de konekto",
+        "menu_options": {
+          "tedapi": "TEDAPI (pasvorto de la kluzo)",
+          "hybrid": "Hibrida (loka ensaluto + pasvorto de la kluzo)",
+          "local": "Loka ensaluto (retpoŝto/pasvorto de kliento)",
+          "cloud": "Nuba reĝimo (ekzistanta konservita aŭtentigo)",
+          "fleetapi": "FleetAPI (ekzistanta konservita agordo)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA-ŝlosilo)"
+        }
+      },
+      "tedapi": {
+        "description": "Konektiĝu per la propra Wi-Fi-pasvorto de la kluzo (reĝimo 4). Funkcias kun Powerwall 2, Powerwall+ kaj Powerwall 3 sen bezono ŝalti Klientan Ensaluton.",
+        "data": {
+          "host": "Gastigo",
+          "gw_pwd": "Pasvorto de la kluzo"
+        },
+        "data_description": {
+          "host": "Gastignomo aŭ IP-adreso de la kluzo de la Powerwall (ekz. 192.168.91.1)",
+          "gw_pwd": "Plena Wi-Fi-pasvorto de la kluzo, presita sur la QR-etikedo"
+        }
+      },
+      "hybrid": {
+        "description": "Kombinas klientan ensaluton kun la pasvorto de la kluzo por aldoni kromajn vivsignajn datumojn. Necesas ke Klienta Ensaluto estu ŝaltita sur la kluzo.",
+        "data": {
+          "host": "Gastigo",
+          "email": "Retpoŝto",
+          "password": "Pasvorto de kliento",
+          "gw_pwd": "Pasvorto de la kluzo"
+        },
+        "data_description": {
+          "host": "Gastignomo aŭ IP-adreso de la kluzo de la Powerwall",
+          "email": "Retpoŝta adreso de la klienta konto",
+          "password": "Pasvorto de kliento agordita sur la kluzo",
+          "gw_pwd": "Plena Wi-Fi-pasvorto de la kluzo, presita sur la QR-etikedo"
+        }
+      },
+      "local": {
+        "description": "Konektiĝu per la Klienta Ensaluto de la kluzo. Necesas unue ŝalti Klientan Ensaluton sur la kluzo (per la Tesla-aplikaĵo aŭ la retpaĝa agordilo de la kluzo).",
+        "data": {
+          "host": "Gastigo",
+          "email": "Retpoŝto",
+          "password": "Pasvorto de kliento"
+        },
+        "data_description": {
+          "host": "Gastignomo aŭ IP-adreso de la kluzo de la Powerwall",
+          "email": "Retpoŝta adreso de la klienta konto",
+          "password": "Pasvorto de kliento agordita sur la kluzo"
+        }
+      },
+      "cloud": {
+        "description": "Uzas la nuban API-on de Tesla anstataŭ lokan konekton. Necesas unufojan ensaluton faritan ekster Home Assistant: unue rulu `python -m pypowerwall setup` (aŭ `setup -headless`) por krei dosieron `.pypowerwall.auth`, poste indiku ĉi tie la dosierujon enhavantan ĝin.",
+        "data": {
+          "authpath": "Dosierujo de konservita aŭtentigo",
+          "siteid": "Eja identigilo (malnepra)"
+        },
+        "data_description": {
+          "authpath": "Dosierujo enhavanta la dosieron .pypowerwall.auth kreitan per `python -m pypowerwall setup`",
+          "siteid": "Identigilo de la Tesla-ejo uzenda, se la konto havas pli ol unu ejon"
+        }
+      },
+      "fleetapi": {
+        "description": "Uzas la FleetAPI-on de Tesla anstataŭ lokan konekton. Necesas unufojan agordon faritan ekster Home Assistant: unue registru aplikaĵon ĉe developer.tesla.com, poste rulu `python -m pypowerwall.fleetapi setup` por krei dosieron `.pypowerwall.fleetapi`, kaj indiku ĉi tie la dosierujon enhavantan ĝin.",
+        "data": {
+          "authpath": "Dosierujo de konservita agordo",
+          "siteid": "Eja identigilo (malnepra)"
+        },
+        "data_description": {
+          "authpath": "Dosierujo enhavanta la dosieron .pypowerwall.fleetapi kreitan per `python -m pypowerwall.fleetapi setup`",
+          "siteid": "Identigilo de la Tesla-ejo uzenda, se la konto havas pli ol unu ejon"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Plena protobuf-bazita LAN-aliro por Powerwall 3, uzante antaŭe registritan RSA-ŝlosilon. Necesas unufojan agordon faritan ekster Home Assistant: rulu `python -m pypowerwall register` por generi kaj registri RSA-4096-ŝlosilan paron ĉe la kluzo (tio eble postulos mallonge malŝalti kaj reŝalti la kluzon por konfirmi), poste indiku ĉi tie la rezultan privatŝlosilan dosieron.",
+        "data": {
+          "host": "Gastigo",
+          "gw_pwd": "Pasvorto de la kluzo",
+          "rsa_key_path": "Vojo al la RSA-privata ŝlosilo",
+          "wifi_host": "Rezerva WiFi-gastigo (malnepra)"
+        },
+        "data_description": {
+          "host": "Gastignomo aŭ IP-adreso de la kluzo de la Powerwall",
+          "gw_pwd": "Plena Wi-Fi-pasvorto de la kluzo, presita sur la QR-etikedo",
+          "rsa_key_path": "Vojo al la PEM-dosiero de la RSA-4096-privata ŝlosilo, produktita per `python -m pypowerwall register`",
+          "wifi_host": "Alternativa WiFi-a TEDAPI-gastigo uzenda kiel rezervo"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Konekto malsukcesis. Kontrolu la konektajn detalojn kaj provu denove.",
+      "unknown": "Neatendita eraro"
+    },
+    "abort": {
+      "already_configured": "Ĉi tiu kluzo de Powerwall jam estas agordita"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Skanada intervalo (sekundoj)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Bateria nivelo" },
+      "battery_level_app": { "name": "Bateria nivelo (Tesla-aplikaĵo)" },
+      "backup_time_remaining": { "name": "Restanta rezerva tempo" },
+      "grid_power": { "name": "Reta potenco" },
+      "grid_import_power": { "name": "Importa reta potenco" },
+      "grid_export_power": { "name": "Eksporta reta potenco" },
+      "solar_power": { "name": "Suna potenco" },
+      "battery_power": { "name": "Bateria potenco" },
+      "battery_import_power": { "name": "Importa bateria potenco" },
+      "battery_export_power": { "name": "Eksporta bateria potenco" },
+      "battery_energy_imported": { "name": "Ŝargita bateria energio" },
+      "battery_energy_exported": { "name": "Malŝargita bateria energio" },
+      "battery_import_energy": { "name": "Importa bateria energio (taksita)" },
+      "battery_export_energy": { "name": "Eksporta bateria energio (taksita)" },
+      "grid_import_energy": { "name": "Importa reta energio (taksita)" },
+      "grid_export_energy": { "name": "Eksporta reta energio (taksita)" },
+      "home_energy": { "name": "Doma energio (taksita)" },
+      "home_power": { "name": "Doma potenco" },
+      "grid_status": { "name": "Reta stato" },
+      "alert_count": { "name": "Aktivaj avertoj" },
+      "firmware_version": { "name": "Versio de la mikroprogramaro" },
+      "uptime": { "name": "Funkcia tempo" },
+      "battery_temp": { "name": "Temperaturo de {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Konektita al la reto" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Bateria rezervo" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Bateria reĝimo",
+        "state": {
+          "self_consumption": "Memprovizata",
+          "backup": "Nur rezerva",
+          "autonomous": "Tempobazita regado"
+        }
+      },
+      "grid_export": {
+        "name": "Reta eksporto",
+        "state": {
+          "battery_ok": "Suno kaj baterio",
+          "pv_only": "Nur suno",
+          "never": "Neniam"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Ŝargado el la reto" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Malkonekti de la reto" },
+      "reconnect_grid": { "name": "Rekonekti al la reto" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Plani maksimuman rezervon",
+      "description": "Ekigas manan rezervan okazon (ŝtorma gardo / maksimuma rezerva reĝimo), maksimumigante la baterian rezervon dum fiksita daŭro. Necesas la reĝimo TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Daŭro",
+          "description": "Kiom longe la maksimuma rezerva okazo devas daŭri, en sekundoj. Defaŭlte 7200 (2 horoj)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Nuligi maksimuman rezervon",
+      "description": "Nuligas la nunan manan rezervan okazon (ŝtorma gardo / maksimuma rezerva reĝimo) ekigitan per schedule_max_backup. Necesas la reĝimo TEDAPI v1r LAN."
+    }
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "选择连接方式",
+        "menu_options": {
+          "tedapi": "TEDAPI（网关密码）",
+          "hybrid": "混合模式（本地登录 + 网关密码）",
+          "local": "本地登录（客户邮箱/密码）",
+          "cloud": "云模式（现有身份验证缓存）",
+          "fleetapi": "FleetAPI（现有配置缓存）",
+          "tedapi_v1r": "TEDAPI v1r 局域网（RSA 密钥）"
+        }
+      },
+      "tedapi": {
+        "description": "使用网关自带的 Wi-Fi 密码进行连接（模式 4）。无需启用客户登录，即可在 Powerwall 2、Powerwall+ 和 Powerwall 3 上使用。",
+        "data": {
+          "host": "主机",
+          "gw_pwd": "网关密码"
+        },
+        "data_description": {
+          "host": "Powerwall 网关的主机名或 IP 地址（例如 192.168.91.1）",
+          "gw_pwd": "二维码标签上印刷的完整网关 Wi-Fi 密码"
+        }
+      },
+      "hybrid": {
+        "description": "结合客户登录与网关密码，以获取补充的运行状态数据。需要在网关上启用客户登录。",
+        "data": {
+          "host": "主机",
+          "email": "邮箱",
+          "password": "客户密码",
+          "gw_pwd": "网关密码"
+        },
+        "data_description": {
+          "host": "Powerwall 网关的主机名或 IP 地址",
+          "email": "客户账户邮箱",
+          "password": "在网关上设置的客户密码",
+          "gw_pwd": "二维码标签上印刷的完整网关 Wi-Fi 密码"
+        }
+      },
+      "local": {
+        "description": "使用网关的客户登录进行连接。需要先在网关上启用客户登录（通过 Tesla 应用或网关网页管理界面）。",
+        "data": {
+          "host": "主机",
+          "email": "邮箱",
+          "password": "客户密码"
+        },
+        "data_description": {
+          "host": "Powerwall 网关的主机名或 IP 地址",
+          "email": "客户账户邮箱",
+          "password": "在网关上设置的客户密码"
+        }
+      },
+      "cloud": {
+        "description": "使用 Tesla 云 API 而非本地连接。需要先在 Home Assistant 之外完成一次性登录：运行 `python -m pypowerwall setup`（或 `setup -headless`）以创建 `.pypowerwall.auth` 文件，然后将此处指向包含该文件的目录。",
+        "data": {
+          "authpath": "身份验证缓存目录",
+          "siteid": "站点 ID（可选）"
+        },
+        "data_description": {
+          "authpath": "包含由 `python -m pypowerwall setup` 创建的 .pypowerwall.auth 文件的目录",
+          "siteid": "当账户拥有多个站点时使用的 Tesla 站点 ID"
+        }
+      },
+      "fleetapi": {
+        "description": "使用 Tesla 的 FleetAPI 而非本地连接。需要先在 Home Assistant 之外完成一次性设置：在 developer.tesla.com 注册一个应用，然后运行 `python -m pypowerwall.fleetapi setup` 以创建 `.pypowerwall.fleetapi` 文件，并将此处指向包含该文件的目录。",
+        "data": {
+          "authpath": "配置缓存目录",
+          "siteid": "站点 ID（可选）"
+        },
+        "data_description": {
+          "authpath": "包含由 `python -m pypowerwall.fleetapi setup` 创建的 .pypowerwall.fleetapi 文件的目录",
+          "siteid": "当账户拥有多个站点时使用的 Tesla 站点 ID"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "面向 Powerwall 3 的完整 protobuf 局域网访问方式，使用预先注册的 RSA 密钥。需要先在 Home Assistant 之外完成一次性设置：运行 `python -m pypowerwall register` 生成一个 RSA-4096 密钥对并将其注册到网关（此过程可能需要短暂重启网关电源以进行确认），然后将此处指向生成的私钥文件。",
+        "data": {
+          "host": "主机",
+          "gw_pwd": "网关密码",
+          "rsa_key_path": "RSA 私钥路径",
+          "wifi_host": "WiFi 备用主机（可选）"
+        },
+        "data_description": {
+          "host": "Powerwall 网关的主机名或 IP 地址",
+          "gw_pwd": "二维码标签上印刷的完整网关 Wi-Fi 密码",
+          "rsa_key_path": "由 `python -m pypowerwall register` 生成的 RSA-4096 私钥 PEM 文件的路径",
+          "wifi_host": "用于回退的备用 WiFi TEDAPI 主机"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "连接失败。请检查连接详情后重试。",
+      "unknown": "发生意外错误"
+    },
+    "abort": {
+      "already_configured": "此 Powerwall 网关已配置完成"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "扫描间隔（秒）"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "电池电量" },
+      "battery_level_app": { "name": "电池电量（Tesla 应用）" },
+      "backup_time_remaining": { "name": "备用电力剩余时间" },
+      "grid_power": { "name": "电网功率" },
+      "grid_import_power": { "name": "电网输入功率" },
+      "grid_export_power": { "name": "电网输出功率" },
+      "solar_power": { "name": "太阳能功率" },
+      "battery_power": { "name": "电池功率" },
+      "battery_import_power": { "name": "电池充电功率" },
+      "battery_export_power": { "name": "电池放电功率" },
+      "battery_energy_imported": { "name": "电池充入电量" },
+      "battery_energy_exported": { "name": "电池放出电量" },
+      "battery_import_energy": { "name": "电池输入电量（估算）" },
+      "battery_export_energy": { "name": "电池输出电量（估算）" },
+      "grid_import_energy": { "name": "电网输入电量（估算）" },
+      "grid_export_energy": { "name": "电网输出电量（估算）" },
+      "home_energy": { "name": "家庭用电量（估算）" },
+      "home_power": { "name": "家庭用电功率" },
+      "grid_status": { "name": "电网状态" },
+      "alert_count": { "name": "当前告警数" },
+      "firmware_version": { "name": "固件版本" },
+      "uptime": { "name": "运行时间" },
+      "battery_temp": { "name": "{device}温度" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "电网已连接" }
+    },
+    "number": {
+      "battery_reserve": { "name": "电池保留电量" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "电池模式",
+        "state": {
+          "self_consumption": "自发自用",
+          "backup": "仅备用",
+          "autonomous": "分时控制"
+        }
+      },
+      "grid_export": {
+        "name": "电网输出",
+        "state": {
+          "battery_ok": "太阳能与电池",
+          "pv_only": "仅太阳能",
+          "never": "从不"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "电网充电" }
+    },
+    "button": {
+      "go_off_grid": { "name": "断开电网连接" },
+      "reconnect_grid": { "name": "重新连接电网" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "安排最大备用",
+      "description": "启动一次手动备用事件（风暴监测/最大备用模式），在固定时长内将电池保留电量提升至最大。需要使用 TEDAPI v1r 局域网模式。",
+      "fields": {
+        "duration_seconds": {
+          "name": "持续时长",
+          "description": "最大备用事件运行的时长，单位为秒。默认为 7200（2 小时）。"
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "取消最大备用",
+      "description": "取消由“安排最大备用”启动的当前手动备用事件（风暴监测/最大备用模式）。需要使用 TEDAPI v1r 局域网模式。"
+    }
+  }
+}

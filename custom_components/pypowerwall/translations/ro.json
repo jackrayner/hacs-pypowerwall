@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Alegeți un tip de conexiune",
+        "menu_options": {
+          "tedapi": "TEDAPI (parolă gateway)",
+          "hybrid": "Hibrid (autentificare locală + parolă gateway)",
+          "local": "Autentificare locală (email/parolă client)",
+          "cloud": "Mod Cloud (cache de autentificare existent)",
+          "fleetapi": "FleetAPI (cache de configurare existent)",
+          "tedapi_v1r": "TEDAPI v1r LAN (cheie RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "Conectați-vă folosind parola Wi-Fi proprie a gateway-ului (mod 4). Funcționează pe Powerwall 2, Powerwall+ și Powerwall 3 fără a activa autentificarea pentru clienți.",
+        "data": {
+          "host": "Gazdă",
+          "gw_pwd": "Parolă gateway"
+        },
+        "data_description": {
+          "host": "Numele gazdei sau adresa IP a gateway-ului Powerwall (de ex. 192.168.91.1)",
+          "gw_pwd": "Parola Wi-Fi completă a gateway-ului, tipărită pe eticheta cu cod QR"
+        }
+      },
+      "hybrid": {
+        "description": "Combină autentificarea clientului cu parola gateway-ului pentru a adăuga date suplimentare despre starea sistemului. Necesită ca autentificarea pentru clienți să fie activată pe gateway.",
+        "data": {
+          "host": "Gazdă",
+          "email": "Email",
+          "password": "Parolă client",
+          "gw_pwd": "Parolă gateway"
+        },
+        "data_description": {
+          "host": "Numele gazdei sau adresa IP a gateway-ului Powerwall",
+          "email": "Emailul contului de client",
+          "password": "Parola de client configurată pe gateway",
+          "gw_pwd": "Parola Wi-Fi completă a gateway-ului, tipărită pe eticheta cu cod QR"
+        }
+      },
+      "local": {
+        "description": "Conectați-vă folosind autentificarea de client a gateway-ului. Este necesar ca autentificarea pentru clienți să fie activată mai întâi pe gateway (prin aplicația Tesla sau interfața web a gateway-ului).",
+        "data": {
+          "host": "Gazdă",
+          "email": "Email",
+          "password": "Parolă client"
+        },
+        "data_description": {
+          "host": "Numele gazdei sau adresa IP a gateway-ului Powerwall",
+          "email": "Emailul contului de client",
+          "password": "Parola de client configurată pe gateway"
+        }
+      },
+      "cloud": {
+        "description": "Utilizează API-ul cloud al Tesla în locul unei conexiuni locale. Necesită o autentificare unică, efectuată în afara Home Assistant: rulați `python -m pypowerwall setup` (sau `setup -headless`) pentru a crea un fișier `.pypowerwall.auth`, apoi indicați directorul care îl conține.",
+        "data": {
+          "authpath": "Director cache de autentificare",
+          "siteid": "ID sit (opțional)"
+        },
+        "data_description": {
+          "authpath": "Directorul care conține fișierul .pypowerwall.auth creat de `python -m pypowerwall setup`",
+          "siteid": "ID-ul sitului Tesla de utilizat dacă contul are mai multe situri"
+        }
+      },
+      "fleetapi": {
+        "description": "Utilizează FleetAPI al Tesla în locul unei conexiuni locale. Necesită o configurare unică, efectuată în afara Home Assistant: înregistrați o aplicație pe developer.tesla.com, apoi rulați `python -m pypowerwall.fleetapi setup` pentru a crea un fișier `.pypowerwall.fleetapi` și indicați directorul care îl conține.",
+        "data": {
+          "authpath": "Director cache de configurare",
+          "siteid": "ID sit (opțional)"
+        },
+        "data_description": {
+          "authpath": "Directorul care conține fișierul .pypowerwall.fleetapi creat de `python -m pypowerwall.fleetapi setup`",
+          "siteid": "ID-ul sitului Tesla de utilizat dacă contul are mai multe situri"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Acces LAN complet pe bază de protobuf pentru Powerwall 3, folosind o cheie RSA înregistrată în prealabil. Necesită o configurare unică, efectuată în afara Home Assistant: rulați `python -m pypowerwall register` pentru a genera și înregistra o pereche de chei RSA-4096 la gateway (acest lucru poate necesita repornirea scurtă a gateway-ului pentru confirmare), apoi indicați fișierul cu cheia privată rezultat.",
+        "data": {
+          "host": "Gazdă",
+          "gw_pwd": "Parolă gateway",
+          "rsa_key_path": "Cale cheie privată RSA",
+          "wifi_host": "Gazdă WiFi de rezervă (opțional)"
+        },
+        "data_description": {
+          "host": "Numele gazdei sau adresa IP a gateway-ului Powerwall",
+          "gw_pwd": "Parola Wi-Fi completă a gateway-ului, tipărită pe eticheta cu cod QR",
+          "rsa_key_path": "Calea către fișierul PEM cu cheia privată RSA-4096 produs de `python -m pypowerwall register`",
+          "wifi_host": "Gazdă TEDAPI WiFi alternativă la care se revine în caz de eșec"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Conectarea a eșuat. Verificați detaliile conexiunii și încercați din nou.",
+      "unknown": "Eroare neașteptată"
+    },
+    "abort": {
+      "already_configured": "Acest gateway Powerwall este deja configurat"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Interval de scanare (secunde)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Nivel baterie" },
+      "battery_level_app": { "name": "Nivel baterie (aplicația Tesla)" },
+      "backup_time_remaining": { "name": "Timp de rezervă rămas" },
+      "grid_power": { "name": "Putere rețea" },
+      "grid_import_power": { "name": "Putere importată din rețea" },
+      "grid_export_power": { "name": "Putere exportată în rețea" },
+      "solar_power": { "name": "Putere solară" },
+      "battery_power": { "name": "Putere baterie" },
+      "battery_import_power": { "name": "Putere de încărcare a bateriei" },
+      "battery_export_power": { "name": "Putere de descărcare a bateriei" },
+      "battery_energy_imported": { "name": "Energie încărcată în baterie" },
+      "battery_energy_exported": { "name": "Energie descărcată din baterie" },
+      "battery_import_energy": { "name": "Energie importată de baterie (estimată)" },
+      "battery_export_energy": { "name": "Energie exportată de baterie (estimată)" },
+      "grid_import_energy": { "name": "Energie importată din rețea (estimată)" },
+      "grid_export_energy": { "name": "Energie exportată în rețea (estimată)" },
+      "home_energy": { "name": "Energie consumată în casă (estimată)" },
+      "home_power": { "name": "Putere consumată în casă" },
+      "grid_status": { "name": "Stare rețea" },
+      "alert_count": { "name": "Alerte active" },
+      "firmware_version": { "name": "Versiune firmware" },
+      "uptime": { "name": "Timp de funcționare" },
+      "battery_temp": { "name": "Temperatură {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Conectat la rețea" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Rezervă baterie" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Mod baterie",
+        "state": {
+          "self_consumption": "Autoalimentare",
+          "backup": "Doar rezervă",
+          "autonomous": "Control pe bază de program"
+        }
+      },
+      "grid_export": {
+        "name": "Export în rețea",
+        "state": {
+          "battery_ok": "Solar și baterie",
+          "pv_only": "Doar solar",
+          "never": "Niciodată"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Încărcare din rețea" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Deconectare de la rețea" },
+      "reconnect_grid": { "name": "Reconectare la rețea" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Programează rezervă maximă",
+      "description": "Pornește un eveniment de rezervă manual (mod avertizare furtună / rezervă maximă), maximizând rezerva bateriei pentru o durată fixă. Necesită modul TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Durată",
+          "description": "Cât timp va dura evenimentul de rezervă maximă, în secunde. Valoarea implicită este 7200 (2 ore)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Anulează rezerva maximă",
+      "description": "Anulează evenimentul de rezervă manual curent (mod avertizare furtună / rezervă maximă) pornit prin schedule_max_backup. Necesită modul TEDAPI v1r LAN."
+    }
+  }
+}

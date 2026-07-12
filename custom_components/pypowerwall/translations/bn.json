@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "একটি সংযোগের ধরন নির্বাচন করুন",
+        "menu_options": {
+          "tedapi": "TEDAPI (গেটওয়ে পাসওয়ার্ড)",
+          "hybrid": "হাইব্রিড (স্থানীয় লগইন + গেটওয়ে পাসওয়ার্ড)",
+          "local": "স্থানীয় লগইন (গ্রাহকের ইমেল/পাসওয়ার্ড)",
+          "cloud": "ক্লাউড মোড (বিদ্যমান প্রমাণীকরণ ক্যাশে)",
+          "fleetapi": "FleetAPI (বিদ্যমান কনফিগারেশন ক্যাশে)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA কী)"
+        }
+      },
+      "tedapi": {
+        "description": "গেটওয়ের নিজস্ব Wi-Fi পাসওয়ার্ড ব্যবহার করে সংযোগ করুন (মোড 4)। গ্রাহক লগইন (Customer Login) সক্রিয় না করেই Powerwall 2, Powerwall+ এবং Powerwall 3-এ কাজ করে।",
+        "data": {
+          "host": "হোস্ট",
+          "gw_pwd": "গেটওয়ে পাসওয়ার্ড"
+        },
+        "data_description": {
+          "host": "Powerwall গেটওয়ের হোস্টনেম বা IP ঠিকানা (যেমন, 192.168.91.1)",
+          "gw_pwd": "QR লেবেলে মুদ্রিত সম্পূর্ণ গেটওয়ে Wi-Fi পাসওয়ার্ড"
+        }
+      },
+      "hybrid": {
+        "description": "সম্পূরক ভাইটালস ডেটা যোগ করতে গ্রাহক লগইনের সাথে গেটওয়ে পাসওয়ার্ড একত্রিত করে। গেটওয়েতে গ্রাহক লগইন (Customer Login) সক্রিয় থাকা আবশ্যক।",
+        "data": {
+          "host": "হোস্ট",
+          "email": "ইমেল",
+          "password": "গ্রাহকের পাসওয়ার্ড",
+          "gw_pwd": "গেটওয়ে পাসওয়ার্ড"
+        },
+        "data_description": {
+          "host": "Powerwall গেটওয়ের হোস্টনেম বা IP ঠিকানা",
+          "email": "গ্রাহক অ্যাকাউন্টের ইমেল",
+          "password": "গেটওয়েতে সেট করা গ্রাহকের পাসওয়ার্ড",
+          "gw_pwd": "QR লেবেলে মুদ্রিত সম্পূর্ণ গেটওয়ে Wi-Fi পাসওয়ার্ড"
+        }
+      },
+      "local": {
+        "description": "গেটওয়ের গ্রাহক লগইন (Customer Login) ব্যবহার করে সংযোগ করুন। প্রথমে গেটওয়েতে গ্রাহক লগইন (Customer Login) সক্রিয় করা আবশ্যক (Tesla অ্যাপ বা গেটওয়ে ওয়েব ইন্টারফেসের মাধ্যমে)।",
+        "data": {
+          "host": "হোস্ট",
+          "email": "ইমেল",
+          "password": "গ্রাহকের পাসওয়ার্ড"
+        },
+        "data_description": {
+          "host": "Powerwall গেটওয়ের হোস্টনেম বা IP ঠিকানা",
+          "email": "গ্রাহক অ্যাকাউন্টের ইমেল",
+          "password": "গেটওয়েতে সেট করা গ্রাহকের পাসওয়ার্ড"
+        }
+      },
+      "cloud": {
+        "description": "স্থানীয় সংযোগের পরিবর্তে Tesla-এর ক্লাউড API ব্যবহার করে। প্রথমে Home Assistant-এর বাইরে একবার লগইন করা আবশ্যক: `.pypowerwall.auth` ফাইল তৈরি করতে `python -m pypowerwall setup` (বা `setup -headless`) চালান, তারপর এটি যে ডিরেক্টরিতে আছে তা নির্দেশ করুন।",
+        "data": {
+          "authpath": "প্রমাণীকরণ ক্যাশে ডিরেক্টরি",
+          "siteid": "সাইট আইডি (ঐচ্ছিক)"
+        },
+        "data_description": {
+          "authpath": "`python -m pypowerwall setup` দ্বারা তৈরি .pypowerwall.auth ফাইল ধারণকারী ডিরেক্টরি",
+          "siteid": "অ্যাকাউন্টে একাধিক সাইট থাকলে ব্যবহারের জন্য Tesla সাইট আইডি"
+        }
+      },
+      "fleetapi": {
+        "description": "স্থানীয় সংযোগের পরিবর্তে Tesla-এর FleetAPI ব্যবহার করে। প্রথমে Home Assistant-এর বাইরে একবার সেটআপ করা আবশ্যক: developer.tesla.com-এ একটি অ্যাপ নিবন্ধন করুন, তারপর `.pypowerwall.fleetapi` ফাইল তৈরি করতে `python -m pypowerwall.fleetapi setup` চালান, এবং এটি যে ডিরেক্টরিতে আছে তা নির্দেশ করুন।",
+        "data": {
+          "authpath": "কনফিগারেশন ক্যাশে ডিরেক্টরি",
+          "siteid": "সাইট আইডি (ঐচ্ছিক)"
+        },
+        "data_description": {
+          "authpath": "`python -m pypowerwall.fleetapi setup` দ্বারা তৈরি .pypowerwall.fleetapi ফাইল ধারণকারী ডিরেক্টরি",
+          "siteid": "অ্যাকাউন্টে একাধিক সাইট থাকলে ব্যবহারের জন্য Tesla সাইট আইডি"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "পূর্ব-নিবন্ধিত RSA কী ব্যবহার করে Powerwall 3-এর জন্য সম্পূর্ণ protobuf LAN অ্যাক্সেস। প্রথমে Home Assistant-এর বাইরে একবার সেটআপ করা আবশ্যক: গেটওয়ের সাথে একটি RSA-4096 কী জোড়া তৈরি ও নিবন্ধন করতে `python -m pypowerwall register` চালান (নিশ্চিত করতে গেটওয়ে সংক্ষিপ্তভাবে পাওয়ার-সাইকেল করার প্রয়োজন হতে পারে), তারপর ফলস্বরূপ প্রাইভেট কী ফাইলটি নির্দেশ করুন।",
+        "data": {
+          "host": "হোস্ট",
+          "gw_pwd": "গেটওয়ে পাসওয়ার্ড",
+          "rsa_key_path": "RSA প্রাইভেট কী পাথ",
+          "wifi_host": "Wi-Fi ফলব্যাক হোস্ট (ঐচ্ছিক)"
+        },
+        "data_description": {
+          "host": "Powerwall গেটওয়ের হোস্টনেম বা IP ঠিকানা",
+          "gw_pwd": "QR লেবেলে মুদ্রিত সম্পূর্ণ গেটওয়ে Wi-Fi পাসওয়ার্ড",
+          "rsa_key_path": "`python -m pypowerwall register` দ্বারা তৈরি RSA-4096 প্রাইভেট কী PEM ফাইলের পাথ",
+          "wifi_host": "ফলব্যাক করার জন্য বিকল্প Wi-Fi TEDAPI হোস্ট"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "সংযোগ করতে ব্যর্থ হয়েছে। সংযোগের বিবরণ পরীক্ষা করে আবার চেষ্টা করুন।",
+      "unknown": "অপ্রত্যাশিত ত্রুটি"
+    },
+    "abort": {
+      "already_configured": "এই Powerwall গেটওয়ে ইতিমধ্যেই কনফিগার করা আছে"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "স্ক্যান ব্যবধান (সেকেন্ড)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "ব্যাটারি লেভেল" },
+      "battery_level_app": { "name": "ব্যাটারি লেভেল (Tesla অ্যাপ)" },
+      "backup_time_remaining": { "name": "অবশিষ্ট ব্যাকআপ সময়" },
+      "grid_power": { "name": "গ্রিড পাওয়ার" },
+      "grid_import_power": { "name": "গ্রিড ইম্পোর্ট পাওয়ার" },
+      "grid_export_power": { "name": "গ্রিড এক্সপোর্ট পাওয়ার" },
+      "solar_power": { "name": "সোলার পাওয়ার" },
+      "battery_power": { "name": "ব্যাটারি পাওয়ার" },
+      "battery_import_power": { "name": "ব্যাটারি ইম্পোর্ট পাওয়ার" },
+      "battery_export_power": { "name": "ব্যাটারি এক্সপোর্ট পাওয়ার" },
+      "battery_energy_imported": { "name": "চার্জ হওয়া ব্যাটারি এনার্জি" },
+      "battery_energy_exported": { "name": "ডিসচার্জ হওয়া ব্যাটারি এনার্জি" },
+      "battery_import_energy": { "name": "ব্যাটারি ইম্পোর্ট এনার্জি (আনুমানিক)" },
+      "battery_export_energy": { "name": "ব্যাটারি এক্সপোর্ট এনার্জি (আনুমানিক)" },
+      "grid_import_energy": { "name": "গ্রিড ইম্পোর্ট এনার্জি (আনুমানিক)" },
+      "grid_export_energy": { "name": "গ্রিড এক্সপোর্ট এনার্জি (আনুমানিক)" },
+      "home_energy": { "name": "হোম এনার্জি (আনুমানিক)" },
+      "home_power": { "name": "হোম পাওয়ার" },
+      "grid_status": { "name": "গ্রিড স্ট্যাটাস" },
+      "alert_count": { "name": "সক্রিয় সতর্কতা" },
+      "firmware_version": { "name": "ফার্মওয়্যার ভার্সন" },
+      "uptime": { "name": "আপটাইম" },
+      "battery_temp": { "name": "{device} তাপমাত্রা" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "গ্রিডের সাথে সংযুক্ত" }
+    },
+    "number": {
+      "battery_reserve": { "name": "ব্যাটারি রিজার্ভ" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "ব্যাটারি মোড",
+        "state": {
+          "self_consumption": "সেলফ-পাওয়ার্ড",
+          "backup": "শুধুমাত্র ব্যাকআপ",
+          "autonomous": "টাইম-বেসড কন্ট্রোল"
+        }
+      },
+      "grid_export": {
+        "name": "গ্রিড এক্সপোর্ট",
+        "state": {
+          "battery_ok": "সোলার এবং ব্যাটারি",
+          "pv_only": "শুধুমাত্র সোলার",
+          "never": "কখনও না"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "গ্রিড চার্জিং" }
+    },
+    "button": {
+      "go_off_grid": { "name": "গ্রিড থেকে সংযোগ বিচ্ছিন্ন করুন" },
+      "reconnect_grid": { "name": "গ্রিডের সাথে পুনরায় সংযোগ করুন" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "সর্বোচ্চ ব্যাকআপ শিডিউল করুন",
+      "description": "একটি ম্যানুয়াল ব্যাকআপ ইভেন্ট শুরু করে (স্টর্ম ওয়াচ / ম্যাক্স ব্যাকআপ মোড), একটি নির্দিষ্ট সময়ের জন্য ব্যাটারি রিজার্ভ সর্বাধিক করে। TEDAPI v1r LAN মোড প্রয়োজন।",
+      "fields": {
+        "duration_seconds": {
+          "name": "স্থিতিকাল",
+          "description": "ম্যাক্স ব্যাকআপ ইভেন্ট কতক্ষণ চলবে, সেকেন্ডে। ডিফল্ট হল 7200 (2 ঘণ্টা)।"
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "ম্যাক্স ব্যাকআপ বাতিল করুন",
+      "description": "schedule_max_backup দ্বারা শুরু করা বর্তমান ম্যানুয়াল ব্যাকআপ ইভেন্ট (স্টর্ম ওয়াচ / ম্যাক্স ব্যাকআপ মোড) বাতিল করে। TEDAPI v1r LAN মোড প্রয়োজন।"
+    }
+  }
+}

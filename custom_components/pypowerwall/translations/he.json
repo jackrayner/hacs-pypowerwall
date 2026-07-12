@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "בחירת סוג חיבור",
+        "menu_options": {
+          "tedapi": "TEDAPI (סיסמת שער)",
+          "hybrid": "היברידי (התחברות מקומית + סיסמת שער)",
+          "local": "התחברות מקומית (אימייל/סיסמה של הלקוח)",
+          "cloud": "מצב ענן (מטמון אימות קיים)",
+          "fleetapi": "FleetAPI (מטמון תצורה קיים)",
+          "tedapi_v1r": "TEDAPI v1r LAN (מפתח RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "התחברות באמצעות סיסמת ה-Wi-Fi של השער עצמו (מצב 4). פועל ב-Powerwall 2, Powerwall+ ו-Powerwall 3 ללא צורך בהפעלת התחברות לקוח.",
+        "data": {
+          "host": "מארח",
+          "gw_pwd": "סיסמת שער"
+        },
+        "data_description": {
+          "host": "שם מארח או כתובת IP של שער ה-Powerwall (למשל 192.168.91.1)",
+          "gw_pwd": "סיסמת ה-Wi-Fi המלאה של השער, המודפסת על תווית קוד ה-QR"
+        }
+      },
+      "hybrid": {
+        "description": "משלב התחברות לקוח עם סיסמת השער כדי להוסיף נתוני חיוניות משלימים. דורש הפעלה של התחברות לקוח בשער.",
+        "data": {
+          "host": "מארח",
+          "email": "אימייל",
+          "password": "סיסמת לקוח",
+          "gw_pwd": "סיסמת שער"
+        },
+        "data_description": {
+          "host": "שם מארח או כתובת IP של שער ה-Powerwall",
+          "email": "כתובת האימייל של חשבון הלקוח",
+          "password": "סיסמת הלקוח שהוגדרה בשער",
+          "gw_pwd": "סיסמת ה-Wi-Fi המלאה של השער, המודפסת על תווית קוד ה-QR"
+        }
+      },
+      "local": {
+        "description": "התחברות באמצעות התחברות הלקוח של השער. יש להפעיל תחילה את התחברות הלקוח בשער (דרך אפליקציית Tesla או ממשק הניהול המקוון של השער).",
+        "data": {
+          "host": "מארח",
+          "email": "אימייל",
+          "password": "סיסמת לקוח"
+        },
+        "data_description": {
+          "host": "שם מארח או כתובת IP של שער ה-Powerwall",
+          "email": "כתובת האימייל של חשבון הלקוח",
+          "password": "סיסמת הלקוח שהוגדרה בשער"
+        }
+      },
+      "cloud": {
+        "description": "משתמש בממשק הענן של Tesla במקום בחיבור מקומי. דורש התחברות חד-פעמית שמתבצעת מחוץ ל-Home Assistant: הריצו `python -m pypowerwall setup` (או `setup -headless`) כדי ליצור קובץ `.pypowerwall.auth`, ולאחר מכן הצביעו לספרייה שמכילה אותו.",
+        "data": {
+          "authpath": "ספריית מטמון האימות",
+          "siteid": "מזהה אתר (אופציונלי)"
+        },
+        "data_description": {
+          "authpath": "הספרייה שמכילה את קובץ ה-.pypowerwall.auth שנוצר על ידי `python -m pypowerwall setup`",
+          "siteid": "מזהה האתר של Tesla לשימוש כאשר לחשבון יש יותר מאתר אחד"
+        }
+      },
+      "fleetapi": {
+        "description": "משתמש ב-FleetAPI של Tesla במקום בחיבור מקומי. דורש הגדרה חד-פעמית שמתבצעת מחוץ ל-Home Assistant: רשמו אפליקציה בכתובת developer.tesla.com, ולאחר מכן הריצו `python -m pypowerwall.fleetapi setup` כדי ליצור קובץ `.pypowerwall.fleetapi`, והצביעו לספרייה שמכילה אותו.",
+        "data": {
+          "authpath": "ספריית מטמון התצורה",
+          "siteid": "מזהה אתר (אופציונלי)"
+        },
+        "data_description": {
+          "authpath": "הספרייה שמכילה את קובץ ה-.pypowerwall.fleetapi שנוצר על ידי `python -m pypowerwall.fleetapi setup`",
+          "siteid": "מזהה האתר של Tesla לשימוש כאשר לחשבון יש יותר מאתר אחד"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "גישה מלאה מבוססת protobuf ברשת המקומית עבור Powerwall 3, באמצעות מפתח RSA רשום מראש. דורש הגדרה חד-פעמית שמתבצעת מחוץ ל-Home Assistant: הריצו `python -m pypowerwall register` כדי ליצור ולרשום זוג מפתחות RSA-4096 מול השער (ייתכן שיידרש ניתוק והדלקה מחדש קצרים של השער לאישור), ולאחר מכן הצביעו לקובץ המפתח הפרטי שנוצר.",
+        "data": {
+          "host": "מארח",
+          "gw_pwd": "סיסמת שער",
+          "rsa_key_path": "נתיב מפתח RSA פרטי",
+          "wifi_host": "מארח גיבוי Wi-Fi (אופציונלי)"
+        },
+        "data_description": {
+          "host": "שם מארח או כתובת IP של שער ה-Powerwall",
+          "gw_pwd": "סיסמת ה-Wi-Fi המלאה של השער, המודפסת על תווית קוד ה-QR",
+          "rsa_key_path": "נתיב לקובץ מפתח פרטי מסוג PEM (RSA-4096) שנוצר על ידי `python -m pypowerwall register`",
+          "wifi_host": "מארח TEDAPI חלופי ברשת ה-Wi-Fi לשימוש כגיבוי"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "ההתחברות נכשלה. בדקו את פרטי החיבור ונסו שוב.",
+      "unknown": "שגיאה לא צפויה"
+    },
+    "abort": {
+      "already_configured": "שער Powerwall זה כבר מוגדר"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "מרווח סריקה (בשניות)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "רמת סוללה" },
+      "battery_level_app": { "name": "רמת סוללה (אפליקציית Tesla)" },
+      "backup_time_remaining": { "name": "זמן גיבוי נותר" },
+      "grid_power": { "name": "הספק רשת" },
+      "grid_import_power": { "name": "הספק יבוא מהרשת" },
+      "grid_export_power": { "name": "הספק ייצוא לרשת" },
+      "solar_power": { "name": "הספק סולארי" },
+      "battery_power": { "name": "הספק סוללה" },
+      "battery_import_power": { "name": "הספק טעינת סוללה" },
+      "battery_export_power": { "name": "הספק פריקת סוללה" },
+      "battery_energy_imported": { "name": "אנרגיית סוללה שנטענה" },
+      "battery_energy_exported": { "name": "אנרגיית סוללה שנפרקה" },
+      "battery_import_energy": { "name": "אנרגיית טעינת סוללה (משוערת)" },
+      "battery_export_energy": { "name": "אנרגיית פריקת סוללה (משוערת)" },
+      "grid_import_energy": { "name": "אנרגיית יבוא מהרשת (משוערת)" },
+      "grid_export_energy": { "name": "אנרגיית ייצוא לרשת (משוערת)" },
+      "home_energy": { "name": "אנרגיית הבית (משוערת)" },
+      "home_power": { "name": "הספק הבית" },
+      "grid_status": { "name": "מצב הרשת" },
+      "alert_count": { "name": "התראות פעילות" },
+      "firmware_version": { "name": "גרסת קושחה" },
+      "uptime": { "name": "זמן פעילות" },
+      "battery_temp": { "name": "טמפרטורת {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "מחובר לרשת" }
+    },
+    "number": {
+      "battery_reserve": { "name": "רזרבת סוללה" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "מצב סוללה",
+        "state": {
+          "self_consumption": "צריכה עצמית",
+          "backup": "גיבוי בלבד",
+          "autonomous": "בקרה מבוססת זמן"
+        }
+      },
+      "grid_export": {
+        "name": "ייצוא לרשת",
+        "state": {
+          "battery_ok": "סולארי וסוללה",
+          "pv_only": "סולארי בלבד",
+          "never": "לעולם לא"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "טעינה מהרשת" }
+    },
+    "button": {
+      "go_off_grid": { "name": "ניתוק מהרשת" },
+      "reconnect_grid": { "name": "חיבור מחדש לרשת" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "תזמון גיבוי מרבי",
+      "description": "מפעיל אירוע גיבוי ידני (מעקב סערה / מצב גיבוי מרבי), הממקסם את רזרבת הסוללה למשך זמן קבוע. דורש מצב TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "משך זמן",
+          "description": "משך הזמן שבו יפעל אירוע הגיבוי המרבי, בשניות. ברירת המחדל היא 7200 (שעתיים)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "ביטול גיבוי מרבי",
+      "description": "מבטל את אירוע הגיבוי הידני הנוכחי (מעקב סערה / מצב גיבוי מרבי) שהופעל על ידי schedule_max_backup. דורש מצב TEDAPI v1r LAN."
+    }
+  }
+}

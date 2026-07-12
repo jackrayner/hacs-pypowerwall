@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Dewiswch fath o gysylltiad",
+        "menu_options": {
+          "tedapi": "TEDAPI (cyfrinair porth)",
+          "hybrid": "Hybrid (mewngofnodi lleol + cyfrinair porth)",
+          "local": "Mewngofnodi lleol (e-bost/cyfrinair cwsmer)",
+          "cloud": "Modd cwmwl (storfa ddilysu bresennol)",
+          "fleetapi": "FleetAPI (storfa ffurfweddiad bresennol)",
+          "tedapi_v1r": "TEDAPI v1r LAN (allwedd RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "Cysylltwch gan ddefnyddio cyfrinair Wi-Fi y porth ei hun (modd 4). Yn gweithio ar Powerwall 2, Powerwall+, a Powerwall 3 heb alluogi Mewngofnodi Cwsmer.",
+        "data": {
+          "host": "Gwesteiwr",
+          "gw_pwd": "Cyfrinair porth"
+        },
+        "data_description": {
+          "host": "Enw gwesteiwr neu gyfeiriad IP porth y Powerwall (e.e. 192.168.91.1)",
+          "gw_pwd": "Cyfrinair Wi-Fi llawn y porth wedi'i argraffu ar y label QR"
+        }
+      },
+      "hybrid": {
+        "description": "Yn cyfuno mewngofnodi cwsmer â chyfrinair y porth i ychwanegu data hanfodion atodol. Mae angen i Fewngofnodi Cwsmer fod wedi'i alluogi ar y porth.",
+        "data": {
+          "host": "Gwesteiwr",
+          "email": "E-bost",
+          "password": "Cyfrinair cwsmer",
+          "gw_pwd": "Cyfrinair porth"
+        },
+        "data_description": {
+          "host": "Enw gwesteiwr neu gyfeiriad IP porth y Powerwall",
+          "email": "E-bost cyfrif y cwsmer",
+          "password": "Cyfrinair cwsmer wedi'i osod ar y porth",
+          "gw_pwd": "Cyfrinair Wi-Fi llawn y porth wedi'i argraffu ar y label QR"
+        }
+      },
+      "local": {
+        "description": "Cysylltwch gan ddefnyddio Mewngofnodi Cwsmer y porth. Mae angen i Fewngofnodi Cwsmer fod wedi'i alluogi ar y porth yn gyntaf (drwy ap Tesla neu ryngwyneb gwe'r porth).",
+        "data": {
+          "host": "Gwesteiwr",
+          "email": "E-bost",
+          "password": "Cyfrinair cwsmer"
+        },
+        "data_description": {
+          "host": "Enw gwesteiwr neu gyfeiriad IP porth y Powerwall",
+          "email": "E-bost cyfrif y cwsmer",
+          "password": "Cyfrinair cwsmer wedi'i osod ar y porth"
+        }
+      },
+      "cloud": {
+        "description": "Yn defnyddio API cwmwl Tesla yn lle cysylltiad lleol. Mae angen mewngofnodi untro y tu allan i Home Assistant yn gyntaf: rhedwch `python -m pypowerwall setup` (neu `setup -headless`) i greu ffeil `.pypowerwall.auth`, yna cyfeiriwch hwn at y cyfeiriadur sy'n ei chynnwys.",
+        "data": {
+          "authpath": "Cyfeiriadur storfa ddilysu",
+          "siteid": "ID safle (dewisol)"
+        },
+        "data_description": {
+          "authpath": "Y cyfeiriadur sy'n cynnwys y ffeil .pypowerwall.auth a grëwyd gan `python -m pypowerwall setup`",
+          "siteid": "ID safle Tesla i'w ddefnyddio os oes gan y cyfrif fwy nag un safle"
+        }
+      },
+      "fleetapi": {
+        "description": "Yn defnyddio FleetAPI Tesla yn lle cysylltiad lleol. Mae angen sefydlu untro y tu allan i Home Assistant yn gyntaf: cofrestrwch ap ar developer.tesla.com, yna rhedwch `python -m pypowerwall.fleetapi setup` i greu ffeil `.pypowerwall.fleetapi`, a chyfeiriwch hwn at y cyfeiriadur sy'n ei chynnwys.",
+        "data": {
+          "authpath": "Cyfeiriadur storfa ffurfweddiad",
+          "siteid": "ID safle (dewisol)"
+        },
+        "data_description": {
+          "authpath": "Y cyfeiriadur sy'n cynnwys y ffeil .pypowerwall.fleetapi a grëwyd gan `python -m pypowerwall.fleetapi setup`",
+          "siteid": "ID safle Tesla i'w ddefnyddio os oes gan y cyfrif fwy nag un safle"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Mynediad LAN protobuf llawn ar gyfer Powerwall 3, gan ddefnyddio allwedd RSA sydd wedi'i chofrestru ymlaen llaw. Mae angen sefydlu untro y tu allan i Home Assistant yn gyntaf: rhedwch `python -m pypowerwall register` i gynhyrchu a chofrestru pâr o allweddi RSA-4096 gyda'r porth (efallai y bydd angen ailgychwyn pŵer y porth yn fyr i gadarnhau hyn), yna cyfeiriwch hwn at y ffeil allwedd breifat sy'n deillio o hynny.",
+        "data": {
+          "host": "Gwesteiwr",
+          "gw_pwd": "Cyfrinair porth",
+          "rsa_key_path": "Llwybr allwedd breifat RSA",
+          "wifi_host": "Gwesteiwr WiFi wrth gefn (dewisol)"
+        },
+        "data_description": {
+          "host": "Enw gwesteiwr neu gyfeiriad IP porth y Powerwall",
+          "gw_pwd": "Cyfrinair Wi-Fi llawn y porth wedi'i argraffu ar y label QR",
+          "rsa_key_path": "Llwybr i'r ffeil PEM allwedd breifat RSA-4096 a gynhyrchwyd gan `python -m pypowerwall register`",
+          "wifi_host": "Gwesteiwr TEDAPI WiFi arall i droi ato wrth gefn"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Wedi methu cysylltu. Gwiriwch fanylion y cysylltiad a rhowch gynnig arall arni.",
+      "unknown": "Gwall annisgwyl"
+    },
+    "abort": {
+      "already_configured": "Mae'r porth Powerwall hwn eisoes wedi'i ffurfweddu"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Cyfnod sganio (eiliadau)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Lefel y batri" },
+      "battery_level_app": { "name": "Lefel y batri (ap Tesla)" },
+      "backup_time_remaining": { "name": "Amser wrth gefn sy'n weddill" },
+      "grid_power": { "name": "Pŵer y grid" },
+      "grid_import_power": { "name": "Pŵer mewnforio grid" },
+      "grid_export_power": { "name": "Pŵer allforio grid" },
+      "solar_power": { "name": "Pŵer solar" },
+      "battery_power": { "name": "Pŵer y batri" },
+      "battery_import_power": { "name": "Pŵer mewnforio batri" },
+      "battery_export_power": { "name": "Pŵer allforio batri" },
+      "battery_energy_imported": { "name": "Ynni batri wedi'i wefru" },
+      "battery_energy_exported": { "name": "Ynni batri wedi'i ddadwefru" },
+      "battery_import_energy": { "name": "Ynni mewnforio batri (amcangyfrifedig)" },
+      "battery_export_energy": { "name": "Ynni allforio batri (amcangyfrifedig)" },
+      "grid_import_energy": { "name": "Ynni mewnforio grid (amcangyfrifedig)" },
+      "grid_export_energy": { "name": "Ynni allforio grid (amcangyfrifedig)" },
+      "home_energy": { "name": "Ynni'r cartref (amcangyfrifedig)" },
+      "home_power": { "name": "Pŵer y cartref" },
+      "grid_status": { "name": "Statws y grid" },
+      "alert_count": { "name": "Rhybuddion gweithredol" },
+      "firmware_version": { "name": "Fersiwn cadarnwedd" },
+      "uptime": { "name": "Amser ar waith" },
+      "battery_temp": { "name": "Tymheredd {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Wedi cysylltu â'r grid" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Cronfa wrth gefn y batri" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Modd y batri",
+        "state": {
+          "self_consumption": "Hunan-bweru",
+          "backup": "Wrth gefn yn unig",
+          "autonomous": "Rheolaeth yn seiliedig ar amser"
+        }
+      },
+      "grid_export": {
+        "name": "Allforio grid",
+        "state": {
+          "battery_ok": "Solar a batri",
+          "pv_only": "Solar yn unig",
+          "never": "Byth"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Gwefru o'r grid" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Datgysylltu o'r grid" },
+      "reconnect_grid": { "name": "Ailgysylltu â'r grid" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Trefnu uchafswm wrth gefn",
+      "description": "Yn dechrau digwyddiad wrth gefn â llaw (gwylio storm / modd uchafswm wrth gefn), gan uchafu cronfa wrth gefn y batri am gyfnod penodol. Mae angen modd TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Hyd",
+          "description": "Am ba hyd y dylai'r digwyddiad uchafswm wrth gefn redeg, mewn eiliadau. Y rhagosodiad yw 7200 (2 awr)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Canslo uchafswm wrth gefn",
+      "description": "Yn canslo'r digwyddiad wrth gefn â llaw cyfredol (gwylio storm / modd uchafswm wrth gefn) a gychwynnwyd gan schedule_max_backup. Mae angen modd TEDAPI v1r LAN."
+    }
+  }
+}

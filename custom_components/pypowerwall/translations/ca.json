@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Trieu un tipus de connexió",
+        "menu_options": {
+          "tedapi": "TEDAPI (contrasenya de la passarel·la)",
+          "hybrid": "Híbrid (inici de sessió local + contrasenya de la passarel·la)",
+          "local": "Inici de sessió local (correu electrònic/contrasenya del client)",
+          "cloud": "Mode núvol (memòria cau d'autenticació existent)",
+          "fleetapi": "FleetAPI (memòria cau de configuració existent)",
+          "tedapi_v1r": "TEDAPI v1r LAN (clau RSA)"
+        }
+      },
+      "tedapi": {
+        "description": "Connecta't utilitzant la contrasenya Wi-Fi pròpia de la passarel·la (mode 4). Funciona amb Powerwall 2, Powerwall+ i Powerwall 3 sense necessitat d'habilitar l'inici de sessió del client.",
+        "data": {
+          "host": "Amfitrió",
+          "gw_pwd": "Contrasenya de la passarel·la"
+        },
+        "data_description": {
+          "host": "Nom d'amfitrió o adreça IP de la passarel·la Powerwall (p. ex., 192.168.91.1)",
+          "gw_pwd": "Contrasenya Wi-Fi completa de la passarel·la impresa a l'etiqueta QR"
+        }
+      },
+      "hybrid": {
+        "description": "Combina un inici de sessió de client amb la contrasenya de la passarel·la per afegir dades vitals addicionals. Requereix que l'inici de sessió del client estigui habilitat a la passarel·la.",
+        "data": {
+          "host": "Amfitrió",
+          "email": "Correu electrònic",
+          "password": "Contrasenya del client",
+          "gw_pwd": "Contrasenya de la passarel·la"
+        },
+        "data_description": {
+          "host": "Nom d'amfitrió o adreça IP de la passarel·la Powerwall",
+          "email": "Correu electrònic del compte del client",
+          "password": "Contrasenya del client configurada a la passarel·la",
+          "gw_pwd": "Contrasenya Wi-Fi completa de la passarel·la impresa a l'etiqueta QR"
+        }
+      },
+      "local": {
+        "description": "Connecta't utilitzant l'inici de sessió del client de la passarel·la. Cal habilitar primer l'inici de sessió del client a la passarel·la (mitjançant l'aplicació Tesla o la interfície web de la passarel·la).",
+        "data": {
+          "host": "Amfitrió",
+          "email": "Correu electrònic",
+          "password": "Contrasenya del client"
+        },
+        "data_description": {
+          "host": "Nom d'amfitrió o adreça IP de la passarel·la Powerwall",
+          "email": "Correu electrònic del compte del client",
+          "password": "Contrasenya del client configurada a la passarel·la"
+        }
+      },
+      "cloud": {
+        "description": "Utilitza l'API al núvol de Tesla en lloc d'una connexió local. Requereix un inici de sessió únic realitzat prèviament fora de Home Assistant: executeu `python -m pypowerwall setup` (o `setup -headless`) per crear un fitxer `.pypowerwall.auth` i, després, indiqueu el directori que el conté.",
+        "data": {
+          "authpath": "Directori de la memòria cau d'autenticació",
+          "siteid": "ID del lloc (opcional)"
+        },
+        "data_description": {
+          "authpath": "Directori que conté el fitxer .pypowerwall.auth creat per `python -m pypowerwall setup`",
+          "siteid": "ID del lloc de Tesla que cal utilitzar si el compte té més d'un lloc"
+        }
+      },
+      "fleetapi": {
+        "description": "Utilitza la FleetAPI de Tesla en lloc d'una connexió local. Requereix una configuració única realitzada prèviament fora de Home Assistant: registreu una aplicació a developer.tesla.com, després executeu `python -m pypowerwall.fleetapi setup` per crear un fitxer `.pypowerwall.fleetapi`, i indiqueu el directori que el conté.",
+        "data": {
+          "authpath": "Directori de la memòria cau de configuració",
+          "siteid": "ID del lloc (opcional)"
+        },
+        "data_description": {
+          "authpath": "Directori que conté el fitxer .pypowerwall.fleetapi creat per `python -m pypowerwall.fleetapi setup`",
+          "siteid": "ID del lloc de Tesla que cal utilitzar si el compte té més d'un lloc"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Accés LAN complet per protobuf per al Powerwall 3, utilitzant una clau RSA prèviament registrada. Requereix una configuració única realitzada prèviament fora de Home Assistant: executeu `python -m pypowerwall register` per generar i registrar un parell de claus RSA-4096 amb la passarel·la (això pot requerir apagar i encendre breument la passarel·la per confirmar-ho), després indiqueu el fitxer de clau privada resultant.",
+        "data": {
+          "host": "Amfitrió",
+          "gw_pwd": "Contrasenya de la passarel·la",
+          "rsa_key_path": "Camí de la clau privada RSA",
+          "wifi_host": "Amfitrió Wi-Fi de reserva (opcional)"
+        },
+        "data_description": {
+          "host": "Nom d'amfitrió o adreça IP de la passarel·la Powerwall",
+          "gw_pwd": "Contrasenya Wi-Fi completa de la passarel·la impresa a l'etiqueta QR",
+          "rsa_key_path": "Camí del fitxer PEM de la clau privada RSA-4096 generat per `python -m pypowerwall register`",
+          "wifi_host": "Amfitrió TEDAPI Wi-Fi alternatiu per a la reserva"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "No s'ha pogut connectar. Comproveu les dades de connexió i torneu-ho a provar.",
+      "unknown": "Error inesperat"
+    },
+    "abort": {
+      "already_configured": "Aquesta passarel·la Powerwall ja està configurada"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Interval d'escaneig (segons)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Nivell de la bateria" },
+      "battery_level_app": { "name": "Nivell de la bateria (aplicació Tesla)" },
+      "backup_time_remaining": { "name": "Temps de reserva restant" },
+      "grid_power": { "name": "Potència de la xarxa" },
+      "grid_import_power": { "name": "Potència d'importació de la xarxa" },
+      "grid_export_power": { "name": "Potència d'exportació a la xarxa" },
+      "solar_power": { "name": "Potència solar" },
+      "battery_power": { "name": "Potència de la bateria" },
+      "battery_import_power": { "name": "Potència d'importació de la bateria" },
+      "battery_export_power": { "name": "Potència d'exportació de la bateria" },
+      "battery_energy_imported": { "name": "Energia carregada a la bateria" },
+      "battery_energy_exported": { "name": "Energia descarregada de la bateria" },
+      "battery_import_energy": { "name": "Energia d'importació de la bateria (estimada)" },
+      "battery_export_energy": { "name": "Energia d'exportació de la bateria (estimada)" },
+      "grid_import_energy": { "name": "Energia d'importació de la xarxa (estimada)" },
+      "grid_export_energy": { "name": "Energia d'exportació a la xarxa (estimada)" },
+      "home_energy": { "name": "Energia de la llar (estimada)" },
+      "home_power": { "name": "Potència de la llar" },
+      "grid_status": { "name": "Estat de la xarxa" },
+      "alert_count": { "name": "Alertes actives" },
+      "firmware_version": { "name": "Versió del microprogramari" },
+      "uptime": { "name": "Temps de funcionament" },
+      "battery_temp": { "name": "Temperatura de {device}" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Connectat a la xarxa" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Reserva de la bateria" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Mode de la bateria",
+        "state": {
+          "self_consumption": "Autoconsum",
+          "backup": "Només reserva",
+          "autonomous": "Control basat en el temps"
+        }
+      },
+      "grid_export": {
+        "name": "Exportació a la xarxa",
+        "state": {
+          "battery_ok": "Solar i bateria",
+          "pv_only": "Només solar",
+          "never": "Mai"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Càrrega des de la xarxa" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Desconnecta't de la xarxa" },
+      "reconnect_grid": { "name": "Torna't a connectar a la xarxa" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Programa la reserva màxima",
+      "description": "Inicia un esdeveniment de reserva manual (vigilància de tempesta / mode de reserva màxima), que maximitza la reserva de la bateria durant un període fix. Requereix el mode TEDAPI v1r LAN.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Durada",
+          "description": "Quant de temps ha de durar l'esdeveniment de reserva màxima, en segons. Per defecte és 7200 (2 hores)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Cancel·la la reserva màxima",
+      "description": "Cancel·la l'esdeveniment de reserva manual actual (vigilància de tempesta / mode de reserva màxima) iniciat per schedule_max_backup. Requereix el mode TEDAPI v1r LAN."
+    }
+  }
+}

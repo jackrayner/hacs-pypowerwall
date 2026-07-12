@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Pasirinkite ryšio tipą",
+        "menu_options": {
+          "tedapi": "TEDAPI (šliuzo slaptažodis)",
+          "hybrid": "Mišrus (vietinis prisijungimas + šliuzo slaptažodis)",
+          "local": "Vietinis prisijungimas (kliento el. paštas / slaptažodis)",
+          "cloud": "Debesijos režimas (esama autentifikavimo talpykla)",
+          "fleetapi": "FleetAPI (esama konfigūracijos talpykla)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA raktas)"
+        }
+      },
+      "tedapi": {
+        "description": "Prisijunkite naudodami paties šliuzo Wi-Fi slaptažodį (4 režimas). Veikia su Powerwall 2, Powerwall+ ir Powerwall 3, neįjungus kliento prisijungimo (Customer Login).",
+        "data": {
+          "host": "Serveris",
+          "gw_pwd": "Šliuzo slaptažodis"
+        },
+        "data_description": {
+          "host": "Powerwall šliuzo pagrindinio kompiuterio vardas arba IP adresas (pvz., 192.168.91.1)",
+          "gw_pwd": "Visas šliuzo Wi-Fi slaptažodis, atspausdintas ant QR kodo etiketės"
+        }
+      },
+      "hybrid": {
+        "description": "Sujungia kliento prisijungimą su šliuzo slaptažodžiu, kad būtų pridėti papildomi būsenos duomenys. Šliuze turi būti įjungtas kliento prisijungimas (Customer Login).",
+        "data": {
+          "host": "Serveris",
+          "email": "El. paštas",
+          "password": "Kliento slaptažodis",
+          "gw_pwd": "Šliuzo slaptažodis"
+        },
+        "data_description": {
+          "host": "Powerwall šliuzo pagrindinio kompiuterio vardas arba IP adresas",
+          "email": "Kliento paskyros el. paštas",
+          "password": "Šliuze nustatytas kliento slaptažodis",
+          "gw_pwd": "Visas šliuzo Wi-Fi slaptažodis, atspausdintas ant QR kodo etiketės"
+        }
+      },
+      "local": {
+        "description": "Prisijunkite naudodami šliuzo kliento prisijungimą (Customer Login). Pirmiausia šliuze turi būti įjungtas kliento prisijungimas (per Tesla programėlę arba šliuzo žiniatinklio sąsają).",
+        "data": {
+          "host": "Serveris",
+          "email": "El. paštas",
+          "password": "Kliento slaptažodis"
+        },
+        "data_description": {
+          "host": "Powerwall šliuzo pagrindinio kompiuterio vardas arba IP adresas",
+          "email": "Kliento paskyros el. paštas",
+          "password": "Šliuze nustatytas kliento slaptažodis"
+        }
+      },
+      "cloud": {
+        "description": "Naudoja Tesla debesijos API vietoj vietinio ryšio. Pirmiausia už Home Assistant ribų reikia vieną kartą prisijungti: paleiskite `python -m pypowerwall setup` (arba `setup -headless`), kad būtų sukurtas `.pypowerwall.auth` failas, tada nurodykite katalogą, kuriame jis yra.",
+        "data": {
+          "authpath": "Autentifikavimo talpyklos katalogas",
+          "siteid": "Objekto ID (neprivaloma)"
+        },
+        "data_description": {
+          "authpath": "Katalogas, kuriame yra `.pypowerwall.auth` failas, sukurtas naudojant `python -m pypowerwall setup`",
+          "siteid": "Tesla objekto ID, naudotinas, jei paskyroje yra daugiau nei vienas objektas"
+        }
+      },
+      "fleetapi": {
+        "description": "Naudoja Tesla FleetAPI vietoj vietinio ryšio. Pirmiausia už Home Assistant ribų reikia vieną kartą atlikti sąranką: užregistruokite programėlę adresu developer.tesla.com, tada paleiskite `python -m pypowerwall.fleetapi setup`, kad būtų sukurtas `.pypowerwall.fleetapi` failas, ir nurodykite katalogą, kuriame jis yra.",
+        "data": {
+          "authpath": "Konfigūracijos talpyklos katalogas",
+          "siteid": "Objekto ID (neprivaloma)"
+        },
+        "data_description": {
+          "authpath": "Katalogas, kuriame yra `.pypowerwall.fleetapi` failas, sukurtas naudojant `python -m pypowerwall.fleetapi setup`",
+          "siteid": "Tesla objekto ID, naudotinas, jei paskyroje yra daugiau nei vienas objektas"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Visavertė protobuf LAN prieiga Powerwall 3, naudojant iš anksto užregistruotą RSA raktą. Pirmiausia už Home Assistant ribų reikia vieną kartą atlikti sąranką: paleiskite `python -m pypowerwall register`, kad būtų sugeneruota ir šliuze užregistruota RSA-4096 raktų pora (norint patvirtinti, gali reikėti trumpam išjungti ir vėl įjungti šliuzo maitinimą), tada nurodykite gautą privataus rakto failą.",
+        "data": {
+          "host": "Serveris",
+          "gw_pwd": "Šliuzo slaptažodis",
+          "rsa_key_path": "RSA privataus rakto kelias",
+          "wifi_host": "Atsarginis Wi-Fi serveris (neprivaloma)"
+        },
+        "data_description": {
+          "host": "Powerwall šliuzo pagrindinio kompiuterio vardas arba IP adresas",
+          "gw_pwd": "Visas šliuzo Wi-Fi slaptažodis, atspausdintas ant QR kodo etiketės",
+          "rsa_key_path": "Kelias iki RSA-4096 privataus rakto PEM failo, sukurto naudojant `python -m pypowerwall register`",
+          "wifi_host": "Alternatyvus Wi-Fi TEDAPI serveris, naudojamas atsarginiu atveju"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nepavyko prisijungti. Patikrinkite ryšio duomenis ir bandykite dar kartą.",
+      "unknown": "Netikėta klaida"
+    },
+    "abort": {
+      "already_configured": "Šis Powerwall šliuzas jau sukonfigūruotas"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Nuskaitymo intervalas (sekundėmis)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Baterijos įkrovos lygis" },
+      "battery_level_app": { "name": "Baterijos įkrovos lygis (Tesla programėlė)" },
+      "backup_time_remaining": { "name": "Likęs atsarginio maitinimo laikas" },
+      "grid_power": { "name": "Tinklo galia" },
+      "grid_import_power": { "name": "Tinklo importuojama galia" },
+      "grid_export_power": { "name": "Tinklo eksportuojama galia" },
+      "solar_power": { "name": "Saulės elektrinės galia" },
+      "battery_power": { "name": "Baterijos galia" },
+      "battery_import_power": { "name": "Baterijos importuojama galia" },
+      "battery_export_power": { "name": "Baterijos eksportuojama galia" },
+      "battery_energy_imported": { "name": "Baterijos įkrauta energija" },
+      "battery_energy_exported": { "name": "Baterijos iškrauta energija" },
+      "battery_import_energy": { "name": "Baterijos importuota energija (apytikslė)" },
+      "battery_export_energy": { "name": "Baterijos eksportuota energija (apytikslė)" },
+      "grid_import_energy": { "name": "Tinklo importuota energija (apytikslė)" },
+      "grid_export_energy": { "name": "Tinklo eksportuota energija (apytikslė)" },
+      "home_energy": { "name": "Namų suvartota energija (apytikslė)" },
+      "home_power": { "name": "Namų galia" },
+      "grid_status": { "name": "Tinklo būsena" },
+      "alert_count": { "name": "Aktyvūs įspėjimai" },
+      "firmware_version": { "name": "Aparatinės programinės įrangos versija" },
+      "uptime": { "name": "Veikimo laikas" },
+      "battery_temp": { "name": "{device} temperatūra" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Prijungta prie tinklo" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Baterijos rezervas" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Baterijos režimas",
+        "state": {
+          "self_consumption": "Savarankiškas maitinimas",
+          "backup": "Tik atsarginis maitinimas",
+          "autonomous": "Valdymas pagal laiką"
+        }
+      },
+      "grid_export": {
+        "name": "Tinklo eksportas",
+        "state": {
+          "battery_ok": "Saulės elektrinė ir baterija",
+          "pv_only": "Tik saulės elektrinė",
+          "never": "Niekada"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Įkrovimas iš tinklo" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Atsijungti nuo tinklo" },
+      "reconnect_grid": { "name": "Vėl prisijungti prie tinklo" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Suplanuoti maksimalų atsarginį maitinimą",
+      "description": "Pradeda rankiniu būdu paleidžiamą atsarginio maitinimo įvykį (audros stebėjimo / maksimalaus atsarginio maitinimo režimas), kuris nustatytam laikotarpiui padidina baterijos rezervą iki maksimumo. Reikalingas TEDAPI v1r LAN režimas.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Trukmė",
+          "description": "Kiek laiko (sekundėmis) turėtų trukti maksimalaus atsarginio maitinimo įvykis. Numatytoji reikšmė – 7200 (2 valandos)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Atšaukti maksimalų atsarginį maitinimą",
+      "description": "Atšaukia esamą rankiniu būdu pradėtą atsarginio maitinimo įvykį (audros stebėjimo / maksimalaus atsarginio maitinimo režimas), pradėtą naudojant „schedule_max_backup“. Reikalingas TEDAPI v1r LAN režimas."
+    }
+  }
+}

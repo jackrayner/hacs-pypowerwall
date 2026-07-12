@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Vel ein tilkoplingstype",
+        "menu_options": {
+          "tedapi": "TEDAPI (gateway-passord)",
+          "hybrid": "Hybrid (lokal innlogging + gateway-passord)",
+          "local": "Lokal innlogging (kunde-e-post/passord)",
+          "cloud": "Skymodus (eksisterande autentiseringsbuffer)",
+          "fleetapi": "FleetAPI (eksisterande konfigurasjonsbuffer)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA-nøkkel)"
+        }
+      },
+      "tedapi": {
+        "description": "Kopla til med gateway-en sitt eige Wi-Fi-passord (modus 4). Fungerer på Powerwall 2, Powerwall+ og Powerwall 3 utan at Customer Login må vere aktivert.",
+        "data": {
+          "host": "Vert",
+          "gw_pwd": "Gateway-passord"
+        },
+        "data_description": {
+          "host": "Vertsnamn eller IP-adresse til Powerwall-gatewayen (t.d. 192.168.91.1)",
+          "gw_pwd": "Fullstendig gateway-Wi-Fi-passord trykt på QR-merket"
+        }
+      },
+      "hybrid": {
+        "description": "Kombinerer ei kundeinnlogging med gateway-passordet for å leggje til utfyllande vitaldata. Krev at Customer Login er aktivert på gatewayen.",
+        "data": {
+          "host": "Vert",
+          "email": "E-post",
+          "password": "Kundepassord",
+          "gw_pwd": "Gateway-passord"
+        },
+        "data_description": {
+          "host": "Vertsnamn eller IP-adresse til Powerwall-gatewayen",
+          "email": "E-postadresse til kundekontoen",
+          "password": "Kundepassord sett opp på gatewayen",
+          "gw_pwd": "Fullstendig gateway-Wi-Fi-passord trykt på QR-merket"
+        }
+      },
+      "local": {
+        "description": "Kopla til med gateway-en sin Customer Login. Krev at Customer Login først er aktivert på gatewayen (via Tesla-appen eller gateway-en sitt nettgrensesnitt).",
+        "data": {
+          "host": "Vert",
+          "email": "E-post",
+          "password": "Kundepassord"
+        },
+        "data_description": {
+          "host": "Vertsnamn eller IP-adresse til Powerwall-gatewayen",
+          "email": "E-postadresse til kundekontoen",
+          "password": "Kundepassord sett opp på gatewayen"
+        }
+      },
+      "cloud": {
+        "description": "Brukar Tesla sitt sky-API i staden for ei lokal tilkopling. Krev ei eingongs-innlogging utført utanfor Home Assistant først: køyr `python -m pypowerwall setup` (eller `setup -headless`) for å oppretta ei `.pypowerwall.auth`-fil, og peik deretter denne til mappa som inneheld ho.",
+        "data": {
+          "authpath": "Mappe for autentiseringsbuffer",
+          "siteid": "Anleggs-ID (valfritt)"
+        },
+        "data_description": {
+          "authpath": "Mappa som inneheld .pypowerwall.auth-fila oppretta av `python -m pypowerwall setup`",
+          "siteid": "Tesla-anleggs-ID som skal brukast dersom kontoen har meir enn eitt anlegg"
+        }
+      },
+      "fleetapi": {
+        "description": "Brukar Tesla sitt FleetAPI i staden for ei lokal tilkopling. Krev eit eingongsoppsett utført utanfor Home Assistant først: registrer ein applikasjon på developer.tesla.com, køyr så `python -m pypowerwall.fleetapi setup` for å oppretta ei `.pypowerwall.fleetapi`-fil, og peik dette til mappa som inneheld ho.",
+        "data": {
+          "authpath": "Mappe for konfigurasjonsbuffer",
+          "siteid": "Anleggs-ID (valfritt)"
+        },
+        "data_description": {
+          "authpath": "Mappa som inneheld .pypowerwall.fleetapi-fila oppretta av `python -m pypowerwall.fleetapi setup`",
+          "siteid": "Tesla-anleggs-ID som skal brukast dersom kontoen har meir enn eitt anlegg"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "Full protobuf-basert LAN-tilgang for Powerwall 3, med bruk av ein førehandsregistrert RSA-nøkkel. Krev eit eingongsoppsett utført utanfor Home Assistant først: køyr `python -m pypowerwall register` for å generera og registrera eit RSA-4096-nøkkelpar hos gatewayen (dette kan krevja at gatewayen kort blir straumsykla for å stadfesta), og peik dette til den resulterande private nøkkelfila.",
+        "data": {
+          "host": "Vert",
+          "gw_pwd": "Gateway-passord",
+          "rsa_key_path": "Sti til privat RSA-nøkkel",
+          "wifi_host": "WiFi-reservevert (valfritt)"
+        },
+        "data_description": {
+          "host": "Vertsnamn eller IP-adresse til Powerwall-gatewayen",
+          "gw_pwd": "Fullstendig gateway-Wi-Fi-passord trykt på QR-merket",
+          "rsa_key_path": "Sti til PEM-fila med den private RSA-4096-nøkkelen produsert av `python -m pypowerwall register`",
+          "wifi_host": "Alternativ WiFi-TEDAPI-vert å falla tilbake på"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Klarte ikkje å kopla til. Kontroller tilkoplingsopplysningane og prøv igjen.",
+      "unknown": "Uventa feil"
+    },
+    "abort": {
+      "already_configured": "Denne Powerwall-gatewayen er alt sett opp"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Skanneintervall (sekund)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "Batterinivå" },
+      "battery_level_app": { "name": "Batterinivå (Tesla-appen)" },
+      "backup_time_remaining": { "name": "Attverande reservetid" },
+      "grid_power": { "name": "Straumnetteffekt" },
+      "grid_import_power": { "name": "Importeffekt frå straumnettet" },
+      "grid_export_power": { "name": "Eksporteffekt til straumnettet" },
+      "solar_power": { "name": "Soleffekt" },
+      "battery_power": { "name": "Batterieffekt" },
+      "battery_import_power": { "name": "Batteri-ladeeffekt" },
+      "battery_export_power": { "name": "Batteri-utladeeffekt" },
+      "battery_energy_imported": { "name": "Batterienergi lada" },
+      "battery_energy_exported": { "name": "Batterienergi utlada" },
+      "battery_import_energy": { "name": "Batteri-importenergi (estimert)" },
+      "battery_export_energy": { "name": "Batteri-eksportenergi (estimert)" },
+      "grid_import_energy": { "name": "Importenergi frå straumnettet (estimert)" },
+      "grid_export_energy": { "name": "Eksportenergi til straumnettet (estimert)" },
+      "home_energy": { "name": "Husenergi (estimert)" },
+      "home_power": { "name": "Huseffekt" },
+      "grid_status": { "name": "Straumnettstatus" },
+      "alert_count": { "name": "Aktive varsel" },
+      "firmware_version": { "name": "Fastvareversjon" },
+      "uptime": { "name": "Oppetid" },
+      "battery_temp": { "name": "{device}-temperatur" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "Tilkopla straumnettet" }
+    },
+    "number": {
+      "battery_reserve": { "name": "Batterireserve" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "Batterimodus",
+        "state": {
+          "self_consumption": "Sjølvforsynt",
+          "backup": "Berre reserve",
+          "autonomous": "Tidsbasert styring"
+        }
+      },
+      "grid_export": {
+        "name": "Straumnetteksport",
+        "state": {
+          "battery_ok": "Sol og batteri",
+          "pv_only": "Berre sol",
+          "never": "Aldri"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "Lading frå straumnettet" }
+    },
+    "button": {
+      "go_off_grid": { "name": "Kopla frå straumnettet" },
+      "reconnect_grid": { "name": "Kopla til straumnettet att" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "Planlegg maksimal reserve",
+      "description": "Startar ei manuell reservehending (storm watch / maksimal reserve-modus), som maksimerer batterireserva for ei fastsett tidslengd. Krev TEDAPI v1r LAN-modus.",
+      "fields": {
+        "duration_seconds": {
+          "name": "Varigheit",
+          "description": "Kor lenge maks-reservehendinga skal vara, i sekund. Standardverdi er 7200 (2 timar)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "Avbryt maksimal reserve",
+      "description": "Avbryt den gjeldande manuelle reservehendinga (storm watch / maksimal reserve-modus) starta av schedule_max_backup. Krev TEDAPI v1r LAN-modus."
+    }
+  }
+}

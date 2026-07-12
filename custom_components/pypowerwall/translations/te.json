@@ -1,0 +1,183 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "కనెక్షన్ రకాన్ని ఎంచుకోండి",
+        "menu_options": {
+          "tedapi": "TEDAPI (గేట్‌వే పాస్‌వర్డ్)",
+          "hybrid": "హైబ్రిడ్ (లోకల్ లాగిన్ + గేట్‌వే పాస్‌వర్డ్)",
+          "local": "లోకల్ లాగిన్ (కస్టమర్ ఇమెయిల్/పాస్‌వర్డ్)",
+          "cloud": "క్లౌడ్ మోడ్ (ఇప్పటికే ఉన్న ఆథ్ కాష్)",
+          "fleetapi": "FleetAPI (ఇప్పటికే ఉన్న కాన్ఫిగ్ కాష్)",
+          "tedapi_v1r": "TEDAPI v1r LAN (RSA కీ)"
+        }
+      },
+      "tedapi": {
+        "description": "గేట్‌వే యొక్క సొంత Wi-Fi పాస్‌వర్డ్ (మోడ్ 4) ఉపయోగించి కనెక్ట్ చేయండి. Customer Login ఎనేబుల్ చేయకుండానే Powerwall 2, Powerwall+, మరియు Powerwall 3పై పనిచేస్తుంది.",
+        "data": {
+          "host": "హోస్ట్",
+          "gw_pwd": "గేట్‌వే పాస్‌వర్డ్"
+        },
+        "data_description": {
+          "host": "Powerwall గేట్‌వే యొక్క హోస్ట్‌నేమ్ లేదా IP అడ్రస్ (ఉదా. 192.168.91.1)",
+          "gw_pwd": "QR లేబుల్‌పై ముద్రించిన పూర్తి గేట్‌వే Wi-Fi పాస్‌వర్డ్"
+        }
+      },
+      "hybrid": {
+        "description": "అదనపు వైటల్స్ డేటాను జోడించడానికి కస్టమర్ లాగిన్‌ను గేట్‌వే పాస్‌వర్డ్‌తో కలుపుతుంది. గేట్‌వేపై Customer Login ఎనేబుల్ చేసి ఉండాలి.",
+        "data": {
+          "host": "హోస్ట్",
+          "email": "ఇమెయిల్",
+          "password": "కస్టమర్ పాస్‌వర్డ్",
+          "gw_pwd": "గేట్‌వే పాస్‌వర్డ్"
+        },
+        "data_description": {
+          "host": "Powerwall గేట్‌వే యొక్క హోస్ట్‌నేమ్ లేదా IP అడ్రస్",
+          "email": "కస్టమర్ ఖాతా ఇమెయిల్",
+          "password": "గేట్‌వేపై సెటప్ చేసిన కస్టమర్ పాస్‌వర్డ్",
+          "gw_pwd": "QR లేబుల్‌పై ముద్రించిన పూర్తి గేట్‌వే Wi-Fi పాస్‌వర్డ్"
+        }
+      },
+      "local": {
+        "description": "గేట్‌వే యొక్క Customer Login ఉపయోగించి కనెక్ట్ చేయండి. ముందుగా గేట్‌వేపై Customer Login ఎనేబుల్ చేసి ఉండాలి (Tesla యాప్ లేదా గేట్‌వే వెబ్ UI ద్వారా).",
+        "data": {
+          "host": "హోస్ట్",
+          "email": "ఇమెయిల్",
+          "password": "కస్టమర్ పాస్‌వర్డ్"
+        },
+        "data_description": {
+          "host": "Powerwall గేట్‌వే యొక్క హోస్ట్‌నేమ్ లేదా IP అడ్రస్",
+          "email": "కస్టమర్ ఖాతా ఇమెయిల్",
+          "password": "గేట్‌వేపై సెటప్ చేసిన కస్టమర్ పాస్‌వర్డ్"
+        }
+      },
+      "cloud": {
+        "description": "లోకల్ కనెక్షన్‌కు బదులుగా Tesla యొక్క క్లౌడ్ APIని ఉపయోగిస్తుంది. మొదట Home Assistant వెలుపల ఒకసారి లాగిన్ చేయాల్సి ఉంటుంది: `.pypowerwall.auth` ఫైల్‌ను సృష్టించడానికి `python -m pypowerwall setup` (లేదా `setup -headless`) రన్ చేయండి, ఆపై దీన్ని ఆ ఫైల్ ఉన్న డైరెక్టరీకి పాయింట్ చేయండి.",
+        "data": {
+          "authpath": "ఆథ్ కాష్ డైరెక్టరీ",
+          "siteid": "సైట్ ID (ఐచ్ఛికం)"
+        },
+        "data_description": {
+          "authpath": "`python -m pypowerwall setup` ద్వారా సృష్టించబడిన .pypowerwall.auth ఫైల్ ఉన్న డైరెక్టరీ",
+          "siteid": "ఖాతాకు ఒకటి కంటే ఎక్కువ సైట్‌లు ఉంటే ఉపయోగించాల్సిన Tesla సైట్ ID"
+        }
+      },
+      "fleetapi": {
+        "description": "లోకల్ కనెక్షన్‌కు బదులుగా Tesla యొక్క FleetAPIని ఉపయోగిస్తుంది. మొదట Home Assistant వెలుపల ఒకసారి సెటప్ చేయాల్సి ఉంటుంది: developer.tesla.comలో ఒక యాప్‌ను రిజిస్టర్ చేయండి, ఆపై `.pypowerwall.fleetapi` ఫైల్‌ను సృష్టించడానికి `python -m pypowerwall.fleetapi setup` రన్ చేయండి, మరియు దీన్ని ఆ ఫైల్ ఉన్న డైరెక్టరీకి పాయింట్ చేయండి.",
+        "data": {
+          "authpath": "కాన్ఫిగ్ కాష్ డైరెక్టరీ",
+          "siteid": "సైట్ ID (ఐచ్ఛికం)"
+        },
+        "data_description": {
+          "authpath": "`python -m pypowerwall.fleetapi setup` ద్వారా సృష్టించబడిన .pypowerwall.fleetapi ఫైల్ ఉన్న డైరెక్టరీ",
+          "siteid": "ఖాతాకు ఒకటి కంటే ఎక్కువ సైట్‌లు ఉంటే ఉపయోగించాల్సిన Tesla సైట్ ID"
+        }
+      },
+      "tedapi_v1r": {
+        "description": "ముందుగా రిజిస్టర్ చేసిన RSA కీని ఉపయోగించి Powerwall 3 కోసం పూర్తి-ప్రోటోబఫ్ LAN యాక్సెస్. మొదట Home Assistant వెలుపల ఒకసారి సెటప్ చేయాల్సి ఉంటుంది: గేట్‌వేతో RSA-4096 కీ జతను రూపొందించి రిజిస్టర్ చేయడానికి `python -m pypowerwall register` రన్ చేయండి (దీన్ని నిర్ధారించడానికి గేట్‌వేను క్లుప్తంగా పవర్-సైకిల్ చేయాల్సి రావచ్చు), ఆపై దీన్ని ఫలితంగా వచ్చిన ప్రైవేట్ కీ ఫైల్‌కు పాయింట్ చేయండి.",
+        "data": {
+          "host": "హోస్ట్",
+          "gw_pwd": "గేట్‌వే పాస్‌వర్డ్",
+          "rsa_key_path": "RSA ప్రైవేట్ కీ పాత్",
+          "wifi_host": "WiFi ఫాల్‌బ్యాక్ హోస్ట్ (ఐచ్ఛికం)"
+        },
+        "data_description": {
+          "host": "Powerwall గేట్‌వే యొక్క హోస్ట్‌నేమ్ లేదా IP అడ్రస్",
+          "gw_pwd": "QR లేబుల్‌పై ముద్రించిన పూర్తి గేట్‌వే Wi-Fi పాస్‌వర్డ్",
+          "rsa_key_path": "`python -m pypowerwall register` ద్వారా రూపొందించబడిన RSA-4096 ప్రైవేట్ కీ PEM ఫైల్ యొక్క పాత్",
+          "wifi_host": "ఫాల్‌బ్యాక్ చేయడానికి ప్రత్యామ్నాయ WiFi TEDAPI హోస్ట్"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "కనెక్ట్ చేయడంలో విఫలమైంది. కనెక్షన్ వివరాలను తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి.",
+      "unknown": "అనుకోని లోపం"
+    },
+    "abort": {
+      "already_configured": "ఈ Powerwall గేట్‌వే ఇప్పటికే కాన్ఫిగర్ చేయబడింది"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "స్కాన్ విరామం (సెకన్లు)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_level": { "name": "బ్యాటరీ స్థాయి" },
+      "battery_level_app": { "name": "బ్యాటరీ స్థాయి (Tesla యాప్)" },
+      "backup_time_remaining": { "name": "మిగిలిన బ్యాకప్ సమయం" },
+      "grid_power": { "name": "గ్రిడ్ పవర్" },
+      "grid_import_power": { "name": "గ్రిడ్ దిగుమతి పవర్" },
+      "grid_export_power": { "name": "గ్రిడ్ ఎగుమతి పవర్" },
+      "solar_power": { "name": "సోలార్ పవర్" },
+      "battery_power": { "name": "బ్యాటరీ పవర్" },
+      "battery_import_power": { "name": "బ్యాటరీ దిగుమతి పవర్" },
+      "battery_export_power": { "name": "బ్యాటరీ ఎగుమతి పవర్" },
+      "battery_energy_imported": { "name": "బ్యాటరీ ఛార్జ్ చేయబడిన శక్తి" },
+      "battery_energy_exported": { "name": "బ్యాటరీ డిశ్చార్జ్ చేయబడిన శక్తి" },
+      "battery_import_energy": { "name": "బ్యాటరీ దిగుమతి శక్తి (అంచనా)" },
+      "battery_export_energy": { "name": "బ్యాటరీ ఎగుమతి శక్తి (అంచనా)" },
+      "grid_import_energy": { "name": "గ్రిడ్ దిగుమతి శక్తి (అంచనా)" },
+      "grid_export_energy": { "name": "గ్రిడ్ ఎగుమతి శక్తి (అంచనా)" },
+      "home_energy": { "name": "ఇంటి శక్తి (అంచనా)" },
+      "home_power": { "name": "ఇంటి పవర్" },
+      "grid_status": { "name": "గ్రిడ్ స్థితి" },
+      "alert_count": { "name": "క్రియాశీల హెచ్చరికలు" },
+      "firmware_version": { "name": "ఫర్మ్‌వేర్ వెర్షన్" },
+      "uptime": { "name": "అప్‌టైమ్" },
+      "battery_temp": { "name": "{device} ఉష్ణోగ్రత" }
+    },
+    "binary_sensor": {
+      "grid_connected": { "name": "గ్రిడ్‌కు కనెక్ట్ చేయబడింది" }
+    },
+    "number": {
+      "battery_reserve": { "name": "బ్యాటరీ రిజర్వ్" }
+    },
+    "select": {
+      "battery_mode": {
+        "name": "బ్యాటరీ మోడ్",
+        "state": {
+          "self_consumption": "స్వీయ-శక్తి",
+          "backup": "బ్యాకప్ మాత్రమే",
+          "autonomous": "సమయ-ఆధారిత నియంత్రణ"
+        }
+      },
+      "grid_export": {
+        "name": "గ్రిడ్ ఎగుమతి",
+        "state": {
+          "battery_ok": "సోలార్ మరియు బ్యాటరీ",
+          "pv_only": "సోలార్ మాత్రమే",
+          "never": "ఎప్పుడూ కాదు"
+        }
+      }
+    },
+    "switch": {
+      "grid_charging": { "name": "గ్రిడ్ ఛార్జింగ్" }
+    },
+    "button": {
+      "go_off_grid": { "name": "గ్రిడ్ నుండి డిస్‌కనెక్ట్ చేయండి" },
+      "reconnect_grid": { "name": "గ్రిడ్‌కు మళ్లీ కనెక్ట్ చేయండి" }
+    }
+  },
+  "services": {
+    "schedule_max_backup": {
+      "name": "గరిష్ట బ్యాకప్‌ను షెడ్యూల్ చేయండి",
+      "description": "ఒక మాన్యువల్ బ్యాకప్ ఈవెంట్‌ను (స్టార్మ్ వాచ్ / గరిష్ట బ్యాకప్ మోడ్) ప్రారంభిస్తుంది, ఇది స్థిర వ్యవధి కోసం బ్యాటరీ రిజర్వ్‌ను గరిష్టం చేస్తుంది. TEDAPI v1r LAN మోడ్ అవసరం.",
+      "fields": {
+        "duration_seconds": {
+          "name": "వ్యవధి",
+          "description": "గరిష్ట బ్యాకప్ ఈవెంట్ ఎంతసేపు నడవాలి, సెకన్లలో. డిఫాల్ట్‌గా 7200 (2 గంటలు)."
+        }
+      }
+    },
+    "cancel_max_backup": {
+      "name": "గరిష్ట బ్యాకప్‌ను రద్దు చేయండి",
+      "description": "schedule_max_backup ద్వారా ప్రారంభించిన ప్రస్తుత మాన్యువల్ బ్యాకప్ ఈవెంట్‌ను (స్టార్మ్ వాచ్ / గరిష్ట బ్యాకప్ మోడ్) రద్దు చేస్తుంది. TEDAPI v1r LAN మోడ్ అవసరం."
+    }
+  }
+}
