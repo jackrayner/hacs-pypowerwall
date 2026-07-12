@@ -217,7 +217,6 @@ SENSOR_DESCRIPTIONS: tuple[PowerwallSensorDescription, ...] = (
     PowerwallSensorDescription(
         key="uptime",
         translation_key="uptime",
-        native_unit_of_measurement=UnitOfTime.SECONDS,
         entity_category=EntityCategory.DIAGNOSTIC,
         value_fn=lambda data: data.uptime,
     ),

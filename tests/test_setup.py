@@ -1,5 +1,6 @@
 from unittest.mock import patch
 
+import pytest
 from conftest import DIN, make_fake_pw
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.core import HomeAssistant
@@ -73,6 +74,26 @@ async def test_setup_creates_entities_and_unload_removes_them(hass: HomeAssistan
     assert await hass.config_entries.async_unload(entry.entry_id)
     await hass.async_block_till_done()
     assert entry.state is ConfigEntryState.NOT_LOADED
+
+
+async def test_uptime_sensor_accepts_go_duration_string(
+    hass: HomeAssistant, caplog: pytest.LogCaptureFixture
+) -> None:
+    # pypowerwall's uptime() returns a Go-style duration string despite the
+    # misleading "up_time_seconds" field name (e.g. "62h48m24.076725628s"), not
+    # a numeric seconds count. Declaring a native_unit_of_measurement on this
+    # sensor previously made Home Assistant expect a numeric value, which
+    # raised (caught, logged as an error) on every non-numeric uptime string.
+    entry = MockConfigEntry(domain=DOMAIN, unique_id=DIN, data=ENTRY_DATA)
+    entry.add_to_hass(hass)
+
+    with patch(CONNECT_TARGET, return_value=make_fake_pw(uptime="62h48m24.076725628s")):
+        assert await hass.config_entries.async_setup(entry.entry_id)
+        await hass.async_block_till_done()
+
+    uptime = _entity_state(hass, "sensor", "uptime")
+    assert uptime.state == "62h48m24.076725628s"
+    assert "non-numeric value" not in caplog.text
 
 
 async def test_grid_down_marks_binary_sensor_off(hass: HomeAssistant) -> None:
