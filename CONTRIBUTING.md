@@ -76,7 +76,8 @@ The `number.py` and `select.py` platforms are the simplest examples to copy from
 3. Set `_attr_translation_key` to a key you'll add to the translation files (next step) rather than hardcoding a `name`.
 4. Register the entity in the platform's `async_setup_entry()`.
 5. Add a matching entry to `custom_components/pypowerwall/translations/en.json` — that's the sole authoritative English source for this integration. Don't add a `strings.json`: it's a Home Assistant Core-only build-time file that custom integrations never process (the [official i18n docs](https://developers.home-assistant.io/docs/internationalization/custom_integration/) explicitly warn against it), so it would just be dead weight that invites the two files to drift out of sync.
-6. Write a test. If your entity performs a write, look at `test_controls.py` for the pattern of driving it through the actual HA service call and asserting both the underlying pypowerwall call and the post-write state.
+6. Add the same key to `custom_components/pypowerwall/translations/fr.json`, translated. `fr.json` is a full translation (not a partial override like `en-GB.json`), and `tests/test_translations.py` fails CI if its key set doesn't exactly match `en.json`'s — so this isn't optional, the build won't pass without it. Only touch `en-GB.json` if your new string happens to contain an actual American/British spelling difference (rare — it's a deliberately partial file, see `custom_components/pypowerwall/AGENTS.md`); otherwise leave it alone and Home Assistant falls back to the English text for GB users.
+7. Write a test. If your entity performs a write, look at `test_controls.py` for the pattern of driving it through the actual HA service call and asserting both the underlying pypowerwall call and the post-write state.
 
 If the entity wraps a new `pypowerwall.Powerwall` method, remember to add that method to `tests/conftest.py`'s `make_fake_pw()` (see the note under Running Tests above).
 
