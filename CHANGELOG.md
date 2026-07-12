@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/jackrayner/hacs-pypowerwall/compare/0.5.0...0.5.1) (2026-07-12)
+
+
+### Bug Fixes
+
+* remove bogus unit from uptime sensor ([b2202f8](https://github.com/jackrayner/hacs-pypowerwall/commit/b2202f86867871260fef9865d3641f2346ce32d7))
+
 ## [0.5.0](https://github.com/jackrayner/hacs-pypowerwall/compare/0.4.1...0.5.0) (2026-07-12)
 
 
