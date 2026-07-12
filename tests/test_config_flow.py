@@ -17,6 +17,8 @@ from custom_components.pypowerwall.const import (
     CONN_TYPE_LOCAL,
     CONN_TYPE_TEDAPI,
     CONN_TYPE_TEDAPI_V1R,
+    DEFAULT_SCAN_INTERVAL,
+    DEFAULT_SCAN_INTERVAL_CLOUD,
     DOMAIN,
 )
 
@@ -191,3 +193,60 @@ async def test_tedapi_v1r_flow_success(hass: HomeAssistant) -> None:
 
     assert result2["type"] == "create_entry"
     assert result2["data"][CONF_CONN_TYPE] == CONN_TYPE_TEDAPI_V1R
+
+
+def _scan_interval_default(result) -> int:
+    schema = result["data_schema"].schema
+    (marker,) = (key for key in schema if key == "scan_interval")
+    return marker.default()
+
+
+async def test_options_flow_defaults_to_cloud_interval_for_cloud_entry(
+    hass: HomeAssistant,
+) -> None:
+    """Cloud/FleetAPI entries should default the options form to the slower cloud interval."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id="cloud-entry-din",
+        data={CONF_CONN_TYPE: CONN_TYPE_CLOUD, CONF_AUTHPATH: "/config/pypowerwall"},
+    )
+    entry.add_to_hass(hass)
+
+    result = await hass.config_entries.options.async_init(entry.entry_id)
+
+    assert result["type"] == "form"
+    assert _scan_interval_default(result) == DEFAULT_SCAN_INTERVAL_CLOUD
+
+
+async def test_options_flow_defaults_to_lan_interval_for_tedapi_entry(
+    hass: HomeAssistant,
+) -> None:
+    """Local/LAN entries should keep defaulting the options form to the fast interval."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=DIN,
+        data={CONF_CONN_TYPE: CONN_TYPE_TEDAPI, CONF_HOST: "192.168.91.1", CONF_GW_PWD: "secret"},
+    )
+    entry.add_to_hass(hass)
+
+    result = await hass.config_entries.options.async_init(entry.entry_id)
+
+    assert result["type"] == "form"
+    assert _scan_interval_default(result) == DEFAULT_SCAN_INTERVAL
+
+
+async def test_options_flow_respects_explicit_scan_interval_override(
+    hass: HomeAssistant,
+) -> None:
+    """An explicitly-set scan_interval option should win over the conn-type default."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id="cloud-entry-din-2",
+        data={CONF_CONN_TYPE: CONN_TYPE_CLOUD, CONF_AUTHPATH: "/config/pypowerwall"},
+        options={"scan_interval": 15},
+    )
+    entry.add_to_hass(hass)
+
+    result = await hass.config_entries.options.async_init(entry.entry_id)
+
+    assert _scan_interval_default(result) == 15

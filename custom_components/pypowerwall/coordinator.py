@@ -135,6 +135,7 @@ class PowerwallDataUpdateCoordinator(DataUpdateCoordinator[PowerwallData]):
         try:
             data = await self.hass.async_add_executor_job(_fetch_data, self.pw, self.conn_type)
         except Exception as exc:  # noqa: BLE001 - pypowerwall raises plain Exception on failures
+            _LOGGER.exception("Error communicating with Powerwall")
             raise UpdateFailed(f"Error communicating with Powerwall: {exc}") from exc
         if data.din is None:
             raise UpdateFailed("Powerwall did not return a status payload")

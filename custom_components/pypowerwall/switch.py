@@ -38,8 +38,7 @@ class PowerwallGridChargingSwitch(PowerwallEntity, SwitchEntity):
 
     def __init__(self, coordinator: PowerwallDataUpdateCoordinator) -> None:
         super().__init__(coordinator)
-        din = coordinator.config_entry.unique_id or coordinator.data.din
-        self._attr_unique_id = f"{din}_grid_charging"
+        self._attr_unique_id = f"{self._din}_grid_charging"
 
     @property
     def is_on(self) -> bool | None:

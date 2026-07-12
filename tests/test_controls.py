@@ -170,6 +170,56 @@ async def test_v1r_entry_registers_and_calls_max_backup_services(hass: HomeAssis
     pw.cancel_max_backup.assert_called_once_with()
 
 
+async def test_two_v1r_entries_unloading_one_keeps_services_for_the_other(
+    hass: HomeAssistant,
+) -> None:
+    """Regression test: unloading one of several v1r entries must not kill the
+    domain-scoped services for the v1r entries that are still loaded.
+    """
+    din_a = DIN
+    din_b = "9999999-00-E--TG987654321XYZ"
+
+    pw_a = make_fake_pw(din=din_a)
+    pw_b = make_fake_pw(din=din_b)
+
+    entry_a = MockConfigEntry(domain=DOMAIN, unique_id=din_a, data=V1R_ENTRY_DATA)
+    entry_a.add_to_hass(hass)
+    with patch(CONNECT_TARGET, return_value=pw_a):
+        assert await hass.config_entries.async_setup(entry_a.entry_id)
+        await hass.async_block_till_done()
+
+    entry_b = MockConfigEntry(domain=DOMAIN, unique_id=din_b, data=V1R_ENTRY_DATA)
+    entry_b.add_to_hass(hass)
+    with patch(CONNECT_TARGET, return_value=pw_b):
+        assert await hass.config_entries.async_setup(entry_b.entry_id)
+        await hass.async_block_till_done()
+
+    assert hass.services.has_service(DOMAIN, "schedule_max_backup")
+    assert hass.services.has_service(DOMAIN, "cancel_max_backup")
+
+    # Unload entry_b -- the most-recently-set-up entry, i.e. the one the services
+    # currently target. Entry_a is still loaded, so the services must survive.
+    assert await hass.config_entries.async_unload(entry_b.entry_id)
+    await hass.async_block_till_done()
+
+    assert hass.services.has_service(DOMAIN, "schedule_max_backup")
+    assert hass.services.has_service(DOMAIN, "cancel_max_backup")
+
+    await hass.services.async_call(
+        DOMAIN, "schedule_max_backup", {"duration_seconds": 1800}, blocking=True
+    )
+    await hass.async_block_till_done()
+    pw_a.schedule_max_backup.assert_called_once_with(1800)
+    pw_b.schedule_max_backup.assert_not_called()
+
+    # Now unload the last remaining v1r entry -- the services should finally go away.
+    assert await hass.config_entries.async_unload(entry_a.entry_id)
+    await hass.async_block_till_done()
+
+    assert not hass.services.has_service(DOMAIN, "schedule_max_backup")
+    assert not hass.services.has_service(DOMAIN, "cancel_max_backup")
+
+
 async def test_schedule_max_backup_defaults_duration_to_7200(hass: HomeAssistant) -> None:
     pw = make_fake_pw()
     await _setup_entry(hass, pw, V1R_ENTRY_DATA)

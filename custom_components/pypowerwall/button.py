@@ -55,8 +55,7 @@ class PowerwallGoOffGridButton(PowerwallEntity, ButtonEntity):
 
     def __init__(self, coordinator: PowerwallDataUpdateCoordinator) -> None:
         super().__init__(coordinator)
-        din = coordinator.config_entry.unique_id or coordinator.data.din
-        self._attr_unique_id = f"{din}_go_off_grid"
+        self._attr_unique_id = f"{self._din}_go_off_grid"
 
     async def async_press(self) -> None:
         # A deliberate press of this button already IS the explicit
@@ -77,8 +76,7 @@ class PowerwallReconnectGridButton(PowerwallEntity, ButtonEntity):
 
     def __init__(self, coordinator: PowerwallDataUpdateCoordinator) -> None:
         super().__init__(coordinator)
-        din = coordinator.config_entry.unique_id or coordinator.data.din
-        self._attr_unique_id = f"{din}_reconnect_grid"
+        self._attr_unique_id = f"{self._din}_reconnect_grid"
 
     async def async_press(self) -> None:
         await self.hass.async_add_executor_job(self.coordinator.pw.reconnect_grid)

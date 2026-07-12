@@ -12,7 +12,9 @@ from .const import (
     CONF_CONN_TYPE,
     CONN_TYPE_TEDAPI_V1R,
     DEFAULT_SCAN_INTERVAL,
+    DEFAULT_SCAN_INTERVAL_CLOUD,
     DOMAIN,
+    GRID_CONTROL_CONN_TYPES,
     SERVICE_CANCEL_MAX_BACKUP,
     SERVICE_SCHEDULE_MAX_BACKUP,
 )
@@ -42,7 +44,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: PypowerwallConfigEntry) 
     """Set up pypowerwall from a config entry."""
     pw = await async_connect_powerwall(hass, entry.data[CONF_CONN_TYPE], entry.data)
 
-    scan_interval = entry.options.get("scan_interval", DEFAULT_SCAN_INTERVAL)
+    default_scan_interval = (
+        DEFAULT_SCAN_INTERVAL_CLOUD
+        if entry.data[CONF_CONN_TYPE] in GRID_CONTROL_CONN_TYPES
+        else DEFAULT_SCAN_INTERVAL
+    )
+    scan_interval = entry.options.get("scan_interval", default_scan_interval)
     coordinator = PowerwallDataUpdateCoordinator(hass, entry, pw, scan_interval)
     await coordinator.async_config_entry_first_refresh()
 
@@ -79,29 +86,49 @@ def _async_register_v1r_services(hass: HomeAssistant, entry: PypowerwallConfigEn
 
     Services are domain-scoped rather than per-entry in Home Assistant. If more
     than one v1r entry is configured, the most-recently-set-up entry's
-    coordinator is the one these services act on.
+    coordinator is the one these services act on. To keep the services working
+    for as long as *any* v1r entry is loaded, we track every currently-loaded
+    v1r entry in hass.data (insertion order = setup order): unloading one entry
+    re-points the services at another still-loaded v1r entry rather than
+    unregistering them outright, and they're only removed once the last v1r
+    entry unloads.
     """
-    coordinator = entry.runtime_data
-
-    async def _schedule_max_backup(call: ServiceCall) -> None:
-        duration_seconds = call.data[ATTR_DURATION_SECONDS]
-        await hass.async_add_executor_job(coordinator.pw.schedule_max_backup, duration_seconds)
-        await coordinator.async_request_refresh()
-
-    async def _cancel_max_backup(call: ServiceCall) -> None:
-        await hass.async_add_executor_job(coordinator.pw.cancel_max_backup)
-        await coordinator.async_request_refresh()
-
-    hass.services.async_register(
-        DOMAIN,
-        SERVICE_SCHEDULE_MAX_BACKUP,
-        _schedule_max_backup,
-        schema=SCHEDULE_MAX_BACKUP_SCHEMA,
+    v1r_entries: dict[str, PypowerwallConfigEntry] = hass.data.setdefault(DOMAIN, {}).setdefault(
+        "v1r_entries", {}
     )
-    hass.services.async_register(DOMAIN, SERVICE_CANCEL_MAX_BACKUP, _cancel_max_backup)
+    v1r_entries[entry.entry_id] = entry
+
+    def _register_for(target_entry: PypowerwallConfigEntry) -> None:
+        coordinator = target_entry.runtime_data
+
+        async def _schedule_max_backup(call: ServiceCall) -> None:
+            duration_seconds = call.data[ATTR_DURATION_SECONDS]
+            await hass.async_add_executor_job(coordinator.pw.schedule_max_backup, duration_seconds)
+            await coordinator.async_request_refresh()
+
+        async def _cancel_max_backup(call: ServiceCall) -> None:
+            await hass.async_add_executor_job(coordinator.pw.cancel_max_backup)
+            await coordinator.async_request_refresh()
+
+        hass.services.async_register(
+            DOMAIN,
+            SERVICE_SCHEDULE_MAX_BACKUP,
+            _schedule_max_backup,
+            schema=SCHEDULE_MAX_BACKUP_SCHEMA,
+        )
+        hass.services.async_register(DOMAIN, SERVICE_CANCEL_MAX_BACKUP, _cancel_max_backup)
+
+    _register_for(entry)
 
     def _remove_services() -> None:
-        hass.services.async_remove(DOMAIN, SERVICE_SCHEDULE_MAX_BACKUP)
-        hass.services.async_remove(DOMAIN, SERVICE_CANCEL_MAX_BACKUP)
+        v1r_entries.pop(entry.entry_id, None)
+        if v1r_entries:
+            # Another v1r entry is still loaded -- re-point the services at the
+            # most-recently-set-up one still around rather than tearing them
+            # down out from under it.
+            _register_for(next(reversed(v1r_entries.values())))
+        else:
+            hass.services.async_remove(DOMAIN, SERVICE_SCHEDULE_MAX_BACKUP)
+            hass.services.async_remove(DOMAIN, SERVICE_CANCEL_MAX_BACKUP)
 
     entry.async_on_unload(_remove_services)

@@ -32,6 +32,10 @@ FILE_BASED_CONN_TYPES = (CONN_TYPE_CLOUD, CONN_TYPE_FLEETAPI, CONN_TYPE_TEDAPI_V
 GRID_CONTROL_CONN_TYPES = (CONN_TYPE_CLOUD, CONN_TYPE_FLEETAPI)
 
 DEFAULT_SCAN_INTERVAL = 5
+# Cloud/FleetAPI modes poll Tesla's rate-limited cloud API rather than a LAN
+# gateway, so they default to a slower interval to avoid throttling; see
+# GRID_CONTROL_CONN_TYPES for which connection types this applies to.
+DEFAULT_SCAN_INTERVAL_CLOUD = 60
 MIN_SCAN_INTERVAL = 2
 
 MANUFACTURER = "Tesla"

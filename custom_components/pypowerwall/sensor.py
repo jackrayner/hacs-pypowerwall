@@ -277,8 +277,7 @@ class PowerwallSensor(PowerwallEntity, SensorEntity):
     ) -> None:
         super().__init__(coordinator)
         self.entity_description = description
-        din = coordinator.config_entry.unique_id or coordinator.data.din
-        self._attr_unique_id = f"{din}_{description.key}"
+        self._attr_unique_id = f"{self._din}_{description.key}"
 
     @property
     def native_value(self):
@@ -295,8 +294,7 @@ class PowerwallTempSensor(PowerwallEntity, SensorEntity):
     def __init__(self, coordinator: PowerwallDataUpdateCoordinator, device: str) -> None:
         super().__init__(coordinator)
         self._device = device
-        din = coordinator.config_entry.unique_id or coordinator.data.din
-        self._attr_unique_id = f"{din}_temp_{device}"
+        self._attr_unique_id = f"{self._din}_temp_{device}"
         self._attr_translation_key = "battery_temp"
         self._attr_translation_placeholders = {"device": device}
 
@@ -345,8 +343,7 @@ class PowerwallEnergyIntegrationSensor(PowerwallEntity, RestoreEntity, SensorEnt
     ) -> None:
         super().__init__(coordinator)
         self._source_fn = source_fn
-        din = coordinator.config_entry.unique_id or coordinator.data.din
-        self._attr_unique_id = f"{din}_{key}"
+        self._attr_unique_id = f"{self._din}_{key}"
         self._attr_translation_key = translation_key
         self._total_kwh = 0.0
         self._last_power: float | None = None
