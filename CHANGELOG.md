@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.6.1](https://github.com/jackrayner/hacs-pypowerwall/compare/0.6.0...0.6.1) (2026-07-12)
+
+
+### Bug Fixes
+
+* address 6 code review findings in pypowerwall integration ([fa5a512](https://github.com/jackrayner/hacs-pypowerwall/commit/fa5a512ddff1a5232732f183337a9d880e256e91))
+* address code review findings in pypowerwall integration ([ebffe16](https://github.com/jackrayner/hacs-pypowerwall/commit/ebffe16929abfc64e1800144caa2fbf984a9a69c))
+* bump hacs.json minimum Home Assistant version to 2026.3.0 ([880c2f1](https://github.com/jackrayner/hacs-pypowerwall/commit/880c2f1de2b0ca744aa251bba001a8f149e689d2))
+* bump min HA version in hacs.json; docs: License and poll-interval range ([9f74957](https://github.com/jackrayner/hacs-pypowerwall/commit/9f74957364784c2da4e53ab788a622888ebd4582))
+
 ## [0.6.0](https://github.com/jackrayner/hacs-pypowerwall/compare/0.5.1...0.6.0) (2026-07-12)
 
 
