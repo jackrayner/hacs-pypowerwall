@@ -15,7 +15,7 @@ Language: Python
 
 ## What this is
 
-A [HACS](https://hacs.xyz/) custom integration for Home Assistant. It wraps [pypowerwall](https://github.com/jasonacox/pypowerwall) so Home Assistant polls a Tesla Powerwall directly — no MQTT broker in the loop. Domain: `pypowerwall`. Supports all six of pypowerwall's connection modes (local TEDAPI, customer login, hybrid, cloud, FleetAPI, TEDAPI v1r LAN), selected via a config-flow menu.
+A [HACS](https://hacs.xyz/) custom integration for Home Assistant. It wraps [pypowerwall](https://github.com/jasonacox/pypowerwall) so Home Assistant polls a Tesla Powerwall directly. Domain: `pypowerwall`. Supports all six of pypowerwall's connection modes (local TEDAPI, customer login, hybrid, cloud, FleetAPI, TEDAPI v1r LAN), selected via a config-flow menu.
 
 ## Commands
 
