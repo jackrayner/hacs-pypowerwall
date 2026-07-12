@@ -36,6 +36,10 @@ Poll interval defaults to 5s and is configurable afterward via the integration's
 
 The three file-based modes (Cloud, FleetAPI, TEDAPI v1r) authenticate via an artifact pypowerwall's own CLI setup tools produce — Tesla's login flow needs a real browser (or a token you paste in headlessly), so there's no way to complete it from a single Home Assistant form. Run the relevant `setup`/`register` command once, on any machine, then tell the integration where the resulting file lives (it just needs to be readable from wherever Home Assistant runs).
 
+### Localization
+
+The integration ships a translation file for every language Home Assistant supports and follows your Home Assistant instance's configured language automatically (Settings → System → General → Language) — no per-integration language setting. Coverage of less common languages is machine-translated rather than native-checked; if you spot an awkward or incorrect string in your language, please open an issue or PR.
+
 ## Entities
 
 | Entity | Platform | Notes |
@@ -123,7 +127,7 @@ custom_components/pypowerwall/
 ├── button.py                # go off-grid / reconnect to grid (disconnect button disabled by default)
 ├── services.yaml            # schema for schedule_max_backup / cancel_max_backup (v1r LAN mode only)
 ├── brand/                 # icon.png / icon@2x.png (HA 2026.3+ reads this directly, no brands-repo PR needed)
-├── translations/en.json  # no strings.json — that's a Home Assistant Core-only build artifact, not used by custom integrations
+├── translations/         # en.json + one file per HA-supported language; no strings.json (Core-only build artifact, unused by custom integrations)
 hacs.json
 tests/
 ├── conftest.py            # make_fake_pw() stub + enable_custom_integrations fixture
