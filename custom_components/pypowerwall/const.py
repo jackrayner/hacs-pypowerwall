@@ -40,6 +40,13 @@ MIN_SCAN_INTERVAL = 2
 
 MANUFACTURER = "Tesla"
 
+# pypowerwall.Powerwall()'s own default (5s) is tight for TEDAPI mode against a
+# Powerwall 3 gateway: building the /api/meters/aggregates response there fans out
+# into an extra internal get_pw3_vitals() request, so a single slow gateway/Wi-Fi
+# response can blow the budget and surface as a spurious read-timeout UpdateFailed.
+# Passed to every connection type in coordinator.build_powerwall_kwargs().
+POWERWALL_REQUEST_TIMEOUT = 10
+
 # Max backup (storm watch) actions -- momentary, not persistent state, so they're
 # exposed as services (registered in __init__.py, v1r LAN mode only) rather than
 # entities. See pypowerwall.Powerwall.schedule_max_backup()/cancel_max_backup().

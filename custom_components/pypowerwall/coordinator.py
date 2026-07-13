@@ -31,6 +31,7 @@ from .const import (
     CONN_TYPE_TEDAPI_V1R,
     DOMAIN,
     GRID_CONTROL_CONN_TYPES,
+    POWERWALL_REQUEST_TIMEOUT,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -135,7 +136,14 @@ class PowerwallDataUpdateCoordinator(DataUpdateCoordinator[PowerwallData]):
         try:
             data = await self.hass.async_add_executor_job(_fetch_data, self.pw, self.conn_type)
         except Exception as exc:  # noqa: BLE001 - pypowerwall raises plain Exception on failures
-            _LOGGER.exception("Error communicating with Powerwall")
+            # DEBUG, not ERROR/exception: the coordinator base class already logs a
+            # concise ERROR-level message for every UpdateFailed, so this would
+            # otherwise double up on ERROR-level noise for routine, expected network
+            # hiccups (e.g. a gateway read timeout). exc_info=True keeps the full
+            # traceback available at DEBUG for diagnosing a real bug (e.g. an
+            # AttributeError from a pypowerwall API change) without normal transient
+            # failures spamming the log at ERROR.
+            _LOGGER.debug("Error communicating with Powerwall", exc_info=True)
             raise UpdateFailed(f"Error communicating with Powerwall: {exc}") from exc
         if data.din is None:
             raise UpdateFailed("Powerwall did not return a status payload")
@@ -149,41 +157,42 @@ def build_powerwall_kwargs(conn_type: str, data: Mapping[str, Any]) -> dict[str,
     args; see pypowerwall.Powerwall.__init__ and its module docstring for what
     each of local/TEDAPI/hybrid/v1r/cloud/fleetapi mode actually needs.
     """
+    kwargs: dict[str, Any]
     if conn_type == CONN_TYPE_LOCAL:
-        return {
+        kwargs = {
             "host": data[CONF_HOST],
             "email": data[CONF_EMAIL],
             "password": data[CONF_PASSWORD],
         }
-    if conn_type == CONN_TYPE_TEDAPI:
-        return {"host": data[CONF_HOST], "gw_pwd": data[CONF_GW_PWD]}
-    if conn_type == CONN_TYPE_HYBRID:
-        return {
+    elif conn_type == CONN_TYPE_TEDAPI:
+        kwargs = {"host": data[CONF_HOST], "gw_pwd": data[CONF_GW_PWD]}
+    elif conn_type == CONN_TYPE_HYBRID:
+        kwargs = {
             "host": data[CONF_HOST],
             "email": data[CONF_EMAIL],
             "password": data[CONF_PASSWORD],
             "gw_pwd": data[CONF_GW_PWD],
         }
-    if conn_type == CONN_TYPE_TEDAPI_V1R:
-        kwargs: dict[str, Any] = {
+    elif conn_type == CONN_TYPE_TEDAPI_V1R:
+        kwargs = {
             "host": data[CONF_HOST],
             "gw_pwd": data[CONF_GW_PWD],
             "rsa_key_path": data[CONF_RSA_KEY_PATH],
         }
         if data.get(CONF_WIFI_HOST):
             kwargs["wifi_host"] = data[CONF_WIFI_HOST]
-        return kwargs
-    if conn_type == CONN_TYPE_CLOUD:
+    elif conn_type == CONN_TYPE_CLOUD:
         kwargs = {"cloudmode": True, "authpath": data[CONF_AUTHPATH]}
         if data.get(CONF_SITEID):
             kwargs["siteid"] = data[CONF_SITEID]
-        return kwargs
-    if conn_type == CONN_TYPE_FLEETAPI:
+    elif conn_type == CONN_TYPE_FLEETAPI:
         kwargs = {"fleetapi": True, "cloudmode": True, "authpath": data[CONF_AUTHPATH]}
         if data.get(CONF_SITEID):
             kwargs["siteid"] = data[CONF_SITEID]
-        return kwargs
-    raise ValueError(f"Unknown pypowerwall connection type: {conn_type}")
+    else:
+        raise ValueError(f"Unknown pypowerwall connection type: {conn_type}")
+    kwargs["timeout"] = POWERWALL_REQUEST_TIMEOUT
+    return kwargs
 
 
 async def async_connect_powerwall(
