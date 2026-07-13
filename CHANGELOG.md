@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.2](https://github.com/jackrayner/hacs-pypowerwall/compare/0.6.1...0.6.2) (2026-07-13)
+
+
+### Bug Fixes
+
+* raise pypowerwall request timeout, quiet duplicate error logging ([dcc8f6b](https://github.com/jackrayner/hacs-pypowerwall/commit/dcc8f6bcaa7d3058666793873b69305242af5f2b))
+* raise pypowerwall request timeout, quiet duplicate error logging ([107d24b](https://github.com/jackrayner/hacs-pypowerwall/commit/107d24bc20b44a2af0daaa1bc376c549f9ed6f90))
+
 ## [0.6.1](https://github.com/jackrayner/hacs-pypowerwall/compare/0.6.0...0.6.1) (2026-07-12)
 
 
