@@ -21,6 +21,7 @@ from custom_components.pypowerwall.const import (
     CONN_TYPE_TEDAPI,
     CONN_TYPE_TEDAPI_V1R,
     DOMAIN,
+    POWERWALL_REQUEST_TIMEOUT,
 )
 from custom_components.pypowerwall.coordinator import (
     PowerwallData,
@@ -165,13 +166,22 @@ class TestBuildPowerwallKwargs:
             CONN_TYPE_LOCAL,
             {CONF_HOST: "10.0.0.1", CONF_EMAIL: "owner@example.com", CONF_PASSWORD: "pw"},
         )
-        assert kwargs == {"host": "10.0.0.1", "email": "owner@example.com", "password": "pw"}
+        assert kwargs == {
+            "host": "10.0.0.1",
+            "email": "owner@example.com",
+            "password": "pw",
+            "timeout": POWERWALL_REQUEST_TIMEOUT,
+        }
 
     def test_tedapi(self):
         kwargs = build_powerwall_kwargs(
             CONN_TYPE_TEDAPI, {CONF_HOST: "192.168.91.1", CONF_GW_PWD: "gw"}
         )
-        assert kwargs == {"host": "192.168.91.1", "gw_pwd": "gw"}
+        assert kwargs == {
+            "host": "192.168.91.1",
+            "gw_pwd": "gw",
+            "timeout": POWERWALL_REQUEST_TIMEOUT,
+        }
 
     def test_hybrid(self):
         kwargs = build_powerwall_kwargs(
@@ -183,14 +193,25 @@ class TestBuildPowerwallKwargs:
                 CONF_GW_PWD: "g",
             },
         )
-        assert kwargs == {"host": "h", "email": "e@example.com", "password": "p", "gw_pwd": "g"}
+        assert kwargs == {
+            "host": "h",
+            "email": "e@example.com",
+            "password": "p",
+            "gw_pwd": "g",
+            "timeout": POWERWALL_REQUEST_TIMEOUT,
+        }
 
     def test_tedapi_v1r_minimal(self):
         kwargs = build_powerwall_kwargs(
             CONN_TYPE_TEDAPI_V1R,
             {CONF_HOST: "h", CONF_GW_PWD: "g", CONF_RSA_KEY_PATH: "/key.pem"},
         )
-        assert kwargs == {"host": "h", "gw_pwd": "g", "rsa_key_path": "/key.pem"}
+        assert kwargs == {
+            "host": "h",
+            "gw_pwd": "g",
+            "rsa_key_path": "/key.pem",
+            "timeout": POWERWALL_REQUEST_TIMEOUT,
+        }
 
     def test_tedapi_v1r_with_wifi_host(self):
         kwargs = build_powerwall_kwargs(
@@ -206,17 +227,31 @@ class TestBuildPowerwallKwargs:
 
     def test_cloud_minimal(self):
         kwargs = build_powerwall_kwargs(CONN_TYPE_CLOUD, {CONF_AUTHPATH: "/auth"})
-        assert kwargs == {"cloudmode": True, "authpath": "/auth"}
+        assert kwargs == {
+            "cloudmode": True,
+            "authpath": "/auth",
+            "timeout": POWERWALL_REQUEST_TIMEOUT,
+        }
 
     def test_cloud_with_siteid(self):
         kwargs = build_powerwall_kwargs(
             CONN_TYPE_CLOUD, {CONF_AUTHPATH: "/auth", CONF_SITEID: "123"}
         )
-        assert kwargs == {"cloudmode": True, "authpath": "/auth", "siteid": "123"}
+        assert kwargs == {
+            "cloudmode": True,
+            "authpath": "/auth",
+            "siteid": "123",
+            "timeout": POWERWALL_REQUEST_TIMEOUT,
+        }
 
     def test_fleetapi_minimal(self):
         kwargs = build_powerwall_kwargs(CONN_TYPE_FLEETAPI, {CONF_AUTHPATH: "/auth"})
-        assert kwargs == {"fleetapi": True, "cloudmode": True, "authpath": "/auth"}
+        assert kwargs == {
+            "fleetapi": True,
+            "cloudmode": True,
+            "authpath": "/auth",
+            "timeout": POWERWALL_REQUEST_TIMEOUT,
+        }
 
     def test_fleetapi_with_siteid(self):
         kwargs = build_powerwall_kwargs(
@@ -227,6 +262,7 @@ class TestBuildPowerwallKwargs:
             "cloudmode": True,
             "authpath": "/auth",
             "siteid": "456",
+            "timeout": POWERWALL_REQUEST_TIMEOUT,
         }
 
     def test_unknown_conn_type_raises(self):
