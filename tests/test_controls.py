@@ -97,10 +97,11 @@ async def test_tedapi_entry_has_no_cloud_only_entities_or_v1r_services(
     assert not hass.services.has_service(DOMAIN, "schedule_max_backup")
     assert not hass.services.has_service(DOMAIN, "cancel_max_backup")
 
-    # go_off_grid/reconnect_grid aren't yet implemented by any pypowerwall backend, so
-    # these buttons are intentionally ungated -- present for every connection type.
-    assert registry.async_get_entity_id("button", DOMAIN, f"{DIN}_reconnect_grid") is not None
-    assert registry.async_get_entity_id("button", DOMAIN, f"{DIN}_go_off_grid") is not None
+    # go_off_grid/reconnect_grid are only implemented by pypowerwall's TEDAPI v1r
+    # backend (see GRID_ISLANDING_CONN_TYPES), so plain (non-v1r) TEDAPI mode must
+    # not get these buttons.
+    assert registry.async_get_entity_id("button", DOMAIN, f"{DIN}_reconnect_grid") is None
+    assert registry.async_get_entity_id("button", DOMAIN, f"{DIN}_go_off_grid") is None
 
 
 async def test_grid_charging_switch_reflects_state_and_writes_through(
@@ -150,6 +151,12 @@ async def test_cloud_entry_has_no_v1r_services(hass: HomeAssistant) -> None:
 
     assert not hass.services.has_service(DOMAIN, "schedule_max_backup")
     assert not hass.services.has_service(DOMAIN, "cancel_max_backup")
+
+    # Cloud mode doesn't support go_off_grid/reconnect_grid either -- only TEDAPI
+    # v1r mode does (see GRID_ISLANDING_CONN_TYPES).
+    registry = er.async_get(hass)
+    assert registry.async_get_entity_id("button", DOMAIN, f"{DIN}_reconnect_grid") is None
+    assert registry.async_get_entity_id("button", DOMAIN, f"{DIN}_go_off_grid") is None
 
 
 async def test_v1r_entry_registers_and_calls_max_backup_services(hass: HomeAssistant) -> None:
@@ -239,9 +246,22 @@ async def test_v1r_entry_has_no_cloud_only_entities(hass: HomeAssistant) -> None
     assert registry.async_get_entity_id("select", DOMAIN, f"{DIN}_grid_export") is None
 
 
+async def test_v1r_entry_has_grid_islanding_buttons(hass: HomeAssistant) -> None:
+    """TEDAPI v1r mode is the only mode where go_off_grid/reconnect_grid actually
+    work (via pypowerwall's signed v1r send_island_mode() transport), so it's the
+    only mode where these buttons are created (see GRID_ISLANDING_CONN_TYPES).
+    """
+    pw = make_fake_pw()
+    await _setup_entry(hass, pw, V1R_ENTRY_DATA)
+
+    registry = er.async_get(hass)
+    assert registry.async_get_entity_id("button", DOMAIN, f"{DIN}_reconnect_grid") is not None
+    assert registry.async_get_entity_id("button", DOMAIN, f"{DIN}_go_off_grid") is not None
+
+
 async def test_reconnect_grid_button_calls_pw(hass: HomeAssistant) -> None:
     pw = make_fake_pw()
-    await _setup_entry(hass, pw)
+    await _setup_entry(hass, pw, V1R_ENTRY_DATA)
 
     entity_id = _entity_id(hass, "button", "reconnect_grid")
     await hass.services.async_call("button", "press", {"entity_id": entity_id}, blocking=True)
@@ -252,7 +272,7 @@ async def test_reconnect_grid_button_calls_pw(hass: HomeAssistant) -> None:
 
 async def test_go_off_grid_button_disabled_by_default(hass: HomeAssistant) -> None:
     pw = make_fake_pw()
-    await _setup_entry(hass, pw)
+    await _setup_entry(hass, pw, V1R_ENTRY_DATA)
 
     registry = er.async_get(hass)
     entity_id = registry.async_get_entity_id("button", DOMAIN, f"{DIN}_go_off_grid")
@@ -267,7 +287,7 @@ async def test_go_off_grid_button_calls_pw_with_confirm_when_enabled(
     hass: HomeAssistant,
 ) -> None:
     pw = make_fake_pw()
-    entry = await _setup_entry(hass, pw)
+    entry = await _setup_entry(hass, pw, V1R_ENTRY_DATA)
 
     registry = er.async_get(hass)
     entity_id = registry.async_get_entity_id("button", DOMAIN, f"{DIN}_go_off_grid")

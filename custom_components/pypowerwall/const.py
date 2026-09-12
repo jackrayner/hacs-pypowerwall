@@ -31,6 +31,12 @@ FILE_BASED_CONN_TYPES = (CONN_TYPE_CLOUD, CONN_TYPE_FLEETAPI, CONN_TYPE_TEDAPI_V
 # switch.py and select.py entities that expose them, and the coordinator's polling.
 GRID_CONTROL_CONN_TYPES = (CONN_TYPE_CLOUD, CONN_TYPE_FLEETAPI)
 
+# go_off_grid()/reconnect_grid() are facade methods on pypowerwall.Powerwall that, as of
+# 0.17.3, are only actually implemented by the TEDAPI backend's signed v1r transport
+# (send_island_mode()) -- local/TEDAPI (non-v1r)/hybrid/cloud/FleetAPI backends still
+# no-op. Used to gate the go_off_grid/reconnect_grid buttons in button.py.
+GRID_ISLANDING_CONN_TYPES = (CONN_TYPE_TEDAPI_V1R,)
+
 DEFAULT_SCAN_INTERVAL = 5
 # Cloud/FleetAPI modes poll Tesla's rate-limited cloud API rather than a LAN
 # gateway, so they default to a slower interval to avoid throttling; see
