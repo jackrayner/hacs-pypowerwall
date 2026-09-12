@@ -1,0 +1,42 @@
+name: Dependabot Commit Type
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  flag-breaking-bumps:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fetch dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Mark production major bumps as breaking
+        if: |
+          steps.metadata.outputs.update-type == 'version-update:semver-major' &&
+          startsWith(steps.metadata.outputs.dependency-type, 'direct:production')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          set -euo pipefail
+          NEW_TITLE=$(echo "$PR_TITLE" | sed -E 's/^fix(\(deps[^)]*\))?:/fix\1!:/')
+          if [ "$NEW_TITLE" = "$PR_TITLE" ]; then
+            echo "PR title already reflects a breaking change, or didn't match the expected 'fix(deps): ...' pattern; leaving it as-is." >&2
+            exit 0
+          fi
+          gh pr edit "$PR_URL" --title "$NEW_TITLE"
