@@ -72,7 +72,7 @@ async def test_setup_creates_entities_and_unload_removes_them(hass: HomeAssistan
     temp = _entity_state(hass, "sensor", "temp_TETHC--1")
     assert float(temp.state) == 25.0
 
-    device = dr.async_get(hass).async_get_device(identifiers={(DOMAIN, DIN)})
+    device = dr.async_get(hass).async_get_device_by_identifier((DOMAIN, DIN), entry.entry_id)
     assert device is not None
     assert device.serial_number == DIN
 
