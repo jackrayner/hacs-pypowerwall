@@ -7,6 +7,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from . import PypowerwallConfigEntry
+from .const import CONF_CONN_TYPE, GRID_ISLANDING_CONN_TYPES
 from .coordinator import PowerwallDataUpdateCoordinator
 from .entity import PowerwallEntity
 
@@ -17,6 +18,8 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up pypowerwall button entities from a config entry."""
+    if entry.data[CONF_CONN_TYPE] not in GRID_ISLANDING_CONN_TYPES:
+        return
     coordinator = entry.runtime_data
     async_add_entities(
         [
@@ -33,17 +36,16 @@ class PowerwallGoOffGridButton(PowerwallEntity, ButtonEntity):
     keeps producing and the battery serves home load, but there is a ~30s
     solar production dropout during the contactor transition.
 
-    As of pypowerwall 0.16.1, go_off_grid() is a facade method that only
-    forwards to a backend implementation if one exists (checked via
-    hasattr(self.client, 'go_off_grid')); none of the local/TEDAPI/hybrid/
-    cloud/FleetAPI backends implement it yet, so today this gracefully no-ops
-    (pypowerwall logs an error and returns None) regardless of connection
-    type. This entity is intentionally left ungated across connection types
-    for that reason -- unlike the Cloud/FleetAPI-only entities in switch.py/
-    select.py, there is currently no connection type for which this button
-    is *known* to work, so gating on conn_type would just hide it from
-    everyone. It's kept as forward-compatible surface for when a backend
-    adds support.
+    As of pypowerwall 0.17.3, go_off_grid() is a facade method that only
+    forwards to a backend implementation if one exists, and the only backend
+    that actually implements it is TEDAPI's signed v1r transport
+    (send_island_mode()) -- i.e. it works only when the client was constructed
+    with v1r=True. Local/TEDAPI (non-v1r)/hybrid/cloud/FleetAPI backends still
+    no-op (pypowerwall logs an error and returns None). This entity is
+    therefore only created for CONN_TYPE_TEDAPI_V1R entries (see
+    GRID_ISLANDING_CONN_TYPES in const.py) -- the same connection-type gating
+    pattern the Cloud/FleetAPI-only entities in switch.py/select.py use for
+    grid charging/export.
 
     Disabled by default (_attr_entity_registry_enabled_default = False):
     given the real-world effect above, this must not be enabled without the
@@ -68,8 +70,14 @@ class PowerwallGoOffGridButton(PowerwallEntity, ButtonEntity):
 class PowerwallReconnectGridButton(PowerwallEntity, ButtonEntity):
     """Physically closes the grid contactor, reconnecting the home to the grid.
 
-    See PowerwallGoOffGridButton's docstring for why this isn't gated by
-    connection type.
+    Like PowerwallGoOffGridButton, reconnect_grid() is only implemented by
+    pypowerwall's TEDAPI v1r backend (as of 0.17.3), so this entity is only
+    created for CONN_TYPE_TEDAPI_V1R entries -- see GRID_ISLANDING_CONN_TYPES
+    in const.py and PowerwallGoOffGridButton's docstring for details.
+
+    Left enabled by default, unlike the go-off-grid button: this is the
+    recovery action (closing the contactor, restoring grid connection) rather
+    than the risky one, so there's no equivalent case for opt-in-only.
     """
 
     _attr_translation_key = "reconnect_grid"

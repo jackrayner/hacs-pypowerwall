@@ -1,0 +1,70 @@
+name: Sync Manifest Pin
+
+# manifest.json's requirements array (the pypowerwall version Home Assistant
+# actually installs) and requirements.txt (the dev/test pin Dependabot bumps)
+# are two independent pins on the same dependency -- see tests/test_manifest.py,
+# which fails CI if they ever disagree. Dependabot's pip ecosystem can only
+# read/write requirements.txt; it has no notion of the version string embedded
+# in manifest.json's JSON, so it can never bump that file itself. This workflow
+# closes that gap: whenever a Dependabot PR bumps requirements.txt, it updates
+# manifest.json to match and pushes that fix onto the same PR branch, so one
+# Dependabot PR ends up bumping both files and merges with tests green.
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - "requirements.txt"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  sync-manifest:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Sync manifest.json's pypowerwall pin to match requirements.txt
+        run: |
+          set -euo pipefail
+          PIN=$(grep -E '^pypowerwall==' requirements.txt)
+          if [ -z "$PIN" ]; then
+            echo "No pypowerwall==... pin found in requirements.txt" >&2
+            exit 1
+          fi
+          python3 - "$PIN" <<'EOF'
+          import json
+          import sys
+
+          pin = sys.argv[1]
+          manifest_path = "custom_components/pypowerwall/manifest.json"
+
+          with open(manifest_path) as f:
+              manifest = json.load(f)
+          manifest["requirements"] = [pin]
+          with open(manifest_path, "w") as f:
+              json.dump(manifest, f, indent=2)
+              f.write("\n")
+          EOF
+
+      - name: Commit and push if manifest.json changed
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- custom_components/pypowerwall/manifest.json; then
+            echo "manifest.json already in sync; nothing to do."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add custom_components/pypowerwall/manifest.json
+          git commit -m "fix(deps): sync manifest.json pypowerwall pin"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
