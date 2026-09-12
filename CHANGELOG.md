@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.7.0](https://github.com/jackrayner/hacs-pypowerwall/compare/0.6.3...0.7.0) (2026-09-12)
+
+
+### Features
+
+* **deps:** keep manifest.json's pypowerwall pin in sync and gate v1r-only grid controls ([31f52fa](https://github.com/jackrayner/hacs-pypowerwall/commit/31f52fa685d836e672e3dbfedc36caade394ca06))
+* **deps:** keep manifest.json's pypowerwall pin in sync and gate v1r-only grid controls ([de029b5](https://github.com/jackrayner/hacs-pypowerwall/commit/de029b56f697461f51733e076e4e57ccced12ed2))
+
+
+### Bug Fixes
+
+* **tests:** use async_get_device_by_identifier instead of deprecated async_get_device ([0356ebf](https://github.com/jackrayner/hacs-pypowerwall/commit/0356ebf2ab240b89de0fbf21cb4cf78d3bd36cfc))
+
 ## [0.6.3](https://github.com/jackrayner/hacs-pypowerwall/compare/0.6.2...0.6.3) (2026-09-12)
 
 
