@@ -8,6 +8,8 @@ updates:
       prefix: "fix"
       prefix-development: "chore"
       include: "scope"
+    ignore:
+      - dependency-name: "pytest"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
