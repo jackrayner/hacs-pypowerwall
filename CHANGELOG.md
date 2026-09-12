@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.3](https://github.com/jackrayner/hacs-pypowerwall/compare/0.6.2...0.6.3) (2026-09-12)
+
+
+### Bug Fixes
+
+* **deps:** bump pypowerwall from 0.16.2 to 0.17.3 ([e057533](https://github.com/jackrayner/hacs-pypowerwall/commit/e0575336e23ff841236374dd3daf689472bdcf28))
+* **deps:** bump pypowerwall from 0.16.2 to 0.17.3 ([b707248](https://github.com/jackrayner/hacs-pypowerwall/commit/b70724878ee86fb02214fdbb8dd1b902753dd6cf))
+
 ## [0.6.2](https://github.com/jackrayner/hacs-pypowerwall/compare/0.6.1...0.6.2) (2026-07-13)
 
 
