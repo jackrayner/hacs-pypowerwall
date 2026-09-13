@@ -87,6 +87,30 @@
           "rsa_key_path": "Pfad zur PEM-Datei des privaten RSA-4096-Schlüssels, erzeugt von `python -m pypowerwall register`",
           "wifi_host": "Alternativer WLAN-TEDAPI-Host als Ausweichoption"
         }
+      },
+      "reconfigure": {
+        "title": "Verbindung neu konfigurieren",
+        "description": "Aktualisiert die Verbindungseinstellungen für diese Powerwall (Modus {conn_type}). Nützlich, wenn sich das Gateway-Passwort geändert hat, das Gateway auf eine neue IP-Adresse umgezogen ist oder sich ein Cloud-/FleetAPI-Konfigurations-Cache-Verzeichnis verschoben hat.\n\nDies muss weiterhin dasselbe physische Gateway erreichen -- um zu einem anderen Verbindungsmodus oder einer anderen Powerwall zu wechseln, entferne diesen Eintrag und füge ihn erneut hinzu.",
+        "data": {
+          "host": "Host",
+          "email": "E-Mail",
+          "password": "Kundenpasswort",
+          "gw_pwd": "Gateway-Passwort",
+          "rsa_key_path": "Pfad zum privaten RSA-Schlüssel",
+          "wifi_host": "WLAN-Ausweichhost (optional)",
+          "authpath": "Auth-Cache-Verzeichnis",
+          "siteid": "Standort-ID (optional)"
+        },
+        "data_description": {
+          "host": "Hostname oder IP-Adresse des Powerwall-Gateways (z. B. 192.168.91.1)",
+          "email": "E-Mail-Adresse des Kundenkontos",
+          "password": "Auf dem Gateway eingerichtetes Kundenpasswort",
+          "gw_pwd": "Vollständiges Wi-Fi-Passwort des Gateways, aufgedruckt auf dem QR-Etikett",
+          "rsa_key_path": "Pfad zur PEM-Datei des privaten RSA-4096-Schlüssels, erzeugt von `python -m pypowerwall register`",
+          "wifi_host": "Alternativer WLAN-TEDAPI-Host als Ausweichoption",
+          "authpath": "Verzeichnis mit der Datei .pypowerwall.auth oder .pypowerwall.fleetapi",
+          "siteid": "Zu verwendende Tesla-Standort-ID, falls das Konto mehr als einen Standort besitzt"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Unerwarteter Fehler"
     },
     "abort": {
-      "already_configured": "Dieses Powerwall-Gateway ist bereits konfiguriert"
+      "already_configured": "Dieses Powerwall-Gateway ist bereits konfiguriert",
+      "reconfigure_successful": "Verbindungseinstellungen aktualisiert",
+      "wrong_gateway": "Diese Einstellungen verbinden sich mit einem anderen Powerwall-Gateway als dem, für das dieser Eintrag eingerichtet wurde. Die Neukonfiguration aktualisiert nur, wie dasselbe Gateway erreicht wird -- um ein anderes hinzuzufügen, füge stattdessen einen neuen Eintrag hinzu."
     }
   },
   "options": {

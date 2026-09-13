@@ -87,6 +87,30 @@
           "rsa_key_path": "Tee käsuga `python -m pypowerwall register` loodud RSA-4096 privaatvõtme PEM-failini",
           "wifi_host": "Alternatiivne Wi-Fi TEDAPI host, millele tagavaraks üle minna"
         }
+      },
+      "reconfigure": {
+        "title": "Ühenduse ümberseadistamine",
+        "description": "Uuenda selle Powerwalli ühenduse seadeid (režiim {conn_type}). Kasulik, kui lüüsi parool muutus, lüüs liikus uuele IP-aadressile või Cloud/FleetAPI seadistuse vahemälu kataloog liikus.\n\nSee peab endiselt jõudma sama füüsilise lüüsini -- teise ühendusrežiimi või teise Powerwalli juurde üleminekuks eemalda see kirje ja lisa see uuesti.",
+        "data": {
+          "host": "Host",
+          "email": "E-post",
+          "password": "Kliendi parool",
+          "gw_pwd": "Lüüsi parool",
+          "rsa_key_path": "RSA privaatvõtme asukoht",
+          "wifi_host": "Varu-Wi-Fi host (valikuline)",
+          "authpath": "Autentimise vahemälu kataloog",
+          "siteid": "Saidi ID (valikuline)"
+        },
+        "data_description": {
+          "host": "Powerwalli lüüsi hostinimi või IP-aadress (nt 192.168.91.1)",
+          "email": "Kliendikonto e-posti aadress",
+          "password": "Lüüsil seadistatud kliendi parool",
+          "gw_pwd": "QR-sildile trükitud lüüsi täielik Wi-Fi parool",
+          "rsa_key_path": "Tee käsuga `python -m pypowerwall register` loodud RSA-4096 privaatvõtme PEM-failini",
+          "wifi_host": "Alternatiivne Wi-Fi TEDAPI host, millele tagavaraks üle minna",
+          "authpath": "Kataloog, mis sisaldab faili .pypowerwall.auth või .pypowerwall.fleetapi",
+          "siteid": "Kasutatav Tesla saidi ID, kui kontol on mitu saiti"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Ootamatu viga"
     },
     "abort": {
-      "already_configured": "See Powerwalli lüüs on juba seadistatud"
+      "already_configured": "See Powerwalli lüüs on juba seadistatud",
+      "reconfigure_successful": "Ühenduse seaded on uuendatud",
+      "wrong_gateway": "Need seaded loovad ühenduse teise Powerwalli lüüsiga kui see, mille jaoks see kirje algselt seadistati. Ümberseadistamine uuendab ainult seda, kuidas sama lüüsini jõuda -- teise lisamiseks lisa selle asemel uus kirje."
     }
   },
   "options": {

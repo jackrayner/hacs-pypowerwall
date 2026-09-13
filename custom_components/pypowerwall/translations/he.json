@@ -87,6 +87,30 @@
           "rsa_key_path": "נתיב לקובץ מפתח פרטי מסוג PEM (RSA-4096) שנוצר על ידי `python -m pypowerwall register`",
           "wifi_host": "מארח TEDAPI חלופי ברשת ה-Wi-Fi לשימוש כגיבוי"
         }
+      },
+      "reconfigure": {
+        "title": "הגדרה מחדש של החיבור",
+        "description": "עדכון הגדרות החיבור עבור Powerwall זה (מצב {conn_type}). שימושי אם סיסמת השער השתנתה, השער עבר לכתובת IP חדשה, או שספריית מטמון התצורה של Cloud/FleetAPI הועברה.\n\nזה עדיין צריך להגיע לאותו שער פיזי -- כדי לעבור למצב חיבור אחר או ל-Powerwall אחר, הסירו ערך זה והוסיפו אותו מחדש.",
+        "data": {
+          "host": "מארח",
+          "email": "אימייל",
+          "password": "סיסמת לקוח",
+          "gw_pwd": "סיסמת שער",
+          "rsa_key_path": "נתיב מפתח RSA פרטי",
+          "wifi_host": "מארח גיבוי Wi-Fi (אופציונלי)",
+          "authpath": "ספריית מטמון האימות",
+          "siteid": "מזהה אתר (אופציונלי)"
+        },
+        "data_description": {
+          "host": "שם מארח או כתובת IP של שער ה-Powerwall (למשל 192.168.91.1)",
+          "email": "כתובת האימייל של חשבון הלקוח",
+          "password": "סיסמת הלקוח שהוגדרה בשער",
+          "gw_pwd": "סיסמת ה-Wi-Fi המלאה של השער, המודפסת על תווית קוד ה-QR",
+          "rsa_key_path": "נתיב לקובץ מפתח פרטי מסוג PEM (RSA-4096) שנוצר על ידי `python -m pypowerwall register`",
+          "wifi_host": "מארח TEDAPI חלופי ברשת ה-Wi-Fi לשימוש כגיבוי",
+          "authpath": "הספרייה שמכילה את קובץ ה-.pypowerwall.auth או ה-.pypowerwall.fleetapi",
+          "siteid": "מזהה האתר של Tesla לשימוש כאשר לחשבון יש יותר מאתר אחד"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "שגיאה לא צפויה"
     },
     "abort": {
-      "already_configured": "שער Powerwall זה כבר מוגדר"
+      "already_configured": "שער Powerwall זה כבר מוגדר",
+      "reconfigure_successful": "הגדרות החיבור עודכנו",
+      "wrong_gateway": "הגדרות אלה מתחברות לשער Powerwall שונה מזה שעבורו הוגדר ערך זה. הגדרה מחדש רק מעדכנת את אופן ההגעה לאותו שער -- כדי להוסיף שער אחר, הוסיפו ערך חדש במקום זאת."
     }
   },
   "options": {

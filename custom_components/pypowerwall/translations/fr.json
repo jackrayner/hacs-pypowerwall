@@ -87,6 +87,30 @@
           "rsa_key_path": "Chemin vers le fichier PEM de la clé privée RSA-4096 généré par `python -m pypowerwall register`",
           "wifi_host": "Hôte TEDAPI Wi-Fi alternatif utilisé en secours"
         }
+      },
+      "reconfigure": {
+        "title": "Reconfigurer la connexion",
+        "description": "Met à jour les paramètres de connexion pour ce Powerwall (mode {conn_type}). Utile si le mot de passe de la passerelle a changé, si la passerelle a été déplacée vers une nouvelle adresse IP, ou si un répertoire de cache de configuration Cloud/FleetAPI a été déplacé.\n\nCeci doit toujours joindre la même passerelle physique -- pour passer à un autre mode de connexion ou à un autre Powerwall, supprimez cette entrée et ajoutez-la à nouveau.",
+        "data": {
+          "host": "Hôte",
+          "email": "E-mail",
+          "password": "Mot de passe client",
+          "gw_pwd": "Mot de passe de la passerelle",
+          "rsa_key_path": "Chemin de la clé privée RSA",
+          "wifi_host": "Hôte Wi-Fi de secours (facultatif)",
+          "authpath": "Répertoire du cache d'authentification",
+          "siteid": "ID du site (facultatif)"
+        },
+        "data_description": {
+          "host": "Nom d'hôte ou adresse IP de la passerelle Powerwall (ex. 192.168.91.1)",
+          "email": "E-mail du compte client",
+          "password": "Mot de passe client configuré sur la passerelle",
+          "gw_pwd": "Mot de passe Wi-Fi complet de la passerelle, imprimé sur l'étiquette QR",
+          "rsa_key_path": "Chemin vers le fichier PEM de la clé privée RSA-4096 généré par `python -m pypowerwall register`",
+          "wifi_host": "Hôte TEDAPI Wi-Fi alternatif utilisé en secours",
+          "authpath": "Répertoire contenant le fichier .pypowerwall.auth ou .pypowerwall.fleetapi",
+          "siteid": "ID du site Tesla à utiliser si le compte possède plusieurs sites"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Erreur inattendue"
     },
     "abort": {
-      "already_configured": "Cette passerelle Powerwall est déjà configurée"
+      "already_configured": "Cette passerelle Powerwall est déjà configurée",
+      "reconfigure_successful": "Paramètres de connexion mis à jour",
+      "wrong_gateway": "Ces paramètres se connectent à une passerelle Powerwall différente de celle pour laquelle cette entrée a été configurée. La reconfiguration ne fait que mettre à jour la façon d'atteindre la même passerelle -- pour en ajouter une différente, ajoutez plutôt une nouvelle entrée."
     }
   },
   "options": {

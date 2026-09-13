@@ -87,6 +87,30 @@
           "rsa_key_path": "Llwybr i'r ffeil PEM allwedd breifat RSA-4096 a gynhyrchwyd gan `python -m pypowerwall register`",
           "wifi_host": "Gwesteiwr TEDAPI WiFi arall i droi ato wrth gefn"
         }
+      },
+      "reconfigure": {
+        "title": "Ailffurfweddu cysylltiad",
+        "description": "Diweddarwch osodiadau'r cysylltiad ar gyfer y Powerwall hwn (modd {conn_type}). Yn ddefnyddiol os yw cyfrinair y porth wedi newid, y porth wedi symud i gyfeiriad IP newydd, neu gyfeiriadur storfa ffurfweddiad Cloud/FleetAPI wedi symud.\n\nMae'n rhaid i hwn barhau i gyrraedd yr un porth ffisegol -- i newid i fodd cysylltiad gwahanol neu Powerwall gwahanol, tynnwch y cofnod hwn ac ychwanegwch ef eto.",
+        "data": {
+          "host": "Gwesteiwr",
+          "email": "E-bost",
+          "password": "Cyfrinair cwsmer",
+          "gw_pwd": "Cyfrinair porth",
+          "rsa_key_path": "Llwybr allwedd breifat RSA",
+          "wifi_host": "Gwesteiwr WiFi wrth gefn (dewisol)",
+          "authpath": "Cyfeiriadur storfa ddilysu",
+          "siteid": "ID safle (dewisol)"
+        },
+        "data_description": {
+          "host": "Enw gwesteiwr neu gyfeiriad IP porth y Powerwall (e.e. 192.168.91.1)",
+          "email": "E-bost cyfrif y cwsmer",
+          "password": "Cyfrinair cwsmer wedi'i osod ar y porth",
+          "gw_pwd": "Cyfrinair Wi-Fi llawn y porth wedi'i argraffu ar y label QR",
+          "rsa_key_path": "Llwybr i'r ffeil PEM allwedd breifat RSA-4096 a gynhyrchwyd gan `python -m pypowerwall register`",
+          "wifi_host": "Gwesteiwr TEDAPI WiFi arall i droi ato wrth gefn",
+          "authpath": "Y cyfeiriadur sy'n cynnwys y ffeil .pypowerwall.auth neu .pypowerwall.fleetapi",
+          "siteid": "ID safle Tesla i'w ddefnyddio os oes gan y cyfrif fwy nag un safle"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Gwall annisgwyl"
     },
     "abort": {
-      "already_configured": "Mae'r porth Powerwall hwn eisoes wedi'i ffurfweddu"
+      "already_configured": "Mae'r porth Powerwall hwn eisoes wedi'i ffurfweddu",
+      "reconfigure_successful": "Wedi diweddaru gosodiadau'r cysylltiad",
+      "wrong_gateway": "Mae'r gosodiadau hynny'n cysylltu â phorth Powerwall gwahanol i'r un y sefydlwyd y cofnod hwn ar ei gyfer. Mae ailffurfweddu ond yn diweddaru sut i gyrraedd yr un porth -- i ychwanegu un gwahanol, ychwanegwch gofnod newydd yn lle hynny."
     }
   },
   "options": {

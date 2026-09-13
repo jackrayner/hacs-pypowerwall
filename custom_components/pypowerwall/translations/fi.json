@@ -87,6 +87,30 @@
           "rsa_key_path": "Polku komennolla `python -m pypowerwall register` luotuun RSA-4096-yksityisavaimen PEM-tiedostoon",
           "wifi_host": "Vaihtoehtoinen WiFi-TEDAPI-isäntä varalle"
         }
+      },
+      "reconfigure": {
+        "title": "Määritä yhteys uudelleen",
+        "description": "Päivitä tämän Powerwallin ({conn_type}-tila) yhteysasetukset. Hyödyllinen, jos yhdyskäytävän salasana on vaihtunut, yhdyskäytävä on siirtynyt uuteen IP-osoitteeseen tai Cloud-/FleetAPI-asetusvälimuistin hakemisto on siirtynyt.\n\nTämän on edelleen tavoitettava sama fyysinen yhdyskäytävä -- jos haluat vaihtaa toiseen yhteystilaan tai toiseen Powerwalliin, poista tämä merkintä ja lisää se uudelleen.",
+        "data": {
+          "host": "Isäntä",
+          "email": "Sähköposti",
+          "password": "Asiakkaan salasana",
+          "gw_pwd": "Yhdyskäytävän salasana",
+          "rsa_key_path": "RSA-yksityisavaimen polku",
+          "wifi_host": "WiFi-varaisäntä (valinnainen)",
+          "authpath": "Tunnistautumisvälimuistin hakemisto",
+          "siteid": "Sivuston tunnus (valinnainen)"
+        },
+        "data_description": {
+          "host": "Powerwall-yhdyskäytävän isäntänimi tai IP-osoite (esim. 192.168.91.1)",
+          "email": "Asiakastilin sähköpostiosoite",
+          "password": "Yhdyskäytävään asetettu asiakkaan salasana",
+          "gw_pwd": "QR-tarraan painettu yhdyskäytävän täydellinen Wi-Fi-salasana",
+          "rsa_key_path": "Polku komennolla `python -m pypowerwall register` luotuun RSA-4096-yksityisavaimen PEM-tiedostoon",
+          "wifi_host": "Vaihtoehtoinen WiFi-TEDAPI-isäntä varalle",
+          "authpath": "Hakemisto, joka sisältää .pypowerwall.auth- tai .pypowerwall.fleetapi-tiedoston",
+          "siteid": "Käytettävä Tesla-sivuston tunnus, jos tilillä on useampi kuin yksi sivusto"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Odottamaton virhe"
     },
     "abort": {
-      "already_configured": "Tämä Powerwall-yhdyskäytävä on jo määritetty"
+      "already_configured": "Tämä Powerwall-yhdyskäytävä on jo määritetty",
+      "reconfigure_successful": "Yhteysasetukset päivitetty",
+      "wrong_gateway": "Nämä asetukset yhdistävät eri Powerwall-yhdyskäytävään kuin mihin tämä merkintä alun perin määritettiin. Uudelleenmääritys päivittää vain sen, miten sama yhdyskäytävä tavoitetaan -- jos haluat lisätä eri yhdyskäytävän, lisää sen sijaan uusi merkintä."
     }
   },
   "options": {

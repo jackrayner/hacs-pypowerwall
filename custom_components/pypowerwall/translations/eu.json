@@ -87,6 +87,30 @@
           "rsa_key_path": "`python -m pypowerwall register` bidez sortutako RSA-4096 gako pribatuaren PEM fitxategiaren bide-izena",
           "wifi_host": "Ordezko WiFi TEDAPI ostalaria, hutsegitearen kasuan erabiltzeko"
         }
+      },
+      "reconfigure": {
+        "title": "Konexioa berriro konfiguratu",
+        "description": "Eguneratu Powerwall honen konexio-ezarpenak ({conn_type} modua). Erabilgarria da atebideko pasahitza aldatu bada, atebidea IP helbide berri batera aldatu bada, edo Cloud/FleetAPI konfigurazio cachearen direktorioa lekuz aldatu bada.\n\nHonek atebide fisiko berera iritsi behar du oraindik ere -- konexio modu ezberdin batera edo beste Powerwall batera aldatzeko, ezabatu sarrera hau eta gehitu berriro.",
+        "data": {
+          "host": "Ostalaria",
+          "email": "Emaila",
+          "password": "Bezeroaren pasahitza",
+          "gw_pwd": "Atebideko pasahitza",
+          "rsa_key_path": "RSA gako pribatuaren bide-izena",
+          "wifi_host": "WiFi ordezko ostalaria (aukerakoa)",
+          "authpath": "Autentifikazio cachearen direktorioa",
+          "siteid": "Gunearen IDa (aukerakoa)"
+        },
+        "data_description": {
+          "host": "Powerwall atebidearen ostalari-izena edo IP helbidea (adib. 192.168.91.1)",
+          "email": "Bezero-kontuaren emaila",
+          "password": "Atebidean konfiguratutako bezeroaren pasahitza",
+          "gw_pwd": "QR etiketan inprimatutako atebidearen Wi-Fi pasahitz osoa",
+          "rsa_key_path": "`python -m pypowerwall register` bidez sortutako RSA-4096 gako pribatuaren PEM fitxategiaren bide-izena",
+          "wifi_host": "Ordezko WiFi TEDAPI ostalaria, hutsegitearen kasuan erabiltzeko",
+          "authpath": "`.pypowerwall.auth` edo `.pypowerwall.fleetapi` fitxategia duen direktorioa",
+          "siteid": "Kontuak gune bat baino gehiago baditu, erabili beharreko Teslaren gunearen IDa"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Ustekabeko errorea"
     },
     "abort": {
-      "already_configured": "Powerwall atebide hau dagoeneko konfiguratuta dago"
+      "already_configured": "Powerwall atebide hau dagoeneko konfiguratuta dago",
+      "reconfigure_successful": "Konexio-ezarpenak eguneratu dira",
+      "wrong_gateway": "Ezarpen horiek sarrera hau konfiguratzeko erabili zen Powerwall atebidea ez den beste batekin konektatzen dute. Berriro konfiguratzeak atebide berera nola iritsi eguneratzen du bakarrik -- beste bat gehitzeko, gehitu sarrera berri bat horren ordez."
     }
   },
   "options": {

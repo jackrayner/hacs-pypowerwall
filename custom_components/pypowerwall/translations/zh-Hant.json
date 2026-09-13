@@ -87,6 +87,30 @@
           "rsa_key_path": "由 `python -m pypowerwall register` 所產生之 RSA-4096 私鑰 PEM 檔案路徑",
           "wifi_host": "備援用的替代 WiFi TEDAPI 主機"
         }
+      },
+      "reconfigure": {
+        "title": "重新設定連線",
+        "description": "更新此 Powerwall（{conn_type} 模式）的連線設定。適用於閘道器密碼已變更、閘道器已移至新的 IP 位址，或 Cloud/FleetAPI 設定快取目錄已變更位置的情況。\n\n此操作仍必須連線到相同的實體閘道器 -- 若要切換至不同的連線模式或不同的 Powerwall，請移除此項目後重新新增。",
+        "data": {
+          "host": "主機",
+          "email": "電子郵件",
+          "password": "客戶密碼",
+          "gw_pwd": "閘道器密碼",
+          "rsa_key_path": "RSA 私鑰路徑",
+          "wifi_host": "WiFi 備援主機（選填）",
+          "authpath": "驗證快取目錄",
+          "siteid": "站點 ID（選填）"
+        },
+        "data_description": {
+          "host": "Powerwall 閘道器的主機名稱或 IP 位址（例如 192.168.91.1）",
+          "email": "客戶帳戶電子郵件",
+          "password": "在閘道器上設定的客戶密碼",
+          "gw_pwd": "印在 QR 標籤上的完整閘道器 Wi-Fi 密碼",
+          "rsa_key_path": "由 `python -m pypowerwall register` 所產生之 RSA-4096 私鑰 PEM 檔案路徑",
+          "wifi_host": "備援用的替代 WiFi TEDAPI 主機",
+          "authpath": "存放 .pypowerwall.auth 或 .pypowerwall.fleetapi 檔案的目錄",
+          "siteid": "當帳戶擁有多個站點時，用來指定要使用的 Tesla 站點 ID"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "發生未預期的錯誤"
     },
     "abort": {
-      "already_configured": "此 Powerwall 閘道器已完成設定"
+      "already_configured": "此 Powerwall 閘道器已完成設定",
+      "reconfigure_successful": "連線設定已更新",
+      "wrong_gateway": "這些設定連線到的 Powerwall 閘道器，與此項目原先設定的閘道器不同。重新設定僅會更新連線至相同閘道器的方式 -- 若要新增不同的閘道器，請改為新增一個新項目。"
     }
   },
   "options": {

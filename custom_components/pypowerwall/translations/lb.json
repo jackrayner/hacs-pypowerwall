@@ -87,6 +87,30 @@
           "rsa_key_path": "Pad zur PEM-Datei mam private RSA-4096-Schlëssel, erstallt vun `python -m pypowerwall register`",
           "wifi_host": "Alternative WiFi-TEDAPI-Host als Ersatz"
         }
+      },
+      "reconfigure": {
+        "title": "Verbindung nei konfiguréieren",
+        "description": "Aktualiséiert d'Verbindungsastellungen fir dëse Powerwall ({conn_type}-Modus). Nëtzlech, wann d'Gateway-Passwuert geännert huet, d'Gateway op eng nei IP-Adress geplënnert ass, oder e Cloud-/FleetAPI-Konfiguratiouns-Cache-Verzeechnes geännert huet.\n\nDëst muss ëmmer nach dee selwechte physesche Gateway erreechen -- fir op en anere Verbindungsmodus oder en aneren Powerwall ze wiesselen, läscht dëse Entrée a füügt en nees derbäi.",
+        "data": {
+          "host": "Host",
+          "email": "E-Mail",
+          "password": "Client-Passwuert",
+          "gw_pwd": "Gateway-Passwuert",
+          "rsa_key_path": "Pad zum private RSA-Schlëssel",
+          "wifi_host": "WiFi-Ersatz-Host (optional)",
+          "authpath": "Verzeechnes vum Authentifikatioun-Cache",
+          "siteid": "Site-ID (optional)"
+        },
+        "data_description": {
+          "host": "Hostnumm oder IP-Adress vum Powerwall-Gateway (z.B. 192.168.91.1)",
+          "email": "E-Mail-Adress vum Client-Konto",
+          "password": "Client-Passwuert, dat um Gateway agestallt gouf",
+          "gw_pwd": "Komplett Wi-Fi-Passwuert vum Gateway, gedréckt op der QR-Etikett",
+          "rsa_key_path": "Pad zur PEM-Datei mam private RSA-4096-Schlëssel, erstallt vun `python -m pypowerwall register`",
+          "wifi_host": "Alternative WiFi-TEDAPI-Host als Ersatz",
+          "authpath": "Verzeechnes mat der Datei `.pypowerwall.auth` oder `.pypowerwall.fleetapi`",
+          "siteid": "Tesla-Site-ID, déi ze benotzen ass, wa säi Konto méi wéi eng Site huet"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Onerwaarte Feeler"
     },
     "abort": {
-      "already_configured": "Dëse Powerwall-Gateway ass scho konfiguréiert"
+      "already_configured": "Dëse Powerwall-Gateway ass scho konfiguréiert",
+      "reconfigure_successful": "Verbindungsastellungen aktualiséiert",
+      "wrong_gateway": "Dës Astellunge verbannen mat engem anere Powerwall-Gateway wéi deen, fir deen dësen Entrée agestallt gouf. D'Rekonfiguratioun aktualiséiert nëmmen, wéi een dee selwechte Gateway erreecht -- fir en anere derbäizefügen, füügt e neien Entrée derbäi."
     }
   },
   "options": {

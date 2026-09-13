@@ -87,6 +87,30 @@
           "rsa_key_path": "Path to the RSA-4096 private key PEM file produced by `python -m pypowerwall register`",
           "wifi_host": "Alternate WiFi TEDAPI host to fall back to"
         }
+      },
+      "reconfigure": {
+        "title": "Reconfigure connection",
+        "description": "Update the connection settings for this Powerwall ({conn_type} mode). Useful if the gateway password changed, the gateway moved to a new IP address, or a Cloud/FleetAPI config cache directory moved.\n\nThis must still reach the same physical gateway -- to switch to a different connection mode or a different Powerwall, remove this entry and add it again.",
+        "data": {
+          "host": "Host",
+          "email": "Email",
+          "password": "Customer password",
+          "gw_pwd": "Gateway password",
+          "rsa_key_path": "RSA private key path",
+          "wifi_host": "WiFi fallback host (optional)",
+          "authpath": "Auth cache directory",
+          "siteid": "Site ID (optional)"
+        },
+        "data_description": {
+          "host": "Hostname or IP address of the Powerwall gateway (e.g. 192.168.91.1)",
+          "email": "Customer account email",
+          "password": "Customer password set up on the gateway",
+          "gw_pwd": "Full gateway Wi-Fi password printed on the QR label",
+          "rsa_key_path": "Path to the RSA-4096 private key PEM file produced by `python -m pypowerwall register`",
+          "wifi_host": "Alternate WiFi TEDAPI host to fall back to",
+          "authpath": "Directory containing the .pypowerwall.auth or .pypowerwall.fleetapi file",
+          "siteid": "Tesla site ID to use if the account has more than one site"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Unexpected error"
     },
     "abort": {
-      "already_configured": "This Powerwall gateway is already configured"
+      "already_configured": "This Powerwall gateway is already configured",
+      "reconfigure_successful": "Connection settings updated",
+      "wrong_gateway": "Those settings connect to a different Powerwall gateway than this entry was set up for. Reconfigure only updates how to reach the same gateway -- to add a different one, add a new entry instead."
     }
   },
   "options": {

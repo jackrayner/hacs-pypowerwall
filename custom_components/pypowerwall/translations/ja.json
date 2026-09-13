@@ -87,6 +87,30 @@
           "rsa_key_path": "`python -m pypowerwall register`によって生成されたRSA-4096秘密鍵のPEMファイルのパス",
           "wifi_host": "フォールバック先として使用する代替のWiFi TEDAPIホスト"
         }
+      },
+      "reconfigure": {
+        "title": "接続の再設定",
+        "description": "このPowerwall（{conn_type}モード）の接続設定を更新します。ゲートウェイのパスワードが変更された場合、ゲートウェイが新しいIPアドレスに移動した場合、またはCloud/FleetAPIの設定キャッシュディレクトリが移動した場合に便利です。\n\nこれは引き続き同じ物理ゲートウェイに接続する必要があります。別の接続モードや別のPowerwallに切り替えるには、このエントリを削除して再度追加してください。",
+        "data": {
+          "host": "ホスト",
+          "email": "メールアドレス",
+          "password": "顧客パスワード",
+          "gw_pwd": "ゲートウェイパスワード",
+          "rsa_key_path": "RSA秘密鍵のパス",
+          "wifi_host": "WiFiフォールバックホスト（任意）",
+          "authpath": "認証キャッシュディレクトリ",
+          "siteid": "サイトID（任意）"
+        },
+        "data_description": {
+          "host": "Powerwallゲートウェイのホスト名またはIPアドレス（例: 192.168.91.1）",
+          "email": "顧客アカウントのメールアドレス",
+          "password": "ゲートウェイに設定されている顧客パスワード",
+          "gw_pwd": "QRラベルに印字されているゲートウェイのWi-Fiパスワード（全文）",
+          "rsa_key_path": "`python -m pypowerwall register`によって生成されたRSA-4096秘密鍵のPEMファイルのパス",
+          "wifi_host": "フォールバック先として使用する代替のWiFi TEDAPIホスト",
+          "authpath": ".pypowerwall.authまたは.pypowerwall.fleetapiファイルが置かれているディレクトリ",
+          "siteid": "アカウントに複数のサイトがある場合に使用するTeslaサイトID"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "予期しないエラー"
     },
     "abort": {
-      "already_configured": "このPowerwallゲートウェイは既に設定されています"
+      "already_configured": "このPowerwallゲートウェイは既に設定されています",
+      "reconfigure_successful": "接続設定を更新しました",
+      "wrong_gateway": "この設定は、このエントリが設定された際のPowerwallゲートウェイとは異なるゲートウェイに接続します。再設定は同じゲートウェイへの接続方法のみを更新します。別のゲートウェイを追加するには、代わりに新しいエントリを追加してください。"
     }
   },
   "options": {

@@ -87,6 +87,30 @@
           "rsa_key_path": "Ruta do ficheiro PEM da chave privada RSA-4096 producido por `python -m pypowerwall register`",
           "wifi_host": "Anfitrión TEDAPI Wi-Fi alternativo para usar como reserva"
         }
+      },
+      "reconfigure": {
+        "title": "Reconfigurar a conexión",
+        "description": "Actualiza a configuración de conexión para este Powerwall (modo {conn_type}). Útil se o contrasinal da pasarela cambiou, a pasarela se trasladou a un novo enderezo IP, ou se moveu un directorio de caché de configuración de Cloud/FleetAPI.\n\nIsto debe seguir conectando coa mesma pasarela física -- para cambiar a outro modo de conexión ou a outro Powerwall, elimine esta entrada e engádaa de novo.",
+        "data": {
+          "host": "Anfitrión",
+          "email": "Correo electrónico",
+          "password": "Contrasinal do cliente",
+          "gw_pwd": "Contrasinal da pasarela",
+          "rsa_key_path": "Ruta da chave privada RSA",
+          "wifi_host": "Anfitrión Wi-Fi de reserva (opcional)",
+          "authpath": "Directorio da caché de autenticación",
+          "siteid": "ID do sitio (opcional)"
+        },
+        "data_description": {
+          "host": "Nome de anfitrión ou enderezo IP da pasarela Powerwall (p. ex. 192.168.91.1)",
+          "email": "Correo electrónico da conta do cliente",
+          "password": "Contrasinal do cliente configurado na pasarela",
+          "gw_pwd": "Contrasinal Wi-Fi completo da pasarela impreso na etiqueta QR",
+          "rsa_key_path": "Ruta do ficheiro PEM da chave privada RSA-4096 producido por `python -m pypowerwall register`",
+          "wifi_host": "Anfitrión TEDAPI Wi-Fi alternativo para usar como reserva",
+          "authpath": "Directorio que contén o ficheiro .pypowerwall.auth ou .pypowerwall.fleetapi",
+          "siteid": "ID do sitio de Tesla que se debe usar se a conta ten máis dun sitio"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Erro inesperado"
     },
     "abort": {
-      "already_configured": "Esta pasarela Powerwall xa está configurada"
+      "already_configured": "Esta pasarela Powerwall xa está configurada",
+      "reconfigure_successful": "Configuración de conexión actualizada",
+      "wrong_gateway": "Esta configuración conéctase a unha pasarela Powerwall diferente da que se configurou esta entrada. A reconfiguración só actualiza a forma de acceder á mesma pasarela -- para engadir unha diferente, engada unha nova entrada."
     }
   },
   "options": {

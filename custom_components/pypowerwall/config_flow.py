@@ -93,6 +93,17 @@ MENU_OPTIONS = [
     CONN_TYPE_TEDAPI_V1R,
 ]
 
+# Each connection type's settings schema, keyed so the reconfigure step can
+# re-show the correct form for an entry created under any of them.
+CONN_TYPE_SCHEMAS: dict[str, vol.Schema] = {
+    CONN_TYPE_TEDAPI: STEP_TEDAPI_SCHEMA,
+    CONN_TYPE_HYBRID: STEP_HYBRID_SCHEMA,
+    CONN_TYPE_LOCAL: STEP_LOCAL_SCHEMA,
+    CONN_TYPE_CLOUD: STEP_CLOUD_SCHEMA,
+    CONN_TYPE_FLEETAPI: STEP_FLEETAPI_SCHEMA,
+    CONN_TYPE_TEDAPI_V1R: STEP_TEDAPI_V1R_SCHEMA,
+}
+
 
 class PowerwallConnectionError(Exception):
     """Raised when the Powerwall gateway cannot be reached or authenticated."""
@@ -147,6 +158,59 @@ class PypowerwallConfigFlow(ConfigFlow, domain=DOMAIN):
                 return self.async_create_entry(title=title, data=data)
 
         return self.async_show_form(step_id=conn_type, data_schema=schema, errors=errors)
+
+    async def async_step_reconfigure(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Let the user correct an existing entry's connection settings.
+
+        Without this, everything collected at setup is write-once: a changed
+        gateway password, a Cloud/FleetAPI config cache that moved, or a
+        gateway that picked up a new IP all leave the entry permanently
+        failing to connect, and the only recourse is deleting and re-adding
+        it -- which loses the entity IDs and all their recorded history.
+
+        The connection type itself is deliberately not editable here.
+        Switching mode changes which credentials are even meaningful (and
+        which entities exist -- see GRID_CONTROL_CONN_TYPES and
+        GRID_ISLANDING_CONN_TYPES), so that stays a remove-and-re-add
+        operation rather than a reconfigure.
+
+        The gateway identity is pinned: settings that connect successfully
+        but report a different DIN are rejected via _abort_if_unique_id_mismatch
+        rather than silently repointing this entry -- and the history attached
+        to its entities -- at a different physical gateway.
+        """
+        entry = self._get_reconfigure_entry()
+        conn_type = entry.data[CONF_CONN_TYPE]
+        errors: dict[str, str] = {}
+
+        if user_input is not None:
+            data = {CONF_CONN_TYPE: conn_type, **user_input}
+            try:
+                din, _site_name = await _validate_input(self.hass, conn_type, data)
+            except PowerwallConnectionError:
+                errors["base"] = "cannot_connect"
+            except Exception:  # noqa: BLE001 - surface unexpected errors as a generic failure
+                _LOGGER.exception("Unexpected error validating Powerwall connection")
+                errors["base"] = "unknown"
+            else:
+                await self.async_set_unique_id(din)
+                self._abort_if_unique_id_mismatch(reason="wrong_gateway")
+                return self.async_update_reload_and_abort(entry, data=data)
+
+        # Pre-fill with the entry's current values (overlaid with whatever the
+        # user just submitted, so a failed attempt comes back edited rather
+        # than reset), and name the mode in the description -- the form fields
+        # alone don't say which connection type is being reconfigured.
+        return self.async_show_form(
+            step_id="reconfigure",
+            data_schema=self.add_suggested_values_to_schema(
+                CONN_TYPE_SCHEMAS[conn_type], {**entry.data, **(user_input or {})}
+            ),
+            errors=errors,
+            description_placeholders={"conn_type": conn_type},
+        )
 
     async def async_step_tedapi(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """TEDAPI full mode: host + gateway QR password only."""

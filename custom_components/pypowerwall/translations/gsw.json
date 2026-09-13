@@ -87,6 +87,30 @@
           "rsa_key_path": "Pfad zur PEM-Datei vom privatä RSA-4096-Schlüssel, wo vo `python -m pypowerwall register` erstellt wordä isch",
           "wifi_host": "Alternative Wi-Fi-TEDAPI-Host als Ersatz"
         }
+      },
+      "reconfigure": {
+        "title": "Verbindig neu konfigurierä",
+        "description": "Aktualisier d Verbindigsistellige für dää Powerwall ({conn_type}-Modus). Nützlich, wenn s Gateway-Passwort gwächslet het, s Gateway a nes neus IP-Adress zoge isch, oder es Cloud/FleetAPI-Konfig-Cache-Verzeichnis verschobe wordä isch.\n\nDas muess immer no s gliiche physisch Gateway erreiche -- zum uf en anderi Verbindigsart oder en anderi Powerwall wächsle, lösch dää Yitrag und füeg ne wieder derzue.",
+        "data": {
+          "host": "Host",
+          "email": "E-Mail",
+          "password": "Kunde-Passwort",
+          "gw_pwd": "Gateway-Passwort",
+          "rsa_key_path": "Pfad zum privatä RSA-Schlüssel",
+          "wifi_host": "Wi-Fi-Ersatz-Host (optional)",
+          "authpath": "Auth-Cache-Verzeichnis",
+          "siteid": "Standort-ID (optional)"
+        },
+        "data_description": {
+          "host": "Hostname oder IP-Adresse vom Powerwall-Gateway (z. B. 192.168.91.1)",
+          "email": "E-Mail vom Kundekonto",
+          "password": "Kunde-Passwort, wo uf em Gateway igrichtet isch",
+          "gw_pwd": "Vollständigs Gateway-Wi-Fi-Passwort, wo uf em QR-Label druckt isch",
+          "rsa_key_path": "Pfad zur PEM-Datei vom privatä RSA-4096-Schlüssel, wo vo `python -m pypowerwall register` erstellt wordä isch",
+          "wifi_host": "Alternative Wi-Fi-TEDAPI-Host als Ersatz",
+          "authpath": "Verzeichnis mit de `.pypowerwall.auth`- oder `.pypowerwall.fleetapi`-Datei",
+          "siteid": "Tesla-Standort-ID, falls s Konto mehreri Standort het"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Unerwarteter Fehler"
     },
     "abort": {
-      "already_configured": "Dää Powerwall-Gateway isch scho konfiguriert"
+      "already_configured": "Dää Powerwall-Gateway isch scho konfiguriert",
+      "reconfigure_successful": "Verbindigsistellige aktualisiert",
+      "wrong_gateway": "Die Istellige verbindet mit emene andere Powerwall-Gateway als dää, wofür dää Yitrag igrichtet wordä isch. Neukonfiguration aktualisiert nur, wie s gliiche Gateway erreicht wird -- zum es anders derzuefüege, füeg stattdesse en neue Yitrag derzue."
     }
   },
   "options": {

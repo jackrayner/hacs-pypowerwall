@@ -87,6 +87,30 @@
           "rsa_key_path": "Cosán chuig an gcomhad PEM eochrach príobháidí RSA-4096 a chruthaigh `python -m pypowerwall register`",
           "wifi_host": "Óstríomhaire malartach Wi-Fi TEDAPI le titim siar air"
         }
+      },
+      "reconfigure": {
+        "title": "Athchumraigh an ceangal",
+        "description": "Nuashonraigh socruithe an cheangail don Powerwall seo (mód {conn_type}). Úsáideach má athraíodh pasfhocal an gheata, má bhog an geata chuig seoladh IP nua, nó má bhog comhadlann taisce cumraíochta Cloud/FleetAPI.\n\nCaithfidh sé seo an geata fisiceach céanna a bhaint amach fós -- chun athrú go dtí mód ceangail eile nó Powerwall eile, bain an iontráil seo agus cuir ar ais é.",
+        "data": {
+          "host": "Óstríomhaire",
+          "email": "Ríomhphost",
+          "password": "Pasfhocal an chustaiméara",
+          "gw_pwd": "Pasfhocal an gheata",
+          "rsa_key_path": "Cosán na heochrach príobháidí RSA",
+          "wifi_host": "Óstríomhaire cúltaca Wi-Fi (roghnach)",
+          "authpath": "Comhadlann taisce fíordheimhnithe",
+          "siteid": "Aitheantas suímh (roghnach)"
+        },
+        "data_description": {
+          "host": "Óstainm nó seoladh IP gheata an Powerwall (m.sh. 192.168.91.1)",
+          "email": "Ríomhphost chuntas an chustaiméara",
+          "password": "Pasfhocal an chustaiméara atá socraithe ar an ngeata",
+          "gw_pwd": "Pasfhocal iomlán Wi-Fi an gheata atá clóite ar an lipéad QR",
+          "rsa_key_path": "Cosán chuig an gcomhad PEM eochrach príobháidí RSA-4096 a chruthaigh `python -m pypowerwall register`",
+          "wifi_host": "Óstríomhaire malartach Wi-Fi TEDAPI le titim siar air",
+          "authpath": "Comhadlann ina bhfuil an comhad .pypowerwall.auth nó .pypowerwall.fleetapi",
+          "siteid": "Aitheantas suímh Tesla le húsáid má tá níos mó ná suíomh amháin ag an gcuntas"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Earráid gan choinne"
     },
     "abort": {
-      "already_configured": "Tá an geata Powerwall seo cumraithe cheana féin"
+      "already_configured": "Tá an geata Powerwall seo cumraithe cheana féin",
+      "reconfigure_successful": "Nuashonraíodh socruithe an cheangail",
+      "wrong_gateway": "Ceanglaíonn na socruithe seo le geata Powerwall difriúil ná an ceann dár socraíodh an iontráil seo. Ní dhéanann athchumrú ach nuashonrú ar an gcaoi ar féidir teacht ar an ngeata céanna -- chun ceann difriúil a chur leis, cuir iontráil nua leis ina ionad."
     }
   },
   "options": {

@@ -87,6 +87,30 @@
           "rsa_key_path": "Jalur ke berkas PEM kunci privat RSA-4096 yang dihasilkan oleh `python -m pypowerwall register`",
           "wifi_host": "Host TEDAPI WiFi alternatif sebagai cadangan"
         }
+      },
+      "reconfigure": {
+        "title": "Konfigurasi ulang koneksi",
+        "description": "Perbarui pengaturan koneksi untuk Powerwall ini (mode {conn_type}). Berguna jika kata sandi gateway berubah, gateway pindah ke alamat IP baru, atau direktori cache konfigurasi Cloud/FleetAPI dipindahkan.\n\nIni harus tetap terhubung ke gateway fisik yang sama -- untuk beralih ke mode koneksi lain atau Powerwall lain, hapus entri ini dan tambahkan lagi.",
+        "data": {
+          "host": "Host",
+          "email": "Email",
+          "password": "Kata sandi pelanggan",
+          "gw_pwd": "Kata sandi gateway",
+          "rsa_key_path": "Jalur kunci privat RSA",
+          "wifi_host": "Host cadangan WiFi (opsional)",
+          "authpath": "Direktori cache autentikasi",
+          "siteid": "ID situs (opsional)"
+        },
+        "data_description": {
+          "host": "Nama host atau alamat IP gateway Powerwall (mis. 192.168.91.1)",
+          "email": "Email akun pelanggan",
+          "password": "Kata sandi pelanggan yang diatur pada gateway",
+          "gw_pwd": "Kata sandi Wi-Fi gateway lengkap yang tercetak pada label QR",
+          "rsa_key_path": "Jalur ke berkas PEM kunci privat RSA-4096 yang dihasilkan oleh `python -m pypowerwall register`",
+          "wifi_host": "Host TEDAPI WiFi alternatif sebagai cadangan",
+          "authpath": "Direktori yang berisi berkas .pypowerwall.auth atau .pypowerwall.fleetapi",
+          "siteid": "ID situs Tesla yang digunakan jika akun memiliki lebih dari satu situs"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Terjadi kesalahan yang tidak terduga"
     },
     "abort": {
-      "already_configured": "Gateway Powerwall ini sudah dikonfigurasi"
+      "already_configured": "Gateway Powerwall ini sudah dikonfigurasi",
+      "reconfigure_successful": "Pengaturan koneksi telah diperbarui",
+      "wrong_gateway": "Pengaturan tersebut terhubung ke gateway Powerwall yang berbeda dari yang digunakan untuk menyiapkan entri ini. Konfigurasi ulang hanya memperbarui cara menjangkau gateway yang sama -- untuk menambahkan gateway lain, tambahkan entri baru sebagai gantinya."
     }
   },
   "options": {

@@ -87,6 +87,30 @@
           "rsa_key_path": "Ścieżka do pliku PEM klucza prywatnego RSA-4096 wygenerowanego przez `python -m pypowerwall register`",
           "wifi_host": "Alternatywny host WiFi TEDAPI, używany jako opcja zapasowa"
         }
+      },
+      "reconfigure": {
+        "title": "Ponownie skonfiguruj połączenie",
+        "description": "Zaktualizuj ustawienia połączenia dla tego Powerwall (tryb {conn_type}). Przydatne, jeśli hasło bramy się zmieniło, brama została przeniesiona pod nowy adres IP lub katalog pamięci podręcznej konfiguracji Cloud/FleetAPI został przeniesiony.\n\nMusi to nadal prowadzić do tej samej fizycznej bramy -- aby przełączyć się na inny tryb połączenia lub inny Powerwall, usuń ten wpis i dodaj go ponownie.",
+        "data": {
+          "host": "Host",
+          "email": "E-mail",
+          "password": "Hasło klienta",
+          "gw_pwd": "Hasło bramy",
+          "rsa_key_path": "Ścieżka do klucza prywatnego RSA",
+          "wifi_host": "Zapasowy host WiFi (opcjonalnie)",
+          "authpath": "Katalog pamięci podręcznej uwierzytelniania",
+          "siteid": "ID lokalizacji (opcjonalnie)"
+        },
+        "data_description": {
+          "host": "Nazwa hosta lub adres IP bramy Powerwall (np. 192.168.91.1)",
+          "email": "Adres e-mail konta klienta",
+          "password": "Hasło klienta ustawione na bramie",
+          "gw_pwd": "Pełne hasło Wi-Fi bramy wydrukowane na etykiecie z kodem QR",
+          "rsa_key_path": "Ścieżka do pliku PEM klucza prywatnego RSA-4096 wygenerowanego przez `python -m pypowerwall register`",
+          "wifi_host": "Alternatywny host WiFi TEDAPI, używany jako opcja zapasowa",
+          "authpath": "Katalog zawierający plik .pypowerwall.auth lub .pypowerwall.fleetapi",
+          "siteid": "ID lokalizacji Tesla do użycia, jeśli konto ma więcej niż jedną lokalizację"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Nieoczekiwany błąd"
     },
     "abort": {
-      "already_configured": "Ta brama Powerwall jest już skonfigurowana"
+      "already_configured": "Ta brama Powerwall jest już skonfigurowana",
+      "reconfigure_successful": "Zaktualizowano ustawienia połączenia",
+      "wrong_gateway": "Te ustawienia łączą się z inną bramą Powerwall niż ta, dla której skonfigurowano ten wpis. Ponowna konfiguracja aktualizuje tylko sposób łączenia się z tą samą bramą -- aby dodać inną bramę, dodaj zamiast tego nowy wpis."
     }
   },
   "options": {

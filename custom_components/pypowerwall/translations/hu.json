@@ -87,6 +87,30 @@
           "rsa_key_path": "A `python -m pypowerwall register` által létrehozott RSA-4096 privát kulcs PEM-fájl elérési útja",
           "wifi_host": "Alternatív WiFi TEDAPI gazdagép, amelyre tartalékként vissza lehet váltani"
         }
+      },
+      "reconfigure": {
+        "title": "Kapcsolat újrakonfigurálása",
+        "description": "Frissítse ennek a Powerwallnak a kapcsolati beállításait ({conn_type} mód). Hasznos, ha megváltozott az átjáró jelszava, az átjáró új IP-címre költözött, vagy elköltözött egy Cloud/FleetAPI konfigurációs gyorsítótár könyvtár.\n\nEnnek továbbra is ugyanahhoz a fizikai átjáróhoz kell kapcsolódnia -- ha másik kapcsolattípusra vagy másik Powerwallra szeretne váltani, távolítsa el ezt a bejegyzést, és adja hozzá újra.",
+        "data": {
+          "host": "Gazdagép",
+          "email": "E-mail",
+          "password": "Ügyfél jelszó",
+          "gw_pwd": "Átjáró jelszava",
+          "rsa_key_path": "RSA privát kulcs elérési útja",
+          "wifi_host": "WiFi tartalék gazdagép (opcionális)",
+          "authpath": "Hitelesítési gyorsítótár könyvtára",
+          "siteid": "Telephely azonosító (opcionális)"
+        },
+        "data_description": {
+          "host": "A Powerwall átjáró állomásneve vagy IP-címe (pl. 192.168.91.1)",
+          "email": "Az ügyfélfiók e-mail-címe",
+          "password": "Az átjárón beállított ügyfél jelszó",
+          "gw_pwd": "A QR-címkén nyomtatott teljes átjáró Wi-Fi jelszó",
+          "rsa_key_path": "A `python -m pypowerwall register` által létrehozott RSA-4096 privát kulcs PEM-fájl elérési útja",
+          "wifi_host": "Alternatív WiFi TEDAPI gazdagép, amelyre tartalékként vissza lehet váltani",
+          "authpath": "A .pypowerwall.auth vagy .pypowerwall.fleetapi fájlt tartalmazó könyvtár",
+          "siteid": "A használandó Tesla telephely azonosító, ha a fiókhoz több telephely is tartozik"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Váratlan hiba"
     },
     "abort": {
-      "already_configured": "Ez a Powerwall átjáró már be van állítva"
+      "already_configured": "Ez a Powerwall átjáró már be van állítva",
+      "reconfigure_successful": "A kapcsolat beállításai frissítve",
+      "wrong_gateway": "Ezek a beállítások egy másik Powerwall átjáróhoz kapcsolódnak, mint amelyhez ez a bejegyzés eredetileg be lett állítva. Az újrakonfigurálás csak azt frissíti, hogyan érje el ugyanazt az átjárót -- ha másik átjárót szeretne hozzáadni, adjon hozzá helyette egy új bejegyzést."
     }
   },
   "options": {

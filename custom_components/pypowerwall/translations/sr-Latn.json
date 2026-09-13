@@ -87,6 +87,30 @@
           "rsa_key_path": "Putanja do PEM fajla RSA-4096 privatnog ključa dobijenog pomoću `python -m pypowerwall register`",
           "wifi_host": "Alternativni WiFi TEDAPI host za rezervnu vezu"
         }
+      },
+      "reconfigure": {
+        "title": "Ponovno podešavanje veze",
+        "description": "Ažurirajte podešavanja veze za ovaj Powerwall (režim {conn_type}). Korisno ako se lozinka pristupnika promenila, pristupnik se preselio na novu IP adresu, ili se premestio direktorijum keš memorije podešavanja za Cloud/FleetAPI.\n\nOvo i dalje mora da dopre do istog fizičkog pristupnika -- da biste prešli na drugi režim veze ili drugi Powerwall, uklonite ovaj unos i ponovo ga dodajte.",
+        "data": {
+          "host": "Host",
+          "email": "Imejl",
+          "password": "Korisnička lozinka",
+          "gw_pwd": "Lozinka pristupnika",
+          "rsa_key_path": "Putanja do RSA privatnog ključa",
+          "wifi_host": "Rezervni WiFi host (opciono)",
+          "authpath": "Direktorijum keš memorije autentifikacije",
+          "siteid": "ID lokacije (opciono)"
+        },
+        "data_description": {
+          "host": "Naziv hosta ili IP adresa Powerwall pristupnika (npr. 192.168.91.1)",
+          "email": "Imejl korisničkog naloga",
+          "password": "Korisnička lozinka podešena na pristupniku",
+          "gw_pwd": "Puna Wi-Fi lozinka pristupnika odštampana na QR nalepnici",
+          "rsa_key_path": "Putanja do PEM fajla RSA-4096 privatnog ključa dobijenog pomoću `python -m pypowerwall register`",
+          "wifi_host": "Alternativni WiFi TEDAPI host za rezervnu vezu",
+          "authpath": "Direktorijum koji sadrži fajl .pypowerwall.auth ili .pypowerwall.fleetapi",
+          "siteid": "Tesla ID lokacije koji se koristi ako nalog ima više od jedne lokacije"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Neočekivana greška"
     },
     "abort": {
-      "already_configured": "Ovaj Powerwall pristupnik je već podešen"
+      "already_configured": "Ovaj Powerwall pristupnik je već podešen",
+      "reconfigure_successful": "Podešavanja veze su ažurirana",
+      "wrong_gateway": "Ova podešavanja se povezuju sa drugim Powerwall pristupnikom od onog za koji je ovaj unos podešen. Ponovno podešavanje ažurira samo način dostupa istom pristupniku -- da biste dodali drugi, umesto toga dodajte novi unos."
     }
   },
   "options": {

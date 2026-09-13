@@ -87,6 +87,30 @@
           "rsa_key_path": "Vojo al la PEM-dosiero de la RSA-4096-privata ŝlosilo, produktita per `python -m pypowerwall register`",
           "wifi_host": "Alternativa WiFi-a TEDAPI-gastigo uzenda kiel rezervo"
         }
+      },
+      "reconfigure": {
+        "title": "Rekonfiguri konekton",
+        "description": "Ĝisdatigu la konektajn agordojn por ĉi tiu Powerwall (reĝimo {conn_type}). Utila se la pasvorto de la kluzo ŝanĝiĝis, la kluzo moviĝis al nova IP-adreso, aŭ dosierujo de konservita agordo por Cloud/FleetAPI moviĝis.\n\nTio devas ankoraŭ atingi la saman fizikan kluzon -- por ŝanĝi al alia konekta reĝimo aŭ alia Powerwall, forigu ĉi tiun enskribon kaj aldonu ĝin denove.",
+        "data": {
+          "host": "Gastigo",
+          "email": "Retpoŝto",
+          "password": "Pasvorto de kliento",
+          "gw_pwd": "Pasvorto de la kluzo",
+          "rsa_key_path": "Vojo al la RSA-privata ŝlosilo",
+          "wifi_host": "Rezerva WiFi-gastigo (malnepra)",
+          "authpath": "Dosierujo de konservita aŭtentigo",
+          "siteid": "Eja identigilo (malnepra)"
+        },
+        "data_description": {
+          "host": "Gastignomo aŭ IP-adreso de la kluzo de la Powerwall (ekz. 192.168.91.1)",
+          "email": "Retpoŝta adreso de la klienta konto",
+          "password": "Pasvorto de kliento agordita sur la kluzo",
+          "gw_pwd": "Plena Wi-Fi-pasvorto de la kluzo, presita sur la QR-etikedo",
+          "rsa_key_path": "Vojo al la PEM-dosiero de la RSA-4096-privata ŝlosilo, produktita per `python -m pypowerwall register`",
+          "wifi_host": "Alternativa WiFi-a TEDAPI-gastigo uzenda kiel rezervo",
+          "authpath": "Dosierujo enhavanta la dosieron .pypowerwall.auth aŭ .pypowerwall.fleetapi",
+          "siteid": "Identigilo de la Tesla-ejo uzenda, se la konto havas pli ol unu ejon"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Neatendita eraro"
     },
     "abort": {
-      "already_configured": "Ĉi tiu kluzo de Powerwall jam estas agordita"
+      "already_configured": "Ĉi tiu kluzo de Powerwall jam estas agordita",
+      "reconfigure_successful": "Konektaj agordoj ĝisdatigitaj",
+      "wrong_gateway": "Tiuj agordoj konektas al malsama Powerwall-kluzo ol tiu, por kiu ĉi tiu enskribo estis agordita. Rekonfigurado nur ĝisdatigas kiel atingi la saman kluzon -- por aldoni alian, aldonu novan enskribon anstataŭe."
     }
   },
   "options": {

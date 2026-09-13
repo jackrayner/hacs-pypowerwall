@@ -87,6 +87,30 @@
           "rsa_key_path": "Pad naar het PEM-bestand met de RSA-4096-privésleutel, gegenereerd door `python -m pypowerwall register`",
           "wifi_host": "Alternatieve Wi-Fi TEDAPI-host om op terug te vallen"
         }
+      },
+      "reconfigure": {
+        "title": "Verbinding opnieuw configureren",
+        "description": "Werk de verbindingsinstellingen voor deze Powerwall bij ({conn_type}-modus). Handig als het gateway-wachtwoord is gewijzigd, de gateway naar een nieuw IP-adres is verplaatst, of een map met de Cloud/FleetAPI-configuratiecache is verplaatst.\n\nDit moet nog steeds dezelfde fysieke gateway bereiken -- om over te schakelen naar een ander verbindingstype of een andere Powerwall, verwijdert u deze invoer en voegt u deze opnieuw toe.",
+        "data": {
+          "host": "Host",
+          "email": "E-mail",
+          "password": "Klantwachtwoord",
+          "gw_pwd": "Gateway-wachtwoord",
+          "rsa_key_path": "Pad naar RSA-privésleutel",
+          "wifi_host": "Wi-Fi-terugvalhost (optioneel)",
+          "authpath": "Map met auth-cache",
+          "siteid": "Site-ID (optioneel)"
+        },
+        "data_description": {
+          "host": "Hostnaam of IP-adres van de Powerwall-gateway (bijv. 192.168.91.1)",
+          "email": "E-mailadres van het klantaccount",
+          "password": "Klantwachtwoord dat is ingesteld op de gateway",
+          "gw_pwd": "Volledig Wi-Fi-wachtwoord van de gateway, afgedrukt op het QR-label",
+          "rsa_key_path": "Pad naar het PEM-bestand met de RSA-4096-privésleutel, gegenereerd door `python -m pypowerwall register`",
+          "wifi_host": "Alternatieve Wi-Fi TEDAPI-host om op terug te vallen",
+          "authpath": "Map met het bestand .pypowerwall.auth of .pypowerwall.fleetapi",
+          "siteid": "Te gebruiken Tesla-site-ID als het account meer dan één site heeft"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Onverwachte fout"
     },
     "abort": {
-      "already_configured": "Deze Powerwall-gateway is al geconfigureerd"
+      "already_configured": "Deze Powerwall-gateway is al geconfigureerd",
+      "reconfigure_successful": "Verbindingsinstellingen bijgewerkt",
+      "wrong_gateway": "Deze instellingen maken verbinding met een andere Powerwall-gateway dan waarvoor deze configuratie is ingesteld. Opnieuw configureren werkt alleen voor het bijwerken van de manier waarop dezelfde gateway wordt bereikt -- om een andere gateway toe te voegen, voegt u in plaats daarvan een nieuwe configuratie toe."
     }
   },
   "options": {
