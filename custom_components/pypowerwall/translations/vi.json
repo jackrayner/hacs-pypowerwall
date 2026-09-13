@@ -87,6 +87,30 @@
           "rsa_key_path": "Đường dẫn đến tệp PEM khóa riêng tư RSA-4096 được tạo bởi `python -m pypowerwall register`",
           "wifi_host": "Máy chủ TEDAPI WiFi thay thế để dự phòng"
         }
+      },
+      "reconfigure": {
+        "title": "Cấu hình lại kết nối",
+        "description": "Cập nhật cài đặt kết nối cho Powerwall này (chế độ {conn_type}). Hữu ích nếu mật khẩu gateway đã thay đổi, gateway đã chuyển sang địa chỉ IP mới, hoặc thư mục bộ nhớ cấu hình Cloud/FleetAPI đã thay đổi vị trí.\n\nThao tác này vẫn phải kết nối tới cùng một gateway vật lý -- để chuyển sang chế độ kết nối khác hoặc Powerwall khác, hãy xóa mục này rồi thêm lại.",
+        "data": {
+          "host": "Máy chủ",
+          "email": "Email",
+          "password": "Mật khẩu khách hàng",
+          "gw_pwd": "Mật khẩu gateway",
+          "rsa_key_path": "Đường dẫn khóa riêng tư RSA",
+          "wifi_host": "Máy chủ dự phòng WiFi (tùy chọn)",
+          "authpath": "Thư mục bộ nhớ xác thực",
+          "siteid": "Mã site (tùy chọn)"
+        },
+        "data_description": {
+          "host": "Tên máy chủ hoặc địa chỉ IP của gateway Powerwall (ví dụ: 192.168.91.1)",
+          "email": "Email tài khoản khách hàng",
+          "password": "Mật khẩu khách hàng đã thiết lập trên gateway",
+          "gw_pwd": "Mật khẩu Wi-Fi đầy đủ của gateway được in trên nhãn mã QR",
+          "rsa_key_path": "Đường dẫn đến tệp PEM khóa riêng tư RSA-4096 được tạo bởi `python -m pypowerwall register`",
+          "wifi_host": "Máy chủ TEDAPI WiFi thay thế để dự phòng",
+          "authpath": "Thư mục chứa tệp .pypowerwall.auth hoặc .pypowerwall.fleetapi",
+          "siteid": "Mã site Tesla cần dùng nếu tài khoản có nhiều hơn một site"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Lỗi không xác định"
     },
     "abort": {
-      "already_configured": "Gateway Powerwall này đã được cấu hình"
+      "already_configured": "Gateway Powerwall này đã được cấu hình",
+      "reconfigure_successful": "Đã cập nhật cài đặt kết nối",
+      "wrong_gateway": "Các cài đặt này kết nối tới một gateway Powerwall khác với gateway mà mục này đã được thiết lập. Cấu hình lại chỉ cập nhật cách kết nối tới cùng một gateway -- để thêm một gateway khác, hãy thêm một mục mới."
     }
   },
   "options": {

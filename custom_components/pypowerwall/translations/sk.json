@@ -87,6 +87,30 @@
           "rsa_key_path": "Cesta k súboru súkromného kľúča RSA-4096 vo formáte PEM vytvorenému príkazom `python -m pypowerwall register`",
           "wifi_host": "Alternatívny Wi-Fi hostiteľ TEDAPI pre záložné pripojenie"
         }
+      },
+      "reconfigure": {
+        "title": "Zmeniť konfiguráciu pripojenia",
+        "description": "Aktualizujte nastavenia pripojenia pre tento Powerwall (režim {conn_type}). Užitočné, ak sa zmenilo heslo brány, brána sa presunula na novú IP adresu, alebo sa presunul adresár vyrovnávacej pamäte konfigurácie Cloud/FleetAPI.\n\nToto musí stále smerovať na tú istú fyzickú bránu -- na prepnutie na iný typ pripojenia alebo iný Powerwall odstráňte túto položku a pridajte ju znova.",
+        "data": {
+          "host": "Hostiteľ",
+          "email": "E-mail",
+          "password": "Heslo zákazníka",
+          "gw_pwd": "Heslo brány",
+          "rsa_key_path": "Cesta k súkromnému kľúču RSA",
+          "wifi_host": "Záložný Wi-Fi hostiteľ (voliteľné)",
+          "authpath": "Adresár vyrovnávacej pamäte overenia",
+          "siteid": "ID lokality (voliteľné)"
+        },
+        "data_description": {
+          "host": "Názov hostiteľa alebo IP adresa brány Powerwall (napr. 192.168.91.1)",
+          "email": "E-mail zákazníckeho účtu",
+          "password": "Heslo zákazníka nastavené na bráne",
+          "gw_pwd": "Celé Wi-Fi heslo brány vytlačené na štítku s QR kódom",
+          "rsa_key_path": "Cesta k súboru súkromného kľúča RSA-4096 vo formáte PEM vytvorenému príkazom `python -m pypowerwall register`",
+          "wifi_host": "Alternatívny Wi-Fi hostiteľ TEDAPI pre záložné pripojenie",
+          "authpath": "Adresár obsahujúci súbor .pypowerwall.auth alebo .pypowerwall.fleetapi",
+          "siteid": "ID lokality Tesla, ktoré sa použije, ak účet obsahuje viac lokalít"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Neočakávaná chyba"
     },
     "abort": {
-      "already_configured": "Táto brána Powerwall je už nakonfigurovaná"
+      "already_configured": "Táto brána Powerwall je už nakonfigurovaná",
+      "reconfigure_successful": "Nastavenia pripojenia boli aktualizované",
+      "wrong_gateway": "Tieto nastavenia sa pripájajú k inej bráne Powerwall, než pre ktorú bola táto položka nastavená. Zmena konfigurácie aktualizuje iba spôsob pripojenia k tej istej bráne -- na pridanie inej brány pridajte namiesto toho novú položku."
     }
   },
   "options": {

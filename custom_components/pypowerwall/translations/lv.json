@@ -87,6 +87,30 @@
           "rsa_key_path": "Ceļš uz RSA-4096 privātās atslēgas PEM failu, ko izveidoja `python -m pypowerwall register`",
           "wifi_host": "Alternatīvs WiFi TEDAPI resursdators, uz kuru pāriet rezerves gadījumā"
         }
+      },
+      "reconfigure": {
+        "title": "Pārkonfigurēt savienojumu",
+        "description": "Atjauniniet šī Powerwall ({conn_type} režīms) savienojuma iestatījumus. Noderīgi, ja vārtejas parole ir mainījusies, vārteja ir pārvietota uz jaunu IP adresi vai Cloud/FleetAPI konfigurācijas kešatmiņas direktorija ir mainījusies.\n\nTam joprojām jāsasniedz tā pati fiziskā vārteja -- lai pārslēgtos uz citu savienojuma režīmu vai citu Powerwall, noņemiet šo ierakstu un pievienojiet to no jauna.",
+        "data": {
+          "host": "Resursdators",
+          "email": "E-pasts",
+          "password": "Klienta parole",
+          "gw_pwd": "Vārtejas parole",
+          "rsa_key_path": "RSA privātās atslēgas ceļš",
+          "wifi_host": "WiFi rezerves resursdators (neobligāts)",
+          "authpath": "Autentifikācijas kešatmiņas direktorija",
+          "siteid": "Objekta ID (neobligāts)"
+        },
+        "data_description": {
+          "host": "Powerwall vārtejas resursdatora nosaukums vai IP adrese (piem., 192.168.91.1)",
+          "email": "Klienta konta e-pasts",
+          "password": "Vārtejā iestatītā klienta parole",
+          "gw_pwd": "Pilnā vārtejas Wi-Fi parole, kas norādīta uz QR koda uzlīmes",
+          "rsa_key_path": "Ceļš uz RSA-4096 privātās atslēgas PEM failu, ko izveidoja `python -m pypowerwall register`",
+          "wifi_host": "Alternatīvs WiFi TEDAPI resursdators, uz kuru pāriet rezerves gadījumā",
+          "authpath": "Direktorija, kurā atrodas fails `.pypowerwall.auth` vai `.pypowerwall.fleetapi`",
+          "siteid": "Tesla objekta ID, ko izmantot, ja kontam ir vairāk nekā viens objekts"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Negaidīta kļūda"
     },
     "abort": {
-      "already_configured": "Šī Powerwall vārteja jau ir konfigurēta"
+      "already_configured": "Šī Powerwall vārteja jau ir konfigurēta",
+      "reconfigure_successful": "Savienojuma iestatījumi atjaunināti",
+      "wrong_gateway": "Šie iestatījumi izveido savienojumu ar citu Powerwall vārteju nekā tā, kurai šis ieraksts tika iestatīts. Pārkonfigurēšana atjaunina tikai to, kā sasniegt to pašu vārteju -- lai pievienotu citu, pievienojiet jaunu ierakstu."
     }
   },
   "options": {

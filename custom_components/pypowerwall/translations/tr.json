@@ -87,6 +87,30 @@
           "rsa_key_path": "`python -m pypowerwall register` tarafından üretilen RSA-4096 özel anahtar PEM dosyasının yolu",
           "wifi_host": "Yedek olarak kullanılacak alternatif WiFi TEDAPI sunucusu"
         }
+      },
+      "reconfigure": {
+        "title": "Bağlantıyı yeniden yapılandır",
+        "description": "Bu Powerwall ({conn_type} modu) için bağlantı ayarlarını güncelleyin. Ağ geçidi şifresi değiştiyse, ağ geçidi yeni bir IP adresine taşındıysa veya bir Bulut/FleetAPI yapılandırma önbellek dizini taşındıysa kullanışlıdır.\n\nBu, yine de aynı fiziksel ağ geçidine ulaşmalıdır -- farklı bir bağlantı moduna veya farklı bir Powerwall'a geçmek için bu girdiyi kaldırıp tekrar ekleyin.",
+        "data": {
+          "host": "Sunucu",
+          "email": "E-posta",
+          "password": "Müşteri şifresi",
+          "gw_pwd": "Ağ geçidi şifresi",
+          "rsa_key_path": "RSA özel anahtar yolu",
+          "wifi_host": "WiFi yedek sunucusu (isteğe bağlı)",
+          "authpath": "Kimlik doğrulama önbellek dizini",
+          "siteid": "Site kimliği (isteğe bağlı)"
+        },
+        "data_description": {
+          "host": "Powerwall ağ geçidinin ana bilgisayar adı veya IP adresi (örn. 192.168.91.1)",
+          "email": "Müşteri hesabı e-postası",
+          "password": "Ağ geçidinde ayarlanan müşteri şifresi",
+          "gw_pwd": "QR etiketinde yazılı tam ağ geçidi Wi-Fi şifresi",
+          "rsa_key_path": "`python -m pypowerwall register` tarafından üretilen RSA-4096 özel anahtar PEM dosyasının yolu",
+          "wifi_host": "Yedek olarak kullanılacak alternatif WiFi TEDAPI sunucusu",
+          "authpath": "`.pypowerwall.auth` veya `.pypowerwall.fleetapi` dosyasını içeren dizin",
+          "siteid": "Hesabın birden fazla sitesi varsa kullanılacak Tesla site kimliği"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Beklenmeyen hata"
     },
     "abort": {
-      "already_configured": "Bu Powerwall ağ geçidi zaten yapılandırılmış"
+      "already_configured": "Bu Powerwall ağ geçidi zaten yapılandırılmış",
+      "reconfigure_successful": "Bağlantı ayarları güncellendi",
+      "wrong_gateway": "Bu ayarlar, bu girdinin kurulduğu Powerwall ağ geçidinden farklı bir ağ geçidine bağlanıyor. Yeniden yapılandırma yalnızca aynı ağ geçidine nasıl ulaşılacağını günceller -- farklı bir tane eklemek için yeni bir girdi ekleyin."
     }
   },
   "options": {

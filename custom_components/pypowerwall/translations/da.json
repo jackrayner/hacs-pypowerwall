@@ -87,6 +87,30 @@
           "rsa_key_path": "Sti til PEM-filen med den private RSA-4096-nøgle, der er genereret af `python -m pypowerwall register`",
           "wifi_host": "Alternativ WiFi TEDAPI-vært, der bruges som reserve"
         }
+      },
+      "reconfigure": {
+        "title": "Genkonfigurer forbindelsen",
+        "description": "Opdater forbindelsesindstillingerne for denne Powerwall ({conn_type}-tilstand). Nyttigt, hvis gateway-adgangskoden er ændret, gatewayen er flyttet til en ny IP-adresse, eller en Cloud-/FleetAPI-konfigurationsmappe er flyttet.\n\nDette skal stadig oprette forbindelse til den samme fysiske gateway -- for at skifte til en anden forbindelsestype eller en anden Powerwall skal du fjerne denne post og tilføje den igen.",
+        "data": {
+          "host": "Vært",
+          "email": "E-mail",
+          "password": "Kundeadgangskode",
+          "gw_pwd": "Gateway-adgangskode",
+          "rsa_key_path": "Sti til privat RSA-nøgle",
+          "wifi_host": "WiFi-reservevært (valgfrit)",
+          "authpath": "Mappe til godkendelses-cache",
+          "siteid": "Site-ID (valgfrit)"
+        },
+        "data_description": {
+          "host": "Værtsnavn eller IP-adresse for Powerwall-gatewayen (f.eks. 192.168.91.1)",
+          "email": "E-mail til kundekontoen",
+          "password": "Kundeadgangskode oprettet på gatewayen",
+          "gw_pwd": "Den fulde Wi-Fi-adgangskode til gatewayen, som er trykt på QR-mærkaten",
+          "rsa_key_path": "Sti til PEM-filen med den private RSA-4096-nøgle, der er genereret af `python -m pypowerwall register`",
+          "wifi_host": "Alternativ WiFi TEDAPI-vært, der bruges som reserve",
+          "authpath": "Mappe, der indeholder filen .pypowerwall.auth eller .pypowerwall.fleetapi",
+          "siteid": "Tesla site-ID, der skal bruges, hvis kontoen har mere end ét site"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Uventet fejl"
     },
     "abort": {
-      "already_configured": "Denne Powerwall-gateway er allerede konfigureret"
+      "already_configured": "Denne Powerwall-gateway er allerede konfigureret",
+      "reconfigure_successful": "Forbindelsesindstillingerne er opdateret",
+      "wrong_gateway": "Disse indstillinger opretter forbindelse til en anden Powerwall-gateway, end denne post oprindeligt blev konfigureret til. Genkonfiguration opdaterer kun, hvordan der oprettes forbindelse til den samme gateway -- for at tilføje en anden skal du i stedet oprette en ny post."
     }
   },
   "options": {

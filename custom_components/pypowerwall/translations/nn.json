@@ -87,6 +87,30 @@
           "rsa_key_path": "Sti til PEM-fila med den private RSA-4096-nøkkelen produsert av `python -m pypowerwall register`",
           "wifi_host": "Alternativ WiFi-TEDAPI-vert å falla tilbake på"
         }
+      },
+      "reconfigure": {
+        "title": "Konfigurer tilkoplinga på nytt",
+        "description": "Oppdater tilkoplingsinnstillingane for denne Powerwallen ({conn_type}-modus). Nyttig dersom gateway-passordet er endra, gatewayen har flytta til ei ny IP-adresse, eller ei Cloud/FleetAPI-konfigurasjonsbuffermappe har flytta.\n\nDette må framleis nå den same fysiske gatewayen -- for å byte til ein annan tilkoplingstype eller ein annan Powerwall, fjern denne oppføringa og legg henne til på nytt.",
+        "data": {
+          "host": "Vert",
+          "email": "E-post",
+          "password": "Kundepassord",
+          "gw_pwd": "Gateway-passord",
+          "rsa_key_path": "Sti til privat RSA-nøkkel",
+          "wifi_host": "WiFi-reservevert (valfritt)",
+          "authpath": "Mappe for autentiseringsbuffer",
+          "siteid": "Anleggs-ID (valfritt)"
+        },
+        "data_description": {
+          "host": "Vertsnamn eller IP-adresse til Powerwall-gatewayen (t.d. 192.168.91.1)",
+          "email": "E-postadresse til kundekontoen",
+          "password": "Kundepassord sett opp på gatewayen",
+          "gw_pwd": "Fullstendig gateway-Wi-Fi-passord trykt på QR-merket",
+          "rsa_key_path": "Sti til PEM-fila med den private RSA-4096-nøkkelen, generert av `python -m pypowerwall register`",
+          "wifi_host": "Alternativ WiFi-TEDAPI-vert å falla tilbake på",
+          "authpath": "Mappa som inneheld fila .pypowerwall.auth eller .pypowerwall.fleetapi",
+          "siteid": "Tesla-anleggs-ID som skal brukast dersom kontoen har meir enn eitt anlegg"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Uventa feil"
     },
     "abort": {
-      "already_configured": "Denne Powerwall-gatewayen er alt sett opp"
+      "already_configured": "Denne Powerwall-gatewayen er alt sett opp",
+      "reconfigure_successful": "Tilkoplingsinnstillingane er oppdaterte",
+      "wrong_gateway": "Desse innstillingane koplar til ein annan Powerwall-gateway enn den denne oppføringa vart sett opp for. Ny konfigurasjon oppdaterer berre korleis den same gatewayen blir nådd -- for å leggja til ein annan gateway, legg heller til ei ny oppføring."
     }
   },
   "options": {

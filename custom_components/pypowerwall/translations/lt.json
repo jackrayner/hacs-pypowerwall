@@ -87,6 +87,30 @@
           "rsa_key_path": "Kelias iki RSA-4096 privataus rakto PEM failo, sukurto naudojant `python -m pypowerwall register`",
           "wifi_host": "Alternatyvus Wi-Fi TEDAPI serveris, naudojamas atsarginiu atveju"
         }
+      },
+      "reconfigure": {
+        "title": "Iš naujo konfigūruoti ryšį",
+        "description": "Atnaujinkite šio Powerwall ({conn_type} režimas) ryšio nustatymus. Naudinga, jei pasikeitė šliuzo slaptažodis, šliuzas persikėlė į naują IP adresą arba pasikeitė Cloud/FleetAPI konfigūracijos talpyklos katalogas.\n\nTai vis tiek turi pasiekti tą patį fizinį šliuzą -- norėdami perjungti kitą ryšio režimą arba kitą Powerwall, pašalinkite šį įrašą ir pridėkite jį iš naujo.",
+        "data": {
+          "host": "Serveris",
+          "email": "El. paštas",
+          "password": "Kliento slaptažodis",
+          "gw_pwd": "Šliuzo slaptažodis",
+          "rsa_key_path": "RSA privataus rakto kelias",
+          "wifi_host": "Atsarginis Wi-Fi serveris (neprivaloma)",
+          "authpath": "Autentifikavimo talpyklos katalogas",
+          "siteid": "Objekto ID (neprivaloma)"
+        },
+        "data_description": {
+          "host": "Powerwall šliuzo pagrindinio kompiuterio vardas arba IP adresas (pvz., 192.168.91.1)",
+          "email": "Kliento paskyros el. paštas",
+          "password": "Šliuze nustatytas kliento slaptažodis",
+          "gw_pwd": "Visas šliuzo Wi-Fi slaptažodis, atspausdintas ant QR kodo etiketės",
+          "rsa_key_path": "Kelias iki RSA-4096 privataus rakto PEM failo, sukurto naudojant `python -m pypowerwall register`",
+          "wifi_host": "Alternatyvus Wi-Fi TEDAPI serveris, naudojamas atsarginiu atveju",
+          "authpath": "Katalogas, kuriame yra failas `.pypowerwall.auth` arba `.pypowerwall.fleetapi`",
+          "siteid": "Tesla objekto ID, naudotinas, jei paskyroje yra daugiau nei vienas objektas"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Netikėta klaida"
     },
     "abort": {
-      "already_configured": "Šis Powerwall šliuzas jau sukonfigūruotas"
+      "already_configured": "Šis Powerwall šliuzas jau sukonfigūruotas",
+      "reconfigure_successful": "Ryšio nustatymai atnaujinti",
+      "wrong_gateway": "Šie nustatymai prisijungia prie kito Powerwall šliuzo, nei tas, kuriam buvo sukurtas šis įrašas. Perkonfigūravimas atnaujina tik būdą pasiekti tą patį šliuzą -- norėdami pridėti kitą, sukurkite naują įrašą."
     }
   },
   "options": {

@@ -87,6 +87,30 @@
           "rsa_key_path": "Paad nei it RSA-4096 privee-kaai-PEM-bestân dat makke is troch `python -m pypowerwall register`",
           "wifi_host": "Alternative WiFi TEDAPI-host om nei werom te fallen"
         }
+      },
+      "reconfigure": {
+        "title": "Ferbining opnij konfigurearje",
+        "description": "Wurkje de ferbiningsynstellingen foar dizze Powerwall by (modus {conn_type}). Handich as it gateway-wachtwurd wizige is, de gateway ferpleatst is nei in nij IP-adres, of in Cloud/FleetAPI-konfiguraasje-cachemap ferpleatst is.\n\nDit moat noch altyd deselde fysike gateway berikke -- om oer te skeakeljen nei in oare ferbiningsmodus of in oare Powerwall, wiskje dizze yngong en foegje him opnij ta.",
+        "data": {
+          "host": "Host",
+          "email": "E-mailadres",
+          "password": "Klantwachtwurd",
+          "gw_pwd": "Gateway-wachtwurd",
+          "rsa_key_path": "Paad nei RSA-privee-kaai",
+          "wifi_host": "WiFi-reserve-host (opsjoneel)",
+          "authpath": "Autentikaasje-cachemap",
+          "siteid": "Side-ID (opsjoneel)"
+        },
+        "data_description": {
+          "host": "Hostnamme of IP-adres fan de Powerwall-gateway (bgl. 192.168.91.1)",
+          "email": "E-mailadres fan it klantaccount",
+          "password": "Klantwachtwurd dat op de gateway ynsteld is",
+          "gw_pwd": "Folsleine gateway Wi-Fi-wachtwurd dat op it QR-plakkerke printe is",
+          "rsa_key_path": "Paad nei it RSA-4096 privee-kaai-PEM-bestân dat makke is troch `python -m pypowerwall register`",
+          "wifi_host": "Alternative WiFi TEDAPI-host om nei werom te fallen",
+          "authpath": "Map dy't it .pypowerwall.auth- of .pypowerwall.fleetapi-bestân befettet",
+          "siteid": "Tesla-side-ID om te brûken as it account mear as ien side hat"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Unferwachte flater"
     },
     "abort": {
-      "already_configured": "Dizze Powerwall-gateway is al konfigurearre"
+      "already_configured": "Dizze Powerwall-gateway is al konfigurearre",
+      "reconfigure_successful": "Ferbiningsynstellingen bywurke",
+      "wrong_gateway": "Dizze ynstellingen ferbine mei in oare Powerwall-gateway as dêr't dizze yngong foar ynsteld is. Opnij konfigurearje wurket allinnich by hoe't deselde gateway berikt wurdt -- om in oare ta te heakjen, foegje in nije yngong ta ynstee."
     }
   },
   "options": {

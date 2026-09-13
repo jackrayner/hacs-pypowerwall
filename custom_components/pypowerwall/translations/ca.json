@@ -87,6 +87,30 @@
           "rsa_key_path": "Camí del fitxer PEM de la clau privada RSA-4096 generat per `python -m pypowerwall register`",
           "wifi_host": "Amfitrió TEDAPI Wi-Fi alternatiu per a la reserva"
         }
+      },
+      "reconfigure": {
+        "title": "Reconfigura la connexió",
+        "description": "Actualitza la configuració de connexió d'aquest Powerwall (mode {conn_type}). Útil si la contrasenya de la passarel·la ha canviat, la passarel·la s'ha traslladat a una adreça IP nova, o un directori de memòria cau de configuració de Cloud/FleetAPI s'ha mogut.\n\nAixò ha de continuar arribant a la mateixa passarel·la física -- per canviar a un mode de connexió diferent o a un Powerwall diferent, elimineu aquesta entrada i torneu-la a afegir.",
+        "data": {
+          "host": "Amfitrió",
+          "email": "Correu electrònic",
+          "password": "Contrasenya del client",
+          "gw_pwd": "Contrasenya de la passarel·la",
+          "rsa_key_path": "Camí de la clau privada RSA",
+          "wifi_host": "Amfitrió Wi-Fi de reserva (opcional)",
+          "authpath": "Directori de la memòria cau d'autenticació",
+          "siteid": "ID del lloc (opcional)"
+        },
+        "data_description": {
+          "host": "Nom d'amfitrió o adreça IP de la passarel·la Powerwall (p. ex., 192.168.91.1)",
+          "email": "Correu electrònic del compte del client",
+          "password": "Contrasenya del client configurada a la passarel·la",
+          "gw_pwd": "Contrasenya Wi-Fi completa de la passarel·la impresa a l'etiqueta QR",
+          "rsa_key_path": "Camí del fitxer PEM de la clau privada RSA-4096 generat per `python -m pypowerwall register`",
+          "wifi_host": "Amfitrió TEDAPI Wi-Fi alternatiu per a la reserva",
+          "authpath": "Directori que conté el fitxer .pypowerwall.auth o .pypowerwall.fleetapi",
+          "siteid": "ID del lloc de Tesla que cal utilitzar si el compte té més d'un lloc"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Error inesperat"
     },
     "abort": {
-      "already_configured": "Aquesta passarel·la Powerwall ja està configurada"
+      "already_configured": "Aquesta passarel·la Powerwall ja està configurada",
+      "reconfigure_successful": "S'ha actualitzat la configuració de connexió",
+      "wrong_gateway": "Aquesta configuració es connecta a una passarel·la Powerwall diferent de la que es va configurar aquesta entrada. La reconfiguració només actualitza com arribar a la mateixa passarel·la -- per afegir-ne una de diferent, afegiu una entrada nova."
     }
   },
   "options": {

@@ -87,6 +87,30 @@
           "rsa_key_path": "Slóð á RSA-4096 einkalykil (PEM-skrá) sem búin er til með `python -m pypowerwall register`",
           "wifi_host": "Annar WiFi TEDAPI hýsill til að nota sem varaleið"
         }
+      },
+      "reconfigure": {
+        "title": "Endurstilla tengingu",
+        "description": "Uppfærðu tengingarstillingar fyrir þennan Powerwall ({conn_type} hamur). Gagnlegt ef lykilorð gáttarinnar breyttist, gáttin flutti á nýtt IP-tölu, eða Cloud/FleetAPI stillingaskyndiminnismappa flutti.\n\nÞetta verður samt að ná til sömu eðlisrænu gáttarinnar -- til að skipta yfir í annan tengingarham eða annan Powerwall skaltu fjarlægja þessa færslu og bæta henni við aftur.",
+        "data": {
+          "host": "Hýsill",
+          "email": "Tölvupóstur",
+          "password": "Lykilorð viðskiptavinar",
+          "gw_pwd": "Lykilorð gáttar",
+          "rsa_key_path": "Slóð á RSA einkalykil",
+          "wifi_host": "Varahýsill fyrir WiFi (valfrjálst)",
+          "authpath": "Mappa fyrir auðkenningarskyndiminni",
+          "siteid": "Auðkenni staðar (valfrjálst)"
+        },
+        "data_description": {
+          "host": "Hýsingarheiti eða IP-tala Powerwall-gáttarinnar (t.d. 192.168.91.1)",
+          "email": "Tölvupóstur reiknings viðskiptavinar",
+          "password": "Lykilorð viðskiptavinar sem stillt er á gáttinni",
+          "gw_pwd": "Fullt Wi-Fi lykilorð gáttarinnar sem prentað er á QR-merkimiðann",
+          "rsa_key_path": "Slóð á RSA-4096 einkalykil (PEM-skrá) sem búin er til með `python -m pypowerwall register`",
+          "wifi_host": "Annar WiFi TEDAPI hýsill til að nota sem varaleið",
+          "authpath": "Mappa sem inniheldur .pypowerwall.auth eða .pypowerwall.fleetapi skrána",
+          "siteid": "Auðkenni Tesla-staðar sem nota skal ef reikningurinn hefur fleiri en einn stað"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Óvænt villa"
     },
     "abort": {
-      "already_configured": "Þessi Powerwall-gátt hefur þegar verið sett upp"
+      "already_configured": "Þessi Powerwall-gátt hefur þegar verið sett upp",
+      "reconfigure_successful": "Tengingarstillingar hafa verið uppfærðar",
+      "wrong_gateway": "Þessar stillingar tengjast annarri Powerwall-gátt en þeirri sem þessi færsla var upphaflega sett upp fyrir. Endurstilling uppfærir aðeins hvernig sömu gátt er náð -- til að bæta við annarri gátt skaltu í staðinn bæta við nýrri færslu."
     }
   },
   "options": {

@@ -87,6 +87,30 @@
           "rsa_key_path": "Shtegu drejt skedarit PEM të çelësit privat RSA-4096 të prodhuar nga `python -m pypowerwall register`",
           "wifi_host": "Host alternativ WiFi TEDAPI për rezervë"
         }
+      },
+      "reconfigure": {
+        "title": "Rikonfigurimi i lidhjes",
+        "description": "Përditësoni cilësimet e lidhjes për këtë Powerwall (modaliteti {conn_type}). E dobishme nëse fjalëkalimi i portës ka ndryshuar, porta është zhvendosur në një adresë IP të re, ose dosja e cache-it të konfigurimit Cloud/FleetAPI është zhvendosur.\n\nKjo duhet ende të arrijë të njëjtën portë fizike -- për të kaluar në një mënyrë tjetër lidhjeje ose një Powerwall tjetër, hiqni këtë hyrje dhe shtojeni përsëri.",
+        "data": {
+          "host": "Hosti",
+          "email": "Email",
+          "password": "Fjalëkalimi i klientit",
+          "gw_pwd": "Fjalëkalimi i portës",
+          "rsa_key_path": "Shtegu i çelësit privat RSA",
+          "wifi_host": "Hosti rezervë WiFi (opsional)",
+          "authpath": "Dosja e cache-it të identifikimit",
+          "siteid": "ID e vendndodhjes (opsionale)"
+        },
+        "data_description": {
+          "host": "Emri i hostit ose adresa IP e portës Powerwall (p.sh. 192.168.91.1)",
+          "email": "Email-i i llogarisë së klientit",
+          "password": "Fjalëkalimi i klientit i vendosur në portë",
+          "gw_pwd": "Fjalëkalimi i plotë Wi-Fi i portës, i shtypur në etiketën me kod QR",
+          "rsa_key_path": "Shtegu drejt skedarit PEM të çelësit privat RSA-4096 të prodhuar nga `python -m pypowerwall register`",
+          "wifi_host": "Host alternativ WiFi TEDAPI për rezervë",
+          "authpath": "Dosja që përmban skedarin .pypowerwall.auth ose .pypowerwall.fleetapi",
+          "siteid": "ID-ja e vendndodhjes Tesla që do të përdoret nëse llogaria ka më shumë se një vendndodhje"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Gabim i papritur"
     },
     "abort": {
-      "already_configured": "Kjo portë Powerwall është konfiguruar tashmë"
+      "already_configured": "Kjo portë Powerwall është konfiguruar tashmë",
+      "reconfigure_successful": "Cilësimet e lidhjes u përditësuan",
+      "wrong_gateway": "Këto cilësime lidhen me një portë Powerwall të ndryshme nga ajo për të cilën është konfiguruar kjo hyrje. Rikonfigurimi përditëson vetëm mënyrën e arritjes te e njëjta portë -- për të shtuar një portë tjetër, shtoni një hyrje të re në vend të kësaj."
     }
   },
   "options": {

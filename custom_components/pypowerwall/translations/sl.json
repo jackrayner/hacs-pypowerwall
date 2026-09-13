@@ -87,6 +87,30 @@
           "rsa_key_path": "Pot do datoteke PEM z zasebnim ključem RSA-4096, ustvarjene z ukazom `python -m pypowerwall register`",
           "wifi_host": "Nadomestni gostitelj TEDAPI prek WiFi, na katerega se preklopi"
         }
+      },
+      "reconfigure": {
+        "title": "Ponovna nastavitev povezave",
+        "description": "Posodobite nastavitve povezave za ta Powerwall (način {conn_type}). Uporabno, če se je geslo prehoda spremenilo, se je prehod preselil na nov naslov IP ali se je premaknila mapa predpomnilnika konfiguracije za Cloud/FleetAPI.\n\nTo mora še vedno doseči isti fizični prehod -- če želite preklopiti na drug način povezave ali drug Powerwall, odstranite ta vnos in ga dodajte znova.",
+        "data": {
+          "host": "Gostitelj",
+          "email": "E-pošta",
+          "password": "Geslo stranke",
+          "gw_pwd": "Geslo prehoda",
+          "rsa_key_path": "Pot do zasebnega ključa RSA",
+          "wifi_host": "Nadomestni gostitelj WiFi (neobvezno)",
+          "authpath": "Mapa predpomnilnika overitve",
+          "siteid": "ID lokacije (neobvezno)"
+        },
+        "data_description": {
+          "host": "Ime gostitelja ali naslov IP prehoda Powerwall (npr. 192.168.91.1)",
+          "email": "E-pošta računa stranke",
+          "password": "Geslo stranke, nastavljeno na prehodu",
+          "gw_pwd": "Celotno geslo Wi-Fi prehoda, natisnjeno na nalepki s kodo QR",
+          "rsa_key_path": "Pot do datoteke PEM z zasebnim ključem RSA-4096, ustvarjene z ukazom `python -m pypowerwall register`",
+          "wifi_host": "Nadomestni gostitelj TEDAPI prek WiFi, na katerega se preklopi",
+          "authpath": "Mapa, ki vsebuje datoteko .pypowerwall.auth ali .pypowerwall.fleetapi",
+          "siteid": "ID Teslove lokacije, ki naj se uporabi, če ima račun več kot eno lokacijo"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Nepričakovana napaka"
     },
     "abort": {
-      "already_configured": "Ta prehod Powerwall je že konfiguriran"
+      "already_configured": "Ta prehod Powerwall je že konfiguriran",
+      "reconfigure_successful": "Nastavitve povezave so bile posodobljene",
+      "wrong_gateway": "Te nastavitve se povežejo z drugim prehodom Powerwall, kot je bil nastavljen za ta vnos. Ponovna nastavitev posodobi le način dostopa do istega prehoda -- če želite dodati drugega, namesto tega dodajte nov vnos."
     }
   },
   "options": {

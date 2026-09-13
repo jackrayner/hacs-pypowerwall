@@ -87,6 +87,30 @@
           "rsa_key_path": "由 `python -m pypowerwall register` 生成的 RSA-4096 私钥 PEM 文件的路径",
           "wifi_host": "用于回退的备用 WiFi TEDAPI 主机"
         }
+      },
+      "reconfigure": {
+        "title": "重新配置连接",
+        "description": "更新此 Powerwall（{conn_type} 模式）的连接设置。当网关密码已更改、网关迁移到新的 IP 地址，或 Cloud/FleetAPI 配置缓存目录已移动时非常有用。\n\n此操作仍必须连接到同一个物理网关 -- 如需切换到其他连接方式或其他 Powerwall，请移除此条目后重新添加。",
+        "data": {
+          "host": "主机",
+          "email": "邮箱",
+          "password": "客户密码",
+          "gw_pwd": "网关密码",
+          "rsa_key_path": "RSA 私钥路径",
+          "wifi_host": "WiFi 备用主机（可选）",
+          "authpath": "身份验证缓存目录",
+          "siteid": "站点 ID（可选）"
+        },
+        "data_description": {
+          "host": "Powerwall 网关的主机名或 IP 地址（例如 192.168.91.1）",
+          "email": "客户账户邮箱",
+          "password": "在网关上设置的客户密码",
+          "gw_pwd": "二维码标签上印刷的完整网关 Wi-Fi 密码",
+          "rsa_key_path": "由 `python -m pypowerwall register` 生成的 RSA-4096 私钥 PEM 文件的路径",
+          "wifi_host": "用于回退的备用 WiFi TEDAPI 主机",
+          "authpath": "包含 .pypowerwall.auth 或 .pypowerwall.fleetapi 文件的目录",
+          "siteid": "当账户拥有多个站点时使用的 Tesla 站点 ID"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "发生意外错误"
     },
     "abort": {
-      "already_configured": "此 Powerwall 网关已配置完成"
+      "already_configured": "此 Powerwall 网关已配置完成",
+      "reconfigure_successful": "连接设置已更新",
+      "wrong_gateway": "这些设置连接的是与此条目最初设置时不同的 Powerwall 网关。重新配置仅用于更新连接到同一网关的方式 -- 如需添加其他网关，请改为添加新条目。"
     }
   },
   "options": {

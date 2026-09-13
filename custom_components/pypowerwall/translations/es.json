@@ -87,6 +87,30 @@
           "rsa_key_path": "Ruta al archivo PEM de la clave privada RSA-4096 generado por `python -m pypowerwall register`",
           "wifi_host": "Host TEDAPI Wi-Fi alternativo al que recurrir"
         }
+      },
+      "reconfigure": {
+        "title": "Reconfigurar conexión",
+        "description": "Actualiza la configuración de conexión de este Powerwall (modo {conn_type}). Útil si la contraseña de la puerta de enlace ha cambiado, la puerta de enlace se ha trasladado a una nueva dirección IP, o se ha movido un directorio de caché de configuración de Cloud/FleetAPI.\n\nEsto debe seguir conectando con la misma puerta de enlace física -- para cambiar a un modo de conexión distinto o a un Powerwall distinto, elimina esta entrada y añádela de nuevo.",
+        "data": {
+          "host": "Host",
+          "email": "Correo electrónico",
+          "password": "Contraseña del cliente",
+          "gw_pwd": "Contraseña de la puerta de enlace",
+          "rsa_key_path": "Ruta de la clave privada RSA",
+          "wifi_host": "Host Wi-Fi alternativo (opcional)",
+          "authpath": "Directorio de la caché de autenticación",
+          "siteid": "ID del sitio (opcional)"
+        },
+        "data_description": {
+          "host": "Nombre de host o dirección IP de la puerta de enlace del Powerwall (p. ej., 192.168.91.1)",
+          "email": "Correo electrónico de la cuenta del cliente",
+          "password": "Contraseña del cliente configurada en la puerta de enlace",
+          "gw_pwd": "Contraseña Wi-Fi completa de la puerta de enlace impresa en la etiqueta con el código QR",
+          "rsa_key_path": "Ruta al archivo PEM de la clave privada RSA-4096 generado por `python -m pypowerwall register`",
+          "wifi_host": "Host TEDAPI Wi-Fi alternativo al que recurrir",
+          "authpath": "Directorio que contiene el archivo .pypowerwall.auth o .pypowerwall.fleetapi",
+          "siteid": "ID del sitio de Tesla que usar si la cuenta tiene más de un sitio"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "Error inesperado"
     },
     "abort": {
-      "already_configured": "Esta puerta de enlace de Powerwall ya está configurada"
+      "already_configured": "Esta puerta de enlace de Powerwall ya está configurada",
+      "reconfigure_successful": "Configuración de conexión actualizada",
+      "wrong_gateway": "Esa configuración se conecta a una puerta de enlace de Powerwall distinta de aquella para la que se configuró esta entrada. Reconfigurar solo actualiza cómo llegar a la misma puerta de enlace -- para añadir una distinta, añade una nueva entrada."
     }
   },
   "options": {

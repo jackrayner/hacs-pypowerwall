@@ -87,6 +87,30 @@
           "rsa_key_path": "`python -m pypowerwall register`로 생성된 RSA-4096 개인 키 PEM 파일의 경로",
           "wifi_host": "대체로 사용할 WiFi TEDAPI 호스트"
         }
+      },
+      "reconfigure": {
+        "title": "연결 재구성",
+        "description": "이 Powerwall({conn_type} 모드)의 연결 설정을 업데이트합니다. 게이트웨이 비밀번호가 변경되었거나, 게이트웨이가 새 IP 주소로 이동했거나, Cloud/FleetAPI 설정 캐시 디렉터리가 이동한 경우에 유용합니다.\n\n이 설정은 여전히 동일한 물리적 게이트웨이에 연결되어야 합니다 -- 다른 연결 모드나 다른 Powerwall로 전환하려면 이 항목을 제거하고 다시 추가하세요.",
+        "data": {
+          "host": "호스트",
+          "email": "이메일",
+          "password": "고객 비밀번호",
+          "gw_pwd": "게이트웨이 비밀번호",
+          "rsa_key_path": "RSA 개인 키 경로",
+          "wifi_host": "WiFi 대체 호스트 (선택 사항)",
+          "authpath": "인증 캐시 디렉터리",
+          "siteid": "사이트 ID (선택 사항)"
+        },
+        "data_description": {
+          "host": "Powerwall 게이트웨이의 호스트 이름 또는 IP 주소 (예: 192.168.91.1)",
+          "email": "고객 계정 이메일",
+          "password": "게이트웨이에 설정된 고객 비밀번호",
+          "gw_pwd": "QR 라벨에 인쇄된 전체 게이트웨이 Wi-Fi 비밀번호",
+          "rsa_key_path": "`python -m pypowerwall register`로 생성된 RSA-4096 개인 키 PEM 파일의 경로",
+          "wifi_host": "대체로 사용할 WiFi TEDAPI 호스트",
+          "authpath": "`.pypowerwall.auth` 또는 `.pypowerwall.fleetapi` 파일이 있는 디렉터리",
+          "siteid": "계정에 사이트가 여러 개인 경우 사용할 Tesla 사이트 ID"
+        }
       }
     },
     "error": {
@@ -94,7 +118,9 @@
       "unknown": "예기치 않은 오류"
     },
     "abort": {
-      "already_configured": "이 Powerwall 게이트웨이는 이미 설정되어 있습니다"
+      "already_configured": "이 Powerwall 게이트웨이는 이미 설정되어 있습니다",
+      "reconfigure_successful": "연결 설정이 업데이트되었습니다",
+      "wrong_gateway": "이 설정은 이 항목이 설정된 게이트웨이와 다른 Powerwall 게이트웨이에 연결됩니다. 재구성은 동일한 게이트웨이에 연결하는 방법만 업데이트합니다 -- 다른 게이트웨이를 추가하려면 새 항목을 추가하세요."
     }
   },
   "options": {
