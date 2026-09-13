@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.0](https://github.com/jackrayner/hacs-pypowerwall/compare/0.7.0...0.8.0) (2026-09-13)
+
+
+### Features
+
+* **config_flow:** add a reconfigure flow for connection settings ([5c16e95](https://github.com/jackrayner/hacs-pypowerwall/commit/5c16e953670e7dc631e62506fe044c741e1bc20e))
+* **i18n:** translate the reconfigure flow strings into all locales ([26b21bf](https://github.com/jackrayner/hacs-pypowerwall/commit/26b21bf341b621523bab55161a2a8bc7c4a09d69))
+
 ## [0.7.0](https://github.com/jackrayner/hacs-pypowerwall/compare/0.6.3...0.7.0) (2026-09-12)
 
 
