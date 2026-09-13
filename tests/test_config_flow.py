@@ -250,3 +250,106 @@ async def test_options_flow_respects_explicit_scan_interval_override(
     result = await hass.config_entries.options.async_init(entry.entry_id)
 
     assert _scan_interval_default(result) == 15
+
+
+def _suggested(result, field: str):
+    """The value pre-filled into a form field (HA stores it on the marker's description)."""
+    schema = result["data_schema"].schema
+    (marker,) = (key for key in schema if key == field)
+    return (marker.description or {}).get("suggested_value")
+
+
+async def _tedapi_entry(hass: HomeAssistant) -> MockConfigEntry:
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=DIN,
+        data={CONF_CONN_TYPE: CONN_TYPE_TEDAPI, CONF_HOST: "192.168.91.1", CONF_GW_PWD: "old-pw"},
+    )
+    entry.add_to_hass(hass)
+    return entry
+
+
+async def test_reconfigure_shows_current_values_for_its_conn_type(hass: HomeAssistant) -> None:
+    """The form should be the entry's own conn-type schema, pre-filled with its values."""
+    entry = await _tedapi_entry(hass)
+
+    result = await entry.start_reconfigure_flow(hass)
+
+    assert result["type"] == "form"
+    assert result["step_id"] == "reconfigure"
+    assert set(result["data_schema"].schema) == {CONF_HOST, CONF_GW_PWD}
+    assert _suggested(result, CONF_HOST) == "192.168.91.1"
+    assert _suggested(result, CONF_GW_PWD) == "old-pw"
+
+
+async def test_reconfigure_updates_entry_data(hass: HomeAssistant) -> None:
+    """A corrected gateway password should be written back to the existing entry."""
+    entry = await _tedapi_entry(hass)
+
+    result = await entry.start_reconfigure_flow(hass)
+    with patch(CONNECT_TARGET, return_value=make_fake_pw()):
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], {CONF_HOST: "192.168.91.1", CONF_GW_PWD: "correct-pw"}
+        )
+        await hass.async_block_till_done()
+
+    assert result2["type"] == "abort"
+    assert result2["reason"] == "reconfigure_successful"
+    assert entry.data == {
+        CONF_CONN_TYPE: CONN_TYPE_TEDAPI,
+        CONF_HOST: "192.168.91.1",
+        CONF_GW_PWD: "correct-pw",
+    }
+
+
+async def test_reconfigure_rejects_a_different_gateway(hass: HomeAssistant) -> None:
+    """Settings that reach a different DIN must not silently repoint the entry."""
+    entry = await _tedapi_entry(hass)
+
+    result = await entry.start_reconfigure_flow(hass)
+    with patch(CONNECT_TARGET, return_value=make_fake_pw(din="9999999-00-F--TGOTHERGATEWAY")):
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], {CONF_HOST: "192.168.1.50", CONF_GW_PWD: "other-pw"}
+        )
+
+    assert result2["type"] == "abort"
+    assert result2["reason"] == "wrong_gateway"
+    # The original settings must survive a rejected reconfigure.
+    assert entry.data[CONF_HOST] == "192.168.91.1"
+    assert entry.data[CONF_GW_PWD] == "old-pw"
+
+
+async def test_reconfigure_reports_connection_failure_and_keeps_edits(
+    hass: HomeAssistant,
+) -> None:
+    """A failed attempt should re-show the form with the error and the user's input."""
+    entry = await _tedapi_entry(hass)
+
+    result = await entry.start_reconfigure_flow(hass)
+    with patch(CONNECT_TARGET, return_value=make_fake_pw(connected=False)):
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], {CONF_HOST: "192.168.91.9", CONF_GW_PWD: "still-wrong"}
+        )
+
+    assert result2["type"] == "form"
+    assert result2["errors"] == {"base": "cannot_connect"}
+    assert _suggested(result2, CONF_HOST) == "192.168.91.9"
+    assert entry.data[CONF_GW_PWD] == "old-pw"
+
+
+async def test_reconfigure_uses_the_schema_of_a_file_based_conn_type(
+    hass: HomeAssistant,
+) -> None:
+    """A FleetAPI entry should get the authpath form, not a TEDAPI one."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=DIN,
+        data={CONF_CONN_TYPE: CONN_TYPE_FLEETAPI, CONF_AUTHPATH: "/config/wrong-dir"},
+    )
+    entry.add_to_hass(hass)
+
+    result = await entry.start_reconfigure_flow(hass)
+
+    assert result["step_id"] == "reconfigure"
+    assert CONF_AUTHPATH in result["data_schema"].schema
+    assert _suggested(result, CONF_AUTHPATH) == "/config/wrong-dir"
